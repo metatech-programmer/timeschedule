@@ -4,13 +4,15 @@ import {
   leerMaterias,
   actualizarMateria,
   eliminarMateria,
-} from "./db";
+} from "../public/db";
 import { ChromePicker } from "react-color";
 
 function App() {
   const [materias, setMaterias] = useState([]);
   const [nuevaMateria, setNuevaMateria] = useState({
     nombre: "",
+    aula: "",
+    docente: "",
     color: "#ffffff",
     imagen: "",
     horarios: [],
@@ -36,6 +38,8 @@ function App() {
       cargarMaterias();
       setNuevaMateria({
         nombre: "",
+        aula: "",
+        docente: "",
         color: "#ffffff",
         imagen: "",
         horarios: [],

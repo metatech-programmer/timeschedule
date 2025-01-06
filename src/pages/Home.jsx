@@ -66,6 +66,7 @@ const Home = () => {
       >
         Vamos
       </button>
+      
     </div>
   );
 };

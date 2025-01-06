@@ -18,6 +18,7 @@ export default {
         "expanddisplay": "expanddisplay 2700ms linear",
         "fade-in": "fade-in 1600ms linear",
         "fade-out": "fade-out 2900ms linear",
+        "scroll": "scroll 20s linear infinite", 
       },
       keyframes: {
         "spin-slow": {
@@ -37,6 +38,10 @@ export default {
         "fade-in": {
           "0%": { opacity: "0" },
           "100%": { opacity: "1" },
+        },
+        "scroll": {
+          "0%": { transform: "translateX(0)" },
+          "50%": { transform: "translateX(calc(-50%))" },
         },
       },
     },

@@ -9,7 +9,7 @@ const InstallApp = () => {
     // Detectar si el dispositivo es móvil
     const checkMobileDevice = () => {
       if (
-        window.innerWidth <= 768 ||
+        window.innerWidth <= 900 ||
         /Mobi|Android/i.test(navigator.userAgent)
       ) {
         setIsMobile(true);
@@ -65,7 +65,7 @@ const InstallApp = () => {
           zIndex: "1",
         }}
       ></div>
-      <div className="bg-gray-900 rounded-lg shadow-lg p-8 max-w-lg">
+      <div className="bg-gray-900 rounded-lg shadow-lg p-8 max-w-lg z-50">
         <h1 className="text-4xl font-extrabold mb-6 tracking-tight">
           ¡Atención! Solo para Móviles
         </h1>
@@ -90,7 +90,19 @@ const InstallApp = () => {
             Instalar App
           </button>
         ) : (
-          <button className="bg-yellow-500 text-gray-900 py-2 px-6 rounded-lg text-lg font-semibold shadow-md hover:bg-yellow-400 transition duration-300 ease-in-out">
+          // Botón para abrir la app en móvil
+
+          <button
+            className="bg-yellow-500 text-gray-900 py-2 px-6 rounded-lg text-lg font-semibold shadow-md hover:bg-yellow-400 transition duration-300 ease-in-out cursor-pointer z-50"
+            onClick={() => {
+              alert(
+                "Abre la app en tu móvil para disfrutar de todas las funcionalidades.\n(Url copiada en el portapapeles)"
+              );
+              navigator.clipboard.writeText(
+                "https://timeschedulee.vercel.app/"
+              );
+            }}
+          >
             Abrir en móvil
           </button>
         )}

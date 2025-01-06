@@ -7,7 +7,7 @@ const AcercaDe = () => {
     <>
     <Menu />
     
-      <div className="p-6 max-w-4xl mx-auto bg-white shadow-md space-y-4">
+      <div className="p-6 max-w-4xl mx-auto bg-white shadow-md space-y-4 animate-fade-in-fast">
         <h1 className="text-3xl font-bold text-primary-orange-app">
           Acerca de Timeschedule
         </h1>
@@ -46,7 +46,7 @@ const AcercaDe = () => {
           hacerlo en nuestro repositorio de GitHub.
         </p>
       </div>
-      <Footer className="pb-28" />
+      <Footer className="pb-20" />
     </>
   );
 };

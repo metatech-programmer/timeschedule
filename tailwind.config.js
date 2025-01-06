@@ -17,6 +17,7 @@ export default {
         "spin-slow": "spin 1s linear infinite",
         "expanddisplay": "expanddisplay 2700ms linear",
         "fade-in": "fade-in 1600ms linear",
+        "fade-in-fast": "fade-in 700ms linear",
         "fade-out": "fade-out 2900ms linear",
         "scroll": "scroll 20s linear infinite", 
       },

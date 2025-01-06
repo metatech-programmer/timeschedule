@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { FaHome, FaCalendarAlt, FaInfoCircle } from "react-icons/fa";
 
 const menuItems = [
-  { path: "/schedule", label: "Horarios", icon: <FaHome size={20} /> },
+  { path: "/schedule", label: "Agendar", icon: <FaHome size={20} /> },
   { path: "/schedule", label: "Horarios", icon: <FaCalendarAlt size={20} /> },
   { path: "/about", label: "Informacion", icon: <FaInfoCircle size={20} /> },
 ];

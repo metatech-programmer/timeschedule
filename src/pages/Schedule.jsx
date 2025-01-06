@@ -259,7 +259,7 @@ function Schedule() {
 
                 <div className="flex-1">
                   <label className="block text-lg font-medium text-quaternary-gray-app mb-2">
-                    Imagen de la materia (opcional)
+                    Imagen de la materia <span className="text-sm text-quaternary-gray-app/50">(Opcional) </span>
                   </label>
                   <div
                     className="border-2 border-dashed border-indigo-400 text-background-app p-4 rounded-lg flex justify-center items-center cursor-pointer"
@@ -293,7 +293,7 @@ function Schedule() {
 
               <div className="mb-6">
                 <label className="block text-lg font-medium text-quaternary-gray-app">
-                  Horario
+                  Horario <span className="text-sm text-quaternary-gray-app/50">(Agrega tantos como desees) </span>
                 </label>
                 <div className="flex flex-col md:flex-row gap-4">
                   <div className="flex-1 flex-col md:w-1/3">

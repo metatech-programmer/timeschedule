@@ -120,17 +120,16 @@ function App() {
   return (
     <>
       <InstallApp />
-      <div className="min-h-screen bg-background-app  p-8 flex flex-col items-center md:hidden">
+      <div className="min-h-screen bg-background-app  px-8 pt-8 flex flex-col items-center md:hidden">
         <h1 className="text-4xl font-bold text-white mb-8 text-center">
           ¡Gestiona tus Materias!
         </h1>
 
         {/* Formulario de nueva materia */}
-        <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-3xl mb-12">
-          <h2 className="text-2xl font-semibold text-center text-indigo-600 mb-6">
-            Agregar Nueva Materia
-          </h2>
-
+        <h2 className="text-2xl font-semibold text-center text-indigo-100 decoration-wavy underline mb-6">
+          Agregar Nueva Materia
+        </h2>
+        <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-3xl mb-8 h-96 overflow-y-auto">
           <div className="mb-4">
             <label className="block text-lg font-medium text-gray-700">
               Nombre de la materia
@@ -302,12 +301,11 @@ function App() {
             Guardar Materia
           </button>
         </div>
-
+        <h3 className="text-2xl font-semibold text-center text-indigo-100 mb-4  decoration-wavy underline">
+          Horarios Agregados
+        </h3>
         {/* Listado de horarios agregados */}
-        <div className="mb-8 w-full max-w-3xl bg-slate-100 p-4 rounded-lg shadow-xl">
-          <h3 className="text-2xl font-semibold text-center text-indigo-600 mb-4 ">
-            Horarios Agregados
-          </h3>
+        <div className="mb-8 w-full max-w-3xl bg-slate-100 p-4 rounded-lg shadow-xl max-h-44 overflow-y-auto">
           {nuevaMateria.horarios.length > 0 ? (
             <ul className="space-y-4">
               {nuevaMateria.horarios.map((h, index) => (
@@ -315,8 +313,14 @@ function App() {
                   key={index}
                   className="flex justify-between items-center p-4 bg-white border-2 border-indigo-300 rounded-lg"
                 >
+                  <span className="border-r-2 border-indigo-300 font-semibold pr-4 mr-2">
+                    {index + 1}
+                  </span>
                   <span>
-                    {h.dia} - {h.horaInicio} - {h.horaFin}
+                    {h.dia}
+                    <div>
+                      {h.horaInicio} - {h.horaFin}
+                    </div>
                   </span>
                   <button
                     onClick={() => manejarEliminarHorario(index)}
@@ -334,49 +338,54 @@ function App() {
           )}
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-dvw max-w-72">
-          {materias.map((materia) => (
-            <div
-              key={materia.id}
-              style={{ backgroundColor: materia.color }}
-              className="p-6 rounded-lg shadow-lg font-bold h-80 max-h-80 w overflow-y-auto"
-            >
+        <h2 className="text-2xl font-semibold text-center text-indigo-100 decoration-wavy underline mb-4">
+          Materias Agregadas
+        </h2>
+        <div className="flex flex-col gap-6  w-dvw max-w-max overflow-x-auto h-full">
+          <div className="flex space-x-12 p-2  overflow-auto border-y-2 rounded-lg border-gray-600/50 bg-slate-800/50 h-full">
+            {materias.map((materia) => (
               <div
-                style={{ backgroundImage: `url(${materia.imagen})` }}
-                className="h-40 bg-cover bg-center rounded-lg mb-4 max-h-40 border border-gray-300 shadow-inner shadow-slate-800/60"
-              ></div>
-              <h3 className="text-2xl uppercase underline decoration-wavy underline-offset-4 mb-5">
-                {materia.nombre}
-              </h3>
-              <ul>
-                {materia.horarios.map((h, i) => (
-                  <li key={i}>
-                    <div className="flex justify-around border-b border-gray-400 py-2">
-                      <span className="font-bold">{h.dia}</span>
-                      <span className="font-bold">
-                        {" "}
-                        {h.horaInicio} - {h.horaFin}{" "}
-                      </span>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-              <div className="flex justify-between mt-4 items-center">
-                <button
-                  className="bg-tertiary-green-app text-yellow-50 p-2 mx-2 rounded-lg  active:shadow-lg shadow-slate-900/60"
-                  onClick={() => manejarActualizarMateria(materia.id)}
-                >
-                  Actualizar
-                </button>
-                <button
-                  className="bg-primary-orange-app text-yellow-50 p-2 mx-2 rounded-lg  active:shadow-lg shadow-slate-900/60"
-                  onClick={() => manejarEliminarMateria(materia.id)}
-                >
-                  Eliminar
-                </button>
+                key={materia.id}
+                style={{ backgroundColor: materia.color }}
+                className="p-6 rounded-lg shadow-lg font-bold h-80 max-h-80 w-72 flex-none overflow-y-auto"
+              >
+                <div
+                  style={{ backgroundImage: `url(${materia.imagen})` }}
+                  className="h-40 bg-cover bg-center rounded-lg mb-4 max-h-40 border border-gray-300 shadow-inner shadow-slate-800/60"
+                ></div>
+                <h3 className="text-2xl uppercase underline decoration-wavy underline-offset-4 mb-5">
+                  {materia.nombre}
+                </h3>
+                <ul>
+                  {materia.horarios.map((h, i) => (
+                    <li key={i}>
+                      <div className="flex justify-around border-b border-gray-400 py-2">
+                        <span className="font-bold">{h.dia}</span>
+                        <span className="font-bold">
+                          {" "}
+                          {h.horaInicio} - {h.horaFin}{" "}
+                        </span>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+                <div className="flex justify-between mt-4 items-center">
+                  <button
+                    className="bg-tertiary-green-app text-yellow-50 p-2 mx-2 rounded-lg  active:shadow-lg shadow-slate-900/60"
+                    onClick={() => manejarActualizarMateria(materia.id)}
+                  >
+                    Actualizar
+                  </button>
+                  <button
+                    className="bg-primary-orange-app text-yellow-50 p-2 mx-2 rounded-lg  active:shadow-lg shadow-slate-900/60"
+                    onClick={() => manejarEliminarMateria(materia.id)}
+                  >
+                    Eliminar
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </>

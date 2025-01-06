@@ -158,19 +158,19 @@ function Schedule() {
 
         <div className="flex justify-evenly w-full items-center">
           <button
-            className={"bg-primary-orange-app text-white font-bold py-2 px-4 rounded-full mb-4 active:scale-95 transition-all" + (pasos === 1 ? " bg-secondary-blue-app" : "")}
+            className={"bg-primary-orange-app text-white font-bold py-2 px-4 rounded-full mb-4 active:scale-95 transition-all" + (pasos === 1 ? " bg-secondary-blue-app ring-4 ring-offset-1 ring-primary-orange-app/50" : "")}
             onClick={() => manejaPasos(1)}
           >
             1
           </button>
           <button
-            className={"bg-primary-orange-app text-white font-bold py-2 px-4 rounded-full mb-4 active:scale-95 transition-all" + (pasos === 2 ? " bg-secondary-blue-app" : "")}
+            className={"bg-primary-orange-app text-white font-bold py-2 px-4 rounded-full mb-4 active:scale-95 transition-all" + (pasos === 2 ? " bg-secondary-blue-app ring-4 ring-offset-1 ring-primary-orange-app/50" : "")}
             onClick={() => manejaPasos(2)}
           >
             2
           </button>
           <button
-            className={"bg-primary-orange-app text-white font-bold py-2 px-4 rounded-full mb-4 active:scale-95 transition-all" + (pasos === 3 ? " bg-secondary-blue-app" : "")}
+            className={"bg-primary-orange-app text-white font-bold py-2 px-4 rounded-full mb-4 active:scale-95 transition-all" + (pasos === 3 ? " bg-secondary-blue-app ring-4 ring-offset-1 ring-primary-orange-app/50" : "")}
             onClick={() => manejaPasos(3)}
           >
             3

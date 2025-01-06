@@ -1,6 +1,6 @@
-const Footer = () => {
+const Footer = (props) => {
   return (
-    <footer className="text-center text-quaternary-gray-app/50 bg-background-app w-dvw p-2">
+    <footer className={"text-center text-quaternary-gray-app/50 bg-background-app w-dvw p-2 " + props.className}>
       <div className="container text-center text-pretty">
         <p>&copy; 2025 Timeschedule. Todos los derechos reservados.</p>
 

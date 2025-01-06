@@ -10,7 +10,7 @@ const Home = () => {
     icon.classList.add("animate-expanddisplay");
     home.classList.add("animate-fade-out");
     setTimeout(() => {
-      navigate("/apiDb");
+      navigate("/schedule");
       home.classList.remove("animate-fade-out");
     }, 2500);
     setTimeout(() => {

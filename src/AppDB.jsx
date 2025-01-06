@@ -3,10 +3,8 @@ import {
   agregarMateria,
   leerMaterias,
   actualizarMateria,
-  eliminarMateria,
-  leerMateriaDiaHora,
+  eliminarMateria
 } from "../public/db";
-import { ChromePicker } from "react-color";
 
 function App() {
   const [materias, setMaterias] = useState([]);
@@ -359,7 +357,7 @@ function App() {
                 </li>
               ))}
             </ul>
-            <div className="flex justify-between mt-4 ">
+            <div className="flex justify-between mt-4 bg-black/30 w-full p-2 rounded-lg">
               <button
                 className="bg-tertiary-green-app text-yellow-50 p-2 mx-2 rounded-lg  active:shadow-lg shadow-slate-900/60"
                 onClick={() => manejarActualizarMateria(materia.id)}

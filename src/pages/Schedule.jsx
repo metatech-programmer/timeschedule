@@ -58,7 +58,7 @@ const Schedule = () => {
           Horarios del {day} <hr className="opacity-50" />{" "}
           <span className="text-sm text-background-app">{amPm}</span>{" "}
         </h1>
-        <ul className="flex flex-col gap-2 overflow-y-scroll px-6">
+        <ul className="flex flex-col gap-6 overflow-y-scroll px-6">
           {materias.map((materia) =>
             materia.horarios.map(
               (horario) =>
@@ -66,22 +66,42 @@ const Schedule = () => {
                   <li
                     key={materia.id}
                     className="flex  justify-between flex-col border-2 border-primary-orange-app rounded-lg p-4 animate-fade-in-fast"
+                    style={{ borderColor: materia.color }}
                   >
-                    <div className="bg-black/10 rounded-3xl p-2">
-                      <div className="flex items-center gap-2 justify-center">
+                    <div
+                      className="rounded-tl-full rounded-br-full p-2 mb-5"
+                      style={{
+                        backgroundColor: materia.color,
+                      }}
+                    >
+                      <div className="flex  items-center gap-2 justify-center">
                         {materia.imagen ? (
                           <img
                             src={materia.imagen}
                             alt={materia.nombre}
-                            className="w-10 h-10 rounded-full border animate-fade-in-fast"
+                            className="w-5 h-5 rounded-full border animate-fade-in-fast"
                           />
                         ) : (
-                          <div className="w-10 h-10 border rounded-full animate-fade-in" style={{ display: "flex", alignItems: "center", justifyContent: "center",backgroundImage: "url(https://picsum.photos/100)", backgroundSize: "cover" }}></div>
+                          <div
+                            className="w-5 h-5 border rounded-full animate-fade-in"
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              backgroundImage: "url(https://picsum.photos/100)",
+                              backgroundSize: "cover",
+                            }}
+                          ></div>
                         )}
-                        <span className="font-bold uppercase ">{materia.nombre}</span>
+                        <span
+                          className="font-bold uppercase"
+                          style={{ textShadow: "1px 1px 4px skyblue" }}
+                        >
+                          {materia.nombre}
+                        </span>
                       </div>
                     </div>
-                    <div>
+                    <div className="flex flex-col gap-2 px-2">
                       <span className="flex items-center gap-2">
                         <span className="text-primary-orange-app">
                           {horario.aula}
@@ -91,7 +111,7 @@ const Schedule = () => {
                       </span>
 
                       <span className="flex items-center gap-2 font-bold capitalize">
-                        {materia.docente} 
+                        {materia.docente}
 
                         <span className="text-secondary-blue-app  border-l-2 border-secondary-blue-app pl-2 ml-2 font-light">
                           {horario.horaInicio + " - " + horario.horaFin}

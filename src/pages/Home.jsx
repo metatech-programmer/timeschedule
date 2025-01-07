@@ -1,7 +1,8 @@
-import { use } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const principiante = localStorage.getItem("principiante") || null;
   const navigate = useNavigate();
   const handleClick = () => {
     const icon = document.getElementById("icon");
@@ -10,6 +11,8 @@ const Home = () => {
     icon.classList.add("animate-expanddisplay");
     home.classList.add("animate-fade-out");
     setTimeout(() => {
+      localStorage.setItem("principiante", true);
+      localStorage.setItem("withoutSchedule", true);
       navigate("/schedule");
       home.classList.remove("animate-fade-out");
     }, 2500);
@@ -17,6 +20,12 @@ const Home = () => {
       icon.classList.remove("animate-expanddisplay");
     }, 2800);
   };
+
+  useEffect(() => {
+    if (principiante) {
+      navigate("/schedule");
+    }
+  }, []);
 
   return (
     <div
@@ -71,4 +80,3 @@ const Home = () => {
 };
 
 export default Home;
-

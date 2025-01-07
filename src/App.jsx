@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import Schedule from "./pages/Schedule";
 import Footer from "./components/Footer";
 import AcercaDe from "./pages/AcercaDe";
+import ScheduleDay from "./pages/ScheduleDay";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/schedule" element={<Schedule />} />
+          <Route path="/scheduleDay" element={<ScheduleDay />} />
           <Route path="/about" element={<AcercaDe />} />
         </Routes>
       </Router>

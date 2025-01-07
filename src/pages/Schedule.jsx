@@ -8,12 +8,18 @@ import {
 import InstallApp from "./InstallApp";
 import Menu from "./Menu";
 import { FaArrowRight, FaPen, FaTrash } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaRotateLeft } from "react-icons/fa6";
 
 function Schedule() {
-  let [aulaInput, setAulaInput] = useState("");
+  const withinSchedule = localStorage.getItem("withoutSchedule");
+  const principiante = localStorage.getItem("principiante");
+  const navigate = useNavigate();
+
+  const [aulaInput, setAulaInput] = useState("");
+  const [idMateria, setIdMateria] = useState(null);
   const [materias, setMaterias] = useState([]);
+  const [actualizar, setActualizar] = useState(false);
   const [nuevaMateria, setNuevaMateria] = useState({
     nombre: "",
     docente: "",
@@ -45,12 +51,20 @@ function Schedule() {
   ];
 
   useEffect(() => {
+    if (
+      (principiante === "false" || principiante === null) &&
+      withinSchedule === "true"
+    ) {
+      localStorage.clear();
+      navigate("/");
+    }
     cargarMaterias();
   }, []);
 
   const cargarMaterias = async () => {
     const data = await leerMaterias();
     setMaterias(data);
+    localStorage.setItem("withoutSchedule", data.length === 0 ? true : false);
   };
 
   const manejarAgregarMateria = () => {
@@ -118,9 +132,31 @@ function Schedule() {
   };
 
   const manejarActualizarMateria = (id) => {
-    actualizarMateria(id, { nombre: nuevaMateria.nombre }).then(() =>
-      cargarMaterias()
-    );
+    setIdMateria(id);
+
+    const materia = materias.find((materia) => materia.id === idMateria);
+    if (materia) {
+      actualizarMateria(idMateria, { ...materia, ...nuevaMateria }).then(() => {
+        cargarMaterias();
+
+        setNuevaMateria({
+          nombre: materia.nombre,
+          aula: materia.aula,
+          docente: materia.docente,
+          color: materia.color,
+          imagen: materia.imagen,
+          horarios: materia.horarios,
+        });
+        setImagenPreview(materia.imagen);
+        if (pasos === 1) {
+          setPasos(2);
+          setActualizar(false);
+        } else {
+          setPasos(1);
+          setActualizar(true);
+        }
+      });
+    }
   };
 
   const manejarEliminarMateria = (id) => {
@@ -196,8 +232,9 @@ function Schedule() {
             1
           </button>
           <button
+            disabled={!actualizar ? false : true}
             className={
-              "bg-primary-orange-app text-white font-bold py-2 px-4 rounded-full mb-4 active:scale-95 transition-all" +
+              "bg-primary-orange-app text-white font-bold py-2 px-4 rounded-full mb-4 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-600 " +
               (pasos === 2
                 ? " bg-secondary-blue-app ring-4 ring-offset-1 ring-primary-orange-app/50"
                 : "")
@@ -206,9 +243,11 @@ function Schedule() {
           >
             2
           </button>
+
           <button
+            disabled={materias.length > 0 ? false : true}
             className={
-              "bg-primary-orange-app text-white font-bold py-2 px-4 rounded-full mb-4 active:scale-95 transition-all" +
+              "bg-primary-orange-app text-white font-bold py-2 px-4 rounded-full mb-4 active:scale-95 transition-all  disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-600" +
               (pasos === 3
                 ? " bg-secondary-blue-app ring-4 ring-offset-1 ring-primary-orange-app/50"
                 : "")
@@ -369,7 +408,7 @@ function Schedule() {
                       }
                       className="w-full p-3 border-2 border-indigo-400 text-background-app rounded-lg"
                     />
-                    {nuevaMateria.horarios.length > 0 && (
+                    {aulaInput.length > 0 && (
                       <div className="flex flex-row gap-4">
                         <button
                           onClick={handlerClickAnteriorSalon}
@@ -454,13 +493,22 @@ function Schedule() {
                   </div>
                 </div>
               </div>
-
-              <button
-                onClick={manejarAgregarMateria}
-                className="w-full bg-green-500 text-white py-3 rounded-lg"
-              >
-                Guardar Materia
-              </button>
+              {!actualizar && (
+                <button
+                  onClick={manejarAgregarMateria}
+                  className="w-full bg-green-500 text-white py-3 rounded-lg"
+                >
+                  Guardar Materia
+                </button>
+              )}
+              {actualizar && (
+                <button
+                  onClick={manejarActualizarMateria}
+                  className="w-full bg-blue-500 text-white py-3 rounded-lg"
+                >
+                  Actualizar Materia
+                </button>
+              )}
             </div>
           </div>
         )}
@@ -587,7 +635,7 @@ function Schedule() {
                 Gracias por utilizar Timeschedule. Esperamos que lo disfrutes.
               </span>
             </p>
-            <Link to="/">
+            <Link to="/scheduleDay">
               <button className="w-max  bg-green-500 text-white p-3 m-auto rounded-lg flex items-center justify-center gap-4 animate-expand-btn active:animate-none">
                 Vamos a ver tu horario <FaArrowRight className="text-xl" />
               </button>
@@ -600,4 +648,3 @@ function Schedule() {
 }
 
 export default Schedule;
-

@@ -7,13 +7,14 @@ const Home = () => {
   const handleClick = () => {
     const icon = document.getElementById("icon");
     const home = document.getElementById("home");
+    const withSchedule = localStorage.getItem("withSchedule");
 
     icon.classList.add("animate-expanddisplay");
     home.classList.add("animate-fade-out");
     setTimeout(() => {
-      localStorage.setItem("principiante", true);
+      localStorage.setItem("principiante", false);
       localStorage.setItem("withoutSchedule", true);
-      navigate("/schedule");
+      navigate("/manager");
       home.classList.remove("animate-fade-out");
     }, 2500);
     setTimeout(() => {
@@ -23,7 +24,12 @@ const Home = () => {
 
   useEffect(() => {
     if (principiante) {
-      navigate("/schedule");
+      if (withSchedule === "true") {
+        navigate("/schedule");
+      } else {
+
+        navigate("/manager");
+      }
     }
   }, []);
 

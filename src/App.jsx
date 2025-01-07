@@ -1,9 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Schedule from "./pages/Schedule";
-import Footer from "./components/Footer";
 import AcercaDe from "./pages/AcercaDe";
-import ScheduleDay from "./pages/ScheduleDay";
+import ScheduleManager from "./pages/ScheduleManager";
 
 function App() {
   return (
@@ -11,8 +10,8 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/manager" element={<ScheduleManager />} />
           <Route path="/schedule" element={<Schedule />} />
-          <Route path="/scheduleDay" element={<ScheduleDay />} />
           <Route path="/about" element={<AcercaDe />} />
         </Routes>
       </Router>

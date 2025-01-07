@@ -3,12 +3,12 @@ import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const principiante = localStorage.getItem("principiante") || null;
+  const withSchedule = localStorage.getItem("withSchedule");
   const navigate = useNavigate();
   const handleClick = () => {
     const icon = document.getElementById("icon");
     const home = document.getElementById("home");
-    const withSchedule = localStorage.getItem("withSchedule");
-
+    
     icon.classList.add("animate-expanddisplay");
     home.classList.add("animate-fade-out");
     setTimeout(() => {

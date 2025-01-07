@@ -24,11 +24,10 @@ const Home = () => {
 
   useEffect(() => {
     if (principiante) {
-      if (withSchedule === "true") {
-        navigate("/schedule");
-      } else {
-
+      if (withSchedule !== "true") {
         navigate("/manager");
+      } else {
+        navigate("/schedule");
       }
     }
   }, []);

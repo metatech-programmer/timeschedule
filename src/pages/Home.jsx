@@ -56,7 +56,7 @@ const Home = () => {
           Timeschedule
         </h1>
         <p className="text-lg  text-quaternary-gray-app/70 mb-8 font-semibold">
-          Planificador de horarios, oragniza tu día con facilidad y comodidad
+          Planificador de horarios, organiza tu día con facilidad y comodidad
         </p>
       </div>
 
@@ -66,9 +66,9 @@ const Home = () => {
       >
         Vamos
       </button>
-      
     </div>
   );
 };
 
 export default Home;
+

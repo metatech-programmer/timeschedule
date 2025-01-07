@@ -8,8 +8,7 @@ const Footer = (props) => {
           Desarrollado por{" "}
           <a
             className="text-primary-orange-app active:text-primary-orange-app/50 hover:underline"
-            href="
-           https://www.linkedin.com/in/metatech2025/"
+            href="https://www.linkedin.com/in/santiago-alexander-aguilar-torres-74a729137"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -22,3 +21,4 @@ const Footer = (props) => {
 };
 
 export default Footer;
+

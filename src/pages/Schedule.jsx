@@ -356,13 +356,13 @@ function Schedule() {
                   </div>
                   <div className="">
                     <label className="block  text-quaternary-gray-app">
-                      Salon de clase
+                      Aula de clase
                     </label>
                     <input
                       required
                       id="aula"
                       type="text"
-                      placeholder="Ej. Salon 101"
+                      placeholder="Ej. Aula 101"
                       value={horario.aula}
                       onChange={(e) =>
                         setHorario({ ...horario, aula: e.target.value })
@@ -375,7 +375,7 @@ function Schedule() {
                           onClick={handlerClickAnteriorSalon}
                           className="text-sm text-quaternary-gray-app/50 flex flex-row gap-2 justify-end w-full items-center m-2 active:text-primary-orange-app/50"
                         >
-                          Salon anterior
+                          Aula anterior
                           <FaRotateLeft className="active:-rotate-180 transition-all" />
                         </button>
                       </div>
@@ -473,7 +473,7 @@ function Schedule() {
             {/* Listado de materias */}
             {!materias.length ? (
               <p className="text-center text-gray-500 mb-4">
-                No hay materias agregadas aún.
+                No se han agregado materias aún.
               </p>
             ) : (
               <div className="flex flex-col gap-6 w-dvw max-w-max  overflow-x-auto  animate-fade-in-fast">
@@ -539,7 +539,9 @@ function Schedule() {
                             >
                               <span className="font-bold">
                                 {h.dia}
-                                <div className="text-xs text-gray-500 max-w-28">{h.aula}</div>
+                                <div className="text-xs text-gray-500 max-w-28">
+                                  {h.aula}
+                                </div>
                               </span>
                               <span className="font-bold">
                                 {h.horaInicio} - {h.horaFin}
@@ -598,3 +600,4 @@ function Schedule() {
 }
 
 export default Schedule;
+

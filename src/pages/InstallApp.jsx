@@ -67,7 +67,7 @@ const InstallApp = () => {
       ></div>
       <div className="bg-gray-900 rounded-lg shadow-lg p-8 max-w-lg z-50">
         <h1 className="text-4xl font-extrabold mb-6 tracking-tight">
-          ¡Atención! Solo para Móviles
+          ¡Atención! Solo para dispositivos móviles
         </h1>
         <p className="text-xl mb-4 font-medium leading-relaxed">
           Esta aplicación ha sido diseñada específicamente para una experiencia
@@ -75,10 +75,10 @@ const InstallApp = () => {
         </p>
         <p className="text-lg mb-6">
           Para disfrutar de todas las funcionalidades y el mejor rendimiento,
-          por favor abre la app en tu dispositivo móvil y
+          por favor abre la app en tu dispositivo móvil e
           <span className="font-semibold text-yellow-300">
             {" "}
-            instálala como una app desde Chrome
+            instala la app desde Chrome
           </span>
           .
         </p>
@@ -90,7 +90,7 @@ const InstallApp = () => {
             Instalar App
           </button>
         ) : (
-          // Botón para abrir la app en móvil
+          // Botón para abrir la app en móvil
 
           <button
             className="bg-yellow-500 text-gray-900 py-2 px-6 rounded-lg text-lg font-semibold shadow-md hover:bg-yellow-400 transition duration-300 ease-in-out cursor-pointer z-50"
@@ -112,3 +112,4 @@ const InstallApp = () => {
 };
 
 export default InstallApp;
+

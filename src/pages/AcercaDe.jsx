@@ -5,8 +5,8 @@ import Menu from "./Menu";
 const AcercaDe = () => {
   return (
     <>
-    <Menu />
-    
+      <Menu />
+
       <div className="p-6 max-w-4xl mx-auto bg-white shadow-md space-y-4 animate-fade-in-fast">
         <h1 className="text-3xl font-bold text-primary-orange-app">
           Acerca de Timeschedule
@@ -52,3 +52,4 @@ const AcercaDe = () => {
 };
 
 export default AcercaDe;
+

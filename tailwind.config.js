@@ -20,6 +20,7 @@ export default {
         "fade-in-fast": "fade-in 700ms linear",
         "fade-out": "fade-out 2900ms linear",
         "scroll": "scroll 20s linear infinite", 
+        "expand-btn": "expand-btn 1600ms linear infinite",
       },
       keyframes: {
         "spin-slow": {
@@ -43,6 +44,11 @@ export default {
         "scroll": {
           "0%": { transform: "translateX(0)" },
           "50%": { transform: "translateX(calc(-50%))" },
+        },
+        "expand-btn": {
+          "0%": { transform: "scale(1)" },
+          "50%": { transform: "scale(1.1)" },
+          "100%": { transform: "scale(1)" },
         },
       },
     },

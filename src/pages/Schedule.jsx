@@ -7,20 +7,22 @@ import {
 } from "../../public/db";
 import InstallApp from "./InstallApp";
 import Menu from "./Menu";
-import { FaArrowRight, FaTrash } from "react-icons/fa";
+import { FaArrowRight, FaPen, FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { FaRotateLeft } from "react-icons/fa6";
 
 function Schedule() {
+  let [aulaInput, setAulaInput] = useState("");
   const [materias, setMaterias] = useState([]);
   const [nuevaMateria, setNuevaMateria] = useState({
     nombre: "",
-    aula: "",
     docente: "",
     color: "#ffffff",
     imagen: "",
     horarios: [],
   });
   const [horario, setHorario] = useState({
+    aula: "",
     dia: "Lunes",
     horaInicio: "00:00",
     horaFin: "23:59",
@@ -52,7 +54,7 @@ function Schedule() {
   };
 
   const manejarAgregarMateria = () => {
-    if (!nuevaMateria.nombre || !nuevaMateria.aula || !nuevaMateria.docente) {
+    if (!nuevaMateria.nombre || !nuevaMateria.docente) {
       alert("Por favor, completa todos los campos.");
       return;
     }
@@ -82,11 +84,32 @@ function Schedule() {
   };
 
   const agregarHorario = () => {
+    if (!horario.aula) {
+      horario.aula = aulaInput;
+    }
+
+    if (
+      !horario.dia ||
+      !horario.horaInicio ||
+      !horario.horaFin ||
+      !horario.aula
+    ) {
+      alert("Por favor, completa todos los campos.");
+      return;
+    }
+    setAulaInput(String(document.getElementById("aula").value));
+
     setNuevaMateria({
       ...nuevaMateria,
       horarios: [...nuevaMateria.horarios, { ...horario }],
     });
-    setHorario({ dia: "Lunes", horaInicio: "00:00", horaFin: "23:59" });
+
+    setHorario({
+      aula: "",
+      dia: "Lunes",
+      horaInicio: "00:00",
+      horaFin: "23:59",
+    });
   };
 
   const manejarEliminarHorario = (index) => {
@@ -141,6 +164,10 @@ function Schedule() {
     setPasos(paso);
   };
 
+  const handlerClickAnteriorSalon = () => {
+    document.getElementById("aula").value = aulaInput;
+  };
+
   return (
     <>
       <Menu />
@@ -158,19 +185,34 @@ function Schedule() {
 
         <div className="flex justify-evenly w-full items-center">
           <button
-            className={"bg-primary-orange-app text-white font-bold py-2 px-4 rounded-full mb-4 active:scale-95 transition-all" + (pasos === 1 ? " bg-secondary-blue-app ring-4 ring-offset-1 ring-primary-orange-app/50" : "")}
+            className={
+              "bg-primary-orange-app text-white font-bold py-2 px-4 rounded-full mb-4 active:scale-95 transition-all" +
+              (pasos === 1
+                ? " bg-secondary-blue-app ring-4 ring-offset-1 ring-primary-orange-app/50"
+                : "")
+            }
             onClick={() => manejaPasos(1)}
           >
             1
           </button>
           <button
-            className={"bg-primary-orange-app text-white font-bold py-2 px-4 rounded-full mb-4 active:scale-95 transition-all" + (pasos === 2 ? " bg-secondary-blue-app ring-4 ring-offset-1 ring-primary-orange-app/50" : "")}
+            className={
+              "bg-primary-orange-app text-white font-bold py-2 px-4 rounded-full mb-4 active:scale-95 transition-all" +
+              (pasos === 2
+                ? " bg-secondary-blue-app ring-4 ring-offset-1 ring-primary-orange-app/50"
+                : "")
+            }
             onClick={() => manejaPasos(2)}
           >
             2
           </button>
           <button
-            className={"bg-primary-orange-app text-white font-bold py-2 px-4 rounded-full mb-4 active:scale-95 transition-all" + (pasos === 3 ? " bg-secondary-blue-app ring-4 ring-offset-1 ring-primary-orange-app/50" : "")}
+            className={
+              "bg-primary-orange-app text-white font-bold py-2 px-4 rounded-full mb-4 active:scale-95 transition-all" +
+              (pasos === 3
+                ? " bg-secondary-blue-app ring-4 ring-offset-1 ring-primary-orange-app/50"
+                : "")
+            }
             onClick={() => manejaPasos(3)}
           >
             3
@@ -194,22 +236,6 @@ function Schedule() {
                   value={nuevaMateria.nombre}
                   onChange={(e) =>
                     setNuevaMateria({ ...nuevaMateria, nombre: e.target.value })
-                  }
-                  className="w-full p-3 border-2 border-indigo-400 text-background-app rounded-lg"
-                />
-              </div>
-
-              <div className="mb-4">
-                <label className="block text-lg font-medium text-quaternary-gray-app">
-                  Aula
-                </label>
-                <input
-                  required
-                  type="text"
-                  placeholder="Ej. Aula 101"
-                  value={nuevaMateria.aula}
-                  onChange={(e) =>
-                    setNuevaMateria({ ...nuevaMateria, aula: e.target.value })
                   }
                   className="w-full p-3 border-2 border-indigo-400 text-background-app rounded-lg"
                 />
@@ -259,7 +285,10 @@ function Schedule() {
 
                 <div className="flex-1">
                   <label className="block text-lg font-medium text-quaternary-gray-app mb-2">
-                    Imagen de la materia <span className="text-sm text-quaternary-gray-app/50">(Opcional) </span>
+                    Imagen de la materia{" "}
+                    <span className="text-sm text-quaternary-gray-app/50">
+                      (Opcional){" "}
+                    </span>
                   </label>
                   <div
                     className="border-2 border-dashed border-indigo-400 text-background-app p-4 rounded-lg flex justify-center items-center cursor-pointer"
@@ -293,7 +322,10 @@ function Schedule() {
 
               <div className="mb-6">
                 <label className="block text-lg font-medium text-quaternary-gray-app">
-                  Horario <span className="text-sm text-quaternary-gray-app/50">(Agrega tantos como desees) </span>
+                  Horario{" "}
+                  <span className="text-sm text-quaternary-gray-app/50">
+                    (Agrega tantos como desees){" "}
+                  </span>
                 </label>
                 <div className="flex flex-col md:flex-row gap-4">
                   <div className="flex-1 flex-col md:w-1/3">
@@ -321,6 +353,33 @@ function Schedule() {
                         </option>
                       ))}
                     </select>
+                  </div>
+                  <div className="">
+                    <label className="block  text-quaternary-gray-app">
+                      Salon de clase
+                    </label>
+                    <input
+                      required
+                      id="aula"
+                      type="text"
+                      placeholder="Ej. Salon 101"
+                      value={horario.aula}
+                      onChange={(e) =>
+                        setHorario({ ...horario, aula: e.target.value })
+                      }
+                      className="w-full p-3 border-2 border-indigo-400 text-background-app rounded-lg"
+                    />
+                    {nuevaMateria.horarios.length > 0 && (
+                      <div className="flex flex-row gap-4">
+                        <button
+                          onClick={handlerClickAnteriorSalon}
+                          className="text-sm text-quaternary-gray-app/50 flex flex-row gap-2 justify-end w-full items-center m-2 active:text-primary-orange-app/50"
+                        >
+                          Salon anterior
+                          <FaRotateLeft className="active:-rotate-180 transition-all" />
+                        </button>
+                      </div>
+                    )}
                   </div>
                   <div className="flex-1 flex flex-row gap-4">
                     <div className="flex-1 flex-col md:w-1/3">
@@ -366,13 +425,14 @@ function Schedule() {
                         {nuevaMateria.horarios.map((h, index) => (
                           <li
                             key={index}
-                            className="flex justify-between items-center p-4 bg-white border-2 border-indigo-300 rounded-lg"
+                            className="flex justify-between items-center p-4 bg-white border-2 border-indigo-300 rounded-lg overflow-clip"
                           >
                             <span className="border-r-2 border-indigo-300 font-semibold pr-4 mr-2">
                               {index + 1}
                             </span>
-                            <span className="flex-1">
-                              {h.dia}
+                            <span className="flex-1 text-balance">
+                              {h.dia} -{" "}
+                              {String(h.aula).toUpperCase().split(" ").at(0)}
                               <div className="text-sm text-gray-500">
                                 {h.horaInicio} - {h.horaFin}
                               </div>
@@ -422,24 +482,65 @@ function Schedule() {
                     <div
                       key={materia.id}
                       style={{ backgroundColor: materia.color }}
-                    
-                      className="p-6 rounded-lg shadow-lg font-bold h-80 max-h-80 w-72 flex-none overflow-y-auto snap-center z-50 "
+                      className="p-4 rounded-lg shadow-lg font-bold h-80 max-h-80 w-72  flex-none overflow-y-auto snap-center z-50  "
                     >
-                      {materia.imagen && (
-                        <div
-                          style={{ backgroundImage: `url(${materia.imagen})` }}
-                          className="h-40 bg-cover bg-center rounded-lg mb-4 max-h-40 border border-gray-600 shadow-inner shadow-slate-800/60"
-                        ></div>
-                      )}
+                      <div
+                        className={
+                          "flex  items-center justify-between text-quaternary-gray-app w-full bg-zinc-900 border-2 border-y-secondary-blue-app overflow-clip rounded-t-lg p-2 h-44" +
+                          " " +
+                          (materia.imagen ? "flex-col" : "")
+                        }
+                        style={{ textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)" }}
+                      >
+                        {materia.imagen && (
+                          <div className=" w-16 h-16 max-h-16 bg-cover bg-center rounded-full border border-gray-600 shadow-inner shadow-slate-800/60 m-2 overflow-auto">
+                            <img
+                              src={materia.imagen}
+                              alt={materia.nombre}
+                              className="w-full h-full object-cover object-center"
+                            />
+                          </div>
+                        )}
 
-                      <h3 className="text-2xl uppercase underline decoration-wavy underline-offset-8 mb-5">
-                        {materia.nombre}
-                      </h3>
+                        <h3
+                          className={
+                            "text-sm uppercase font-bold text-center text-balance " +
+                            (materia.imagen
+                              ? " max-h-12 w-52 h-12 overflow-y-scroll"
+                              : "w-full ")
+                          }
+                        >
+                          {materia.nombre}
+                        </h3>
+                      </div>
+                      <div className="flex justify-between p-2 bg-secondary-blue-app/50 rounded-b-xl">
+                        {materia.docente && (
+                          <p className="text-sm text-center text-background-app capitalize ">
+                            Docente:{" "}
+                            {String(materia.docente).split(" ").at(0) +
+                              " " +
+                              (String(materia.docente).split(" ").at(1) ?? "")}
+                          </p>
+                        )}
+                        {materia.aula && (
+                          <p className="text-sm text-center text-background-app ">
+                            Aula: {materia.aula}
+                          </p>
+                        )}
+                      </div>
                       <ul>
                         {materia.horarios.map((h, i) => (
                           <li key={i}>
-                            <div className="flex justify-around border-b border-gray-400 py-2">
-                              <span className="font-bold">{h.dia}</span>
+                            <div
+                              className="flex justify-around border-b border-gray-400 py-2 text-background-app items-center"
+                              style={{
+                                textShadow: "1px 1px 1px #fff",
+                              }}
+                            >
+                              <span className="font-bold">
+                                {h.dia}
+                                <div className="text-xs text-gray-500 max-w-28">{h.aula}</div>
+                              </span>
                               <span className="font-bold">
                                 {h.horaInicio} - {h.horaFin}
                               </span>
@@ -452,13 +553,13 @@ function Schedule() {
                           className="bg-tertiary-green-app text-yellow-50 p-2 mx-2 rounded-lg active:shadow-lg shadow-slate-900/60"
                           onClick={() => manejarActualizarMateria(materia.id)}
                         >
-                          Actualizar
+                          <FaPen className="w-4 h-4 active:scale-105" />
                         </button>
                         <button
                           className="bg-primary-orange-app text-yellow-50 p-2 mx-2 rounded-lg active:shadow-lg shadow-slate-900/60"
                           onClick={() => manejarEliminarMateria(materia.id)}
                         >
-                          Eliminar
+                          <FaTrash className="w-4 h-4 active:scale-105" />
                         </button>
                       </div>
                     </div>
@@ -476,7 +577,8 @@ function Schedule() {
             </h2>
             <p className="text-center text-quaternary-gray-app/80 animate-fade-in-fast mb-4 p-4 text-balance text-2xl font-semibold ">
               Tu horario se ha guardado con exito. Estas a punto de disfrutar de
-              una nueva experiencia en donde veras tu horario de forma dinamica y en tiempo real.
+              una nueva experiencia en donde veras tu horario de forma dinamica
+              y en tiempo real.
               <br />
               <br />
               <span className="text-secondary-blue-app text-xl">
@@ -484,7 +586,7 @@ function Schedule() {
               </span>
             </p>
             <Link to="/">
-              <button className="w-max  bg-green-500 text-white p-3 m-auto rounded-lg flex items-center justify-center gap-4 animate-pulse active:animate-none">
+              <button className="w-max  bg-green-500 text-white p-3 m-auto rounded-lg flex items-center justify-center gap-4 animate-expand-btn active:animate-none">
                 Vamos a ver tu horario <FaArrowRight className="text-xl" />
               </button>
             </Link>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { leerMateriaDiaHora, leerMateriaHorarioDia } from "../../public/db";
 import { FaArrowRight } from "react-icons/fa";
 import Menu from "./Menu";
+import { FaPersonRunning } from "react-icons/fa6";
 
 const Schedule = () => {
   const date = new Date();
@@ -66,35 +67,35 @@ const Schedule = () => {
                     key={materia.id}
                     className="flex  justify-between flex-col border-2 border-primary-orange-app rounded-lg p-4 animate-fade-in-fast"
                   >
-                    <div className="bg-black/10 p-2">
+                    <div className="bg-black/10 rounded-3xl p-2">
                       <div className="flex items-center gap-2 justify-center">
                         {materia.imagen ? (
                           <img
                             src={materia.imagen}
                             alt={materia.nombre}
-                            className="w-10 h-10 rounded-full"
+                            className="w-10 h-10 rounded-full border animate-fade-in-fast"
                           />
                         ) : (
-                          <div className="w-10 h-10 bg-primary-orange-app rounded-full"></div>
+                          <div className="w-10 h-10 border rounded-full animate-fade-in" style={{ display: "flex", alignItems: "center", justifyContent: "center",backgroundImage: "url(https://picsum.photos/100)", backgroundSize: "cover" }}></div>
                         )}
-                        <span>{materia.docente}</span>
+                        <span className="font-bold uppercase ">{materia.nombre}</span>
                       </div>
                     </div>
                     <div>
                       <span className="flex items-center gap-2">
-                        <FaArrowRight />
                         <span className="text-primary-orange-app">
                           {horario.aula}
-                        </span>
+                        </span>{" "}
+                        ...
+                        <FaPersonRunning />
                       </span>
 
-                      <span className="flex items-center gap-2">
-                        {materia.nombre}
-                      </span>
-                    </div>
-                    <div>
-                      <span className="text-primary-orange-app">
-                        {horario.horaInicio + " - " + horario.horaFin}
+                      <span className="flex items-center gap-2 font-bold capitalize">
+                        {materia.docente} 
+
+                        <span className="text-secondary-blue-app  border-l-2 border-secondary-blue-app pl-2 ml-2 font-light">
+                          {horario.horaInicio + " - " + horario.horaFin}
+                        </span>
                       </span>
                     </div>
                   </li>

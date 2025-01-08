@@ -9,20 +9,18 @@ const AcercaDe = () => {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
 
   useEffect(() => {
+    
+
+
     const handleBeforeInstallPrompt = (e) => {
       e.preventDefault();
       setDeferredPrompt(e);
     };
-
+    
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+ 
 
-    return () => {
-      window.removeEventListener(
-        "beforeinstallprompt",
-        handleBeforeInstallPrompt
-      );
-    };
-  }, [setDeferredPrompt]);
+  }, []);
 
   const handleInstallClick = () => {
     if (deferredPrompt) {
@@ -52,7 +50,6 @@ const AcercaDe = () => {
           optimizar la organización de horarios. Ideal para estudiantes,
           profesionales y cualquier persona que busque gestionar su tiempo de
           manera eficiente.
-          
         </p>
         {String(deferredPrompt)}
 
@@ -65,26 +62,26 @@ const AcercaDe = () => {
           >
             Instalar Timeschedule
             <FaDownload size={20} />
-          </button> 
+          </button>
         ) : null}
-        { !window.matchMedia("(display-mode: standalone)").matches && deferredPrompt === null && (
-          <>
-
-            <p className="text-pretty text-gray-900/50 text-sm bg-yellow-300 rounded-lg p-4 text-center">
-              Ya tienes Timeschedule instalado en tu dispositivo. Disfruta de
-              cada funcionalidad que te ofrece y mejora tu productividad.
-            </p>
-            <a
-              className="bg-secondary-blue-app active:bg-secondary-blue-app/90 text-white font-bold py-2 px-4 rounded-lg shadow-md active:bg- active:text-white/80 active:scale-105 transition-transform transform flex items-center space-x-2 gap-2 justify-center"
-              href="https://timeschedulee.vercel.app/"
-              target="_blank"
-              rel="noopener noreferrer"
+        {!window.matchMedia("(display-mode: standalone)").matches &&
+          deferredPrompt === null && (
+            <>
+              <p className="text-pretty text-gray-900/50 text-sm bg-yellow-300 rounded-lg p-4 text-center">
+                Ya tienes Timeschedule instalado en tu dispositivo. Disfruta de
+                cada funcionalidad que te ofrece y mejora tu productividad.
+              </p>
+              <a
+                className="bg-secondary-blue-app active:bg-secondary-blue-app/90 text-white font-bold py-2 px-4 rounded-lg shadow-md active:bg- active:text-white/80 active:scale-105 transition-transform transform flex items-center space-x-2 gap-2 justify-center"
+                href="https://timeschedulee.vercel.app/"
+                target="_blank"
+                rel="noopener noreferrer"
               >
-              Abrir Timeschedule
-              <FaArrowRight size={20} />
-            </a>
-          </>
-        )}
+                Abrir Timeschedule
+                <FaArrowRight size={20} />
+              </a>
+            </>
+          )}
 
         <h2 className="text-2xl font-semibold text-secondary-blue-app">
           Características Clave

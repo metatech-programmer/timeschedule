@@ -126,7 +126,7 @@ const AcercaDe = () => {
             NUESTRO TRABAJO, GRACIAS.
           </span>
         </p>
-        <div className="text-center flex items-center justify-center">
+        <div className="text-center flex items-center justify-center z-40">
           <a
             href="https://www.paypal.com/donate/?hosted_button_id=NNJTTX9YPTP4C"
             className="bg-gradient-to-r from-orange-500 to-yellow-400  text-white py-2 px-4 rounded-full flex items-center space-x-2 w-max  active:bg-gradient-to-br active:from-orange-500 active:to-yellow-400 active:text-white/80 active:scale-125 transition-all transform text-center font-extrabold active:font-semibold animate-bg-rainbow "

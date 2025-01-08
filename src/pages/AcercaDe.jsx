@@ -71,7 +71,7 @@ const AcercaDe = () => {
             </p>
             <a
               className="bg-secondary-blue-app hover:bg-secondary-blue-app/90 text-white font-bold py-2 px-4 rounded-lg shadow-md active:bg- active:text-white/80 active:scale-105 transition-transform transform flex items-center space-x-2 gap-2 justify-center"
-              href="timeschedule:"
+              href="https://timeschedulee.vercel.app/"
               target="_blank"
               rel="noopener noreferrer"
             >

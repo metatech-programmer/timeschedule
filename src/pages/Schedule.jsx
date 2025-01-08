@@ -1,23 +1,43 @@
 import React, { useState, useEffect } from "react";
 import { leerMateriaDiaHora, leerMateriaHorarioDia } from "../../public/db";
-import { FaArrowRight } from "react-icons/fa";
 import Menu from "./Menu";
 import { FaPersonRunning } from "react-icons/fa6";
 
 const Schedule = () => {
-  const date = new Date();
-  let day = date.toLocaleDateString("es-ES", { weekday: "long" });
-  4;
-  let hourMinutes = date.getHours() + ":" + date.getMinutes();
-  let amPm = date.toLocaleString("es-ES", {
-    hour: "numeric",
-    minute: "numeric",
-    hour12: true,
-  });
+  const [day, setDay] = useState(
+    new Date().toLocaleDateString("es-ES", { weekday: "long" })
+  );
+  const [hourMinutes, setHourMinutes] = useState(
+    new Date().getHours() + ":" + new Date().getMinutes()
+  );
+  const [amPm, setAmPm] = useState(
+    new Date().toLocaleString("es-ES", {
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    })
+  );
   const [materias, setMaterias] = useState([]);
   const [scheduleFind, setScheduleFind] = useState(
     localStorage.getItem("scheduleFind") || "dia"
   );
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDay(new Date().toLocaleDateString("es-ES", { weekday: "long" }));
+      setHourMinutes(
+        new Date().getHours() + ":" + new Date().getMinutes()
+      );
+      setAmPm(
+        new Date().toLocaleString("es-ES", {
+          hour: "numeric",
+          minute: "numeric",
+          hour12: true,
+        })
+      );
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const fetchMaterias = async () => {

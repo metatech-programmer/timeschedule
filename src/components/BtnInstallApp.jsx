@@ -45,7 +45,7 @@ const BtnIntallApp = () => {
         };
 
   return (
-    <div className="w-dvw px-10 border flex items-center justify-center  ">
+    <div className="w-dvw px-10 border flex items-center justify-center md:hidden ">
       {!window.matchMedia("(display-mode: standalone)").matches &&
       !installed && deferredPrompt ? (
         <button

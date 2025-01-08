@@ -6,35 +6,48 @@ import { FaDownload } from "react-icons/fa6";
 import { FaArrowRight } from "react-icons/fa";
 
 const AcercaDe = () => {
-  const [installed, setInstalled] = useState(false);
-  const [deferredPrompt, setDeferredPrompt] = useState(
-    installed ? null : undefined
-  );
 
-  useEffect(() => {
-    const installed = String(localStorage.getItem("InstallApp"));
-    setInstalled(installed === "true" ? true : false);
-    const handleAppInstalled = () => {
-      setDeferredPrompt(null);
-    };
-
-    window.addEventListener("appinstalled", handleAppInstalled);
-
-    return () => {
-      window.removeEventListener("appinstalled", handleAppInstalled);
-    };
-  }, []);
-
-  const handleInstallClick = () => {
-    deferredPrompt.prompt(); // Mostramos el prompt de instalacion
-    deferredPrompt.userChoice.then((choiceResult) => {
-      if (choiceResult.outcome === "accepted") {
-        localStorage.setItem("InstallApp", true);
-      } else {
-        localStorage.setItem("InstallApp", false);
-      }
+    const [installed, setInstalled] = useState(() => {
+      const installStatus = localStorage.getItem("InstallApp");
+      return installStatus === "true";
     });
-  };
+    const [deferredPrompt, setDeferredPrompt] = useState(null);
+  
+    useEffect(() => {
+      const handleBeforeInstallPrompt = (e) => {
+        e.preventDefault(); // Evitar que se muestre automáticamente el prompt
+        setDeferredPrompt(e); // Guardamos el evento para usarlo más tarde
+      };
+  
+      const handleAppInstalled = () => {
+        setInstalled(true); // Actualizar estado a instalado
+        localStorage.setItem("InstallApp", "true");
+        setDeferredPrompt(null);
+      };
+  
+      window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+      window.addEventListener("appinstalled", handleAppInstalled);
+  
+      return () => {
+        window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+        window.removeEventListener("appinstalled", handleAppInstalled);
+      };
+    }, []);
+  
+    const handleInstallClick = () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt(); // Mostramos el prompt de instalación
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === "accepted") {
+            setInstalled(true);
+            localStorage.setItem("InstallApp", "true");
+          } else {
+            localStorage.setItem("InstallApp", "false");
+          }
+          setDeferredPrompt(null);
+        });
+      }
+    };
 
   return (
     <>
@@ -53,7 +66,7 @@ const AcercaDe = () => {
         </p>
 
         {!window.matchMedia("(display-mode: standalone)").matches &&
-        deferredPrompt === null ? (
+        !installed && deferredPrompt ? (
           <button
             className="bg-primary-orange-app active:bg-primary-orange-app/90 text-white font-bold py-2 px-4 rounded-lg shadow-md active:bg- active:text-white/80 active:scale-105 transition-transform transform flex items-center space-x-2 gap-2 justify-center"
             title="Instalar Timeschedule"
@@ -64,7 +77,7 @@ const AcercaDe = () => {
           </button>
         ) : null}
         {!window.matchMedia("(display-mode: standalone)").matches &&
-          deferredPrompt !== null && (
+          installed && !deferredPrompt && (
             <>
               <p className="text-pretty text-gray-900/50 text-sm bg-yellow-300 rounded-lg p-4 text-center">
                 Ya tienes Timeschedule instalado en tu dispositivo. Disfruta de

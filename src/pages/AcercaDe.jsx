@@ -26,7 +26,7 @@ const AcercaDe = () => {
   }, []);
 
   const handleInstallClick = () => {
-    if (deferredPrompt) {
+    if (deferredPromptLocal !== null) {
       deferredPrompt.prompt();
       deferredPrompt.userChoice.then((choiceResult) => {
         if (choiceResult.outcome === "accepted") {

@@ -2,22 +2,19 @@ import { useEffect, useState } from "react";
 import { FaDownload } from "react-icons/fa";
 
 const BtnIntallApp = () => {
-  const [deferredPrompt, setDeferredPrompt] = useState(null);
-
-  useEffect(() => {
-    const handleBeforeInstallPrompt = (e) => {
-      e.preventDefault();
-      setDeferredPrompt(e);
-    };
-    handleBeforeInstallPrompt;
-    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
-    return () => {
-      window.removeEventListener(
-        "beforeinstallprompt",
-        handleBeforeInstallPrompt
-      );
-    };
-  }, []);
+   const [deferredPrompt, setDeferredPrompt] = useState(null);
+ 
+   useEffect(() => {
+     const handleAppInstalled = () => {
+       setDeferredPrompt(null);
+     };
+ 
+     window.addEventListener("appinstalled", handleAppInstalled);
+ 
+     return () => {
+       window.removeEventListener("appinstalled", handleAppInstalled);
+     };
+   }, []);
 
   const handleInstallClick = () => {
     if (deferredPrompt) {

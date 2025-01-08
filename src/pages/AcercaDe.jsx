@@ -9,19 +9,14 @@ const AcercaDe = () => {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
 
   useEffect(() => {
-    const handleBeforeInstallPrompt = (e) => {
-      e.preventDefault();
-      setDeferredPrompt(e);
+    const handleAppInstalled = () => {
+      setDeferredPrompt(null);
     };
 
-    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
-    handleBeforeInstallPrompt;
+    window.addEventListener("appinstalled", handleAppInstalled);
 
     return () => {
-      window.removeEventListener(
-        "beforeinstallprompt",
-        handleBeforeInstallPrompt
-      );
+      window.removeEventListener("appinstalled", handleAppInstalled);
     };
   }, []);
 

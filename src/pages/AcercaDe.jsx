@@ -4,50 +4,53 @@ import Menu from "./Menu";
 import InstallApp from "./InstallApp";
 import { FaDownload } from "react-icons/fa6";
 import { FaArrowRight } from "react-icons/fa";
+import { GiCoffeeCup } from "react-icons/gi";
 
 const AcercaDe = () => {
+  const [installed, setInstalled] = useState(() => {
+    const installStatus = localStorage.getItem("InstallApp");
+    return installStatus === "true";
+  });
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
 
-    const [installed, setInstalled] = useState(() => {
-      const installStatus = localStorage.getItem("InstallApp");
-      return installStatus === "true";
-    });
-    const [deferredPrompt, setDeferredPrompt] = useState(null);
-  
-    useEffect(() => {
-      const handleBeforeInstallPrompt = (e) => {
-        e.preventDefault(); // Evitar que se muestre automáticamente el prompt
-        setDeferredPrompt(e); // Guardamos el evento para usarlo más tarde
-      };
-  
-      const handleAppInstalled = () => {
-        setInstalled(true); // Actualizar estado a instalado
-        localStorage.setItem("InstallApp", "true");
-        setDeferredPrompt(null);
-      };
-  
-      window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
-      window.addEventListener("appinstalled", handleAppInstalled);
-  
-      return () => {
-        window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
-        window.removeEventListener("appinstalled", handleAppInstalled);
-      };
-    }, []);
-  
-    const handleInstallClick = () => {
-      if (deferredPrompt) {
-        deferredPrompt.prompt(); // Mostramos el prompt de instalación
-        deferredPrompt.userChoice.then((choiceResult) => {
-          if (choiceResult.outcome === "accepted") {
-            setInstalled(true);
-            localStorage.setItem("InstallApp", "true");
-          } else {
-            localStorage.setItem("InstallApp", "false");
-          }
-          setDeferredPrompt(null);
-        });
-      }
+  useEffect(() => {
+    const handleBeforeInstallPrompt = (e) => {
+      e.preventDefault(); // Evitar que se muestre automáticamente el prompt
+      setDeferredPrompt(e); // Guardamos el evento para usarlo más tarde
     };
+
+    const handleAppInstalled = () => {
+      setInstalled(true); // Actualizar estado a instalado
+      localStorage.setItem("InstallApp", "true");
+      setDeferredPrompt(null);
+    };
+
+    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+    window.addEventListener("appinstalled", handleAppInstalled);
+
+    return () => {
+      window.removeEventListener(
+        "beforeinstallprompt",
+        handleBeforeInstallPrompt
+      );
+      window.removeEventListener("appinstalled", handleAppInstalled);
+    };
+  }, []);
+
+  const handleInstallClick = () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt(); // Mostramos el prompt de instalación
+      deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === "accepted") {
+          setInstalled(true);
+          localStorage.setItem("InstallApp", "true");
+        } else {
+          localStorage.setItem("InstallApp", "false");
+        }
+        setDeferredPrompt(null);
+      });
+    }
+  };
 
   return (
     <>
@@ -66,7 +69,8 @@ const AcercaDe = () => {
         </p>
 
         {!window.matchMedia("(display-mode: standalone)").matches &&
-        !installed && deferredPrompt ? (
+        !installed &&
+        deferredPrompt ? (
           <button
             className="bg-primary-orange-app active:bg-primary-orange-app/90 text-white font-bold py-2 px-4 rounded-lg shadow-md active:bg- active:text-white/80 active:scale-105 transition-transform transform flex items-center space-x-2 gap-2 justify-center"
             title="Instalar Timeschedule"
@@ -77,7 +81,8 @@ const AcercaDe = () => {
           </button>
         ) : null}
         {!window.matchMedia("(display-mode: standalone)").matches &&
-          installed && !deferredPrompt && (
+          installed &&
+          !deferredPrompt && (
             <>
               <p className="text-pretty text-gray-900/50 text-sm bg-yellow-300 rounded-lg p-4 text-center">
                 Ya tienes Timeschedule instalado en tu dispositivo. Disfruta de
@@ -121,12 +126,13 @@ const AcercaDe = () => {
             NUESTRO TRABAJO, GRACIAS.
           </span>
         </p>
-        <div className="text-center">
+        <div className="text-center flex items-center justify-center">
           <a
             href="https://www.paypal.com/donate/?hosted_button_id=NNJTTX9YPTP4C"
-            className="bg-primary-orange-app text-white py-2 px-4 rounded-full inline-block mt-4 active:bg-tertiary-green-app active:text-white/80 active:scale-105 transition-transform transform"
+            className="bg-gradient-to-r from-orange-500 to-yellow-400  text-white py-2 px-4 rounded-full flex items-center space-x-2 w-max  active:bg-gradient-to-br active:from-orange-500 active:to-yellow-400 active:text-white/80 active:scale-125 transition-all transform text-center font-extrabold active:font-semibold animate-bg-rainbow "
           >
-            Donar con PayPal
+            <span>Dona un café</span>
+            <GiCoffeeCup className="animate-pulse" size={20} />
           </a>
         </div>
       </div>

@@ -13,16 +13,18 @@ export default {
         "tertiary-green-app": "#82AD4C",
         "quaternary-gray-app": "#F6F6F4",
       },
+
       animation: {
         "spin-slow": "spin 1s linear infinite",
         "expanddisplay": "expanddisplay 2700ms linear",
         "fade-in": "fade-in 1600ms linear",
         "fade-in-fast": "fade-in 700ms linear",
         "fade-out": "fade-out 2900ms linear",
-        "scroll": "scroll 20s linear infinite", 
+        "scroll": "scroll 20s linear infinite",
         "expand-btn": "expand-btn 1600ms linear infinite",
         "expand-btn-2": "expand-btn-2 1600ms linear infinite",
         "border-rainbow": "border-rainbow 1600ms linear infinite",
+        "bg-rainbow": "bg-rainbow 6s ease-in-out infinite",
       },
       keyframes: {
         "spin-slow": {
@@ -64,6 +66,12 @@ export default {
           "75%": { "border-color": "#F68839" },
           "100%": { "border-color": "#30B3BB" },
         },
+        "bg-rainbow": {
+          "0%": { "background-image": "linear-gradient(150deg, #f97316, #ffd700, #f97316)", "background-size": "200% 100%" },
+          "50%": { "background-image": "linear-gradient(150deg, #f97316, #ffd700, #f97316)", "background-size": "100% 200%" },
+          "100%": { "background-image": "linear-gradient(150deg, #f97316, #ffd700, #f97316)", "background-size": "200% 100%" },
+          
+        }
       },
     },
   },

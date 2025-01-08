@@ -71,10 +71,9 @@ export const leerMateriaDiaHora = async (dia, hora) => {
     request.onsuccess = () => {
       const materias = request.result;
       const materiasDiaHora = materias.filter((materia) =>
-        materia.horarios.some((horario) =>
+        materia.horarios.some((horario) =>      
           horario.dia.toLowerCase() === dia.toLowerCase() &&
-          horario.horaInicio <= hora &&
-          horario.horaFin >= hora
+           hora >= horario.horaInicio && hora <= horario.horaFin
         )
       );
       resolve(materiasDiaHora);

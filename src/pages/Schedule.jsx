@@ -8,12 +8,22 @@ const Schedule = () => {
   const [day, setDay] = useState(
     new Date().toLocaleDateString("es-ES", { weekday: "long" })
   );
+
   const [hourMinutes, setHourMinutes] = useState(
-    new Date().getHours() + ":" + new Date().getMinutes()
+    new Date().getHours() +
+      ":" +
+      (new Date().getMinutes() < 10
+        ? "0" + new Date().getMinutes()
+        : new Date().getMinutes())
   );
 
   const [hourMinutesNextClass, setHourMinutesNextClass] = useState(
-    new Date().getHours() + 1 + ":" + new Date().getMinutes()
+    new Date().getHours() +
+      1 +
+      ":" +
+      (new Date().getMinutes() < 10
+        ? "0" + new Date().getMinutes()
+        : new Date().getMinutes())
   );
 
   const [amPm, setAmPm] = useState(
@@ -26,6 +36,7 @@ const Schedule = () => {
 
   const [materias, setMaterias] = useState([]);
   const [materiasNext, setMateriasNext] = useState([]);
+  const [materiasNow, setMateriasNow] = useState([]);
 
   const [scheduleFind, setScheduleFind] = useState(
     localStorage.getItem("scheduleFind") || "vivo"
@@ -33,13 +44,24 @@ const Schedule = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setDay(new Date().toLocaleDateString("es-ES", { weekday: "long" }));
-      setHourMinutes(new Date().getHours() + ":" + new Date().getMinutes());
+      setDay(new Date().toLocaleDateString("es-CO", { weekday: "long" }));
+      setHourMinutes(
+        new Date().getHours() +
+          ":" +
+          (new Date().getMinutes() < 10
+            ? "0" + new Date().getMinutes()
+            : new Date().getMinutes())
+      );
       setHourMinutesNextClass(
-        new Date().getHours() + 1 + ":" + new Date().getMinutes()
+        new Date().getHours() +
+          1 +
+          ":" +
+          (new Date().getMinutes() < 10
+            ? "0" + new Date().getMinutes()
+            : new Date().getMinutes())
       );
       setAmPm(
-        new Date().toLocaleString("es-ES", {
+        new Date().toLocaleString("es-CO", {
           hour: "numeric",
           minute: "numeric",
           hour12: true,
@@ -57,23 +79,24 @@ const Schedule = () => {
         day,
         hourMinutesNextClass
       );
-      setMaterias(scheduleFind === "vivo" ? materiasVivo : materiasDay);
+
+      setMaterias(materiasDay);
       setMateriasNext(materiasVivoPlus);
+      setMateriasNow(materiasVivo);
     };
     fetchMaterias();
   }, amPm);
 
   const handleClick = async (findBy) => {
-    setMaterias([]);
-    setMateriasNext([]);
     const materiasDay = await leerMateriaHorarioDia(day);
     const materiasVivo = await leerMateriaDiaHora(day, hourMinutes);
     const materiasVivoPlus = await leerMateriaDiaHora(
       day,
       hourMinutesNextClass
     );
-    setMaterias(findBy === "vivo" ? materiasVivo : materiasDay);
-    setMateriasNext(findBy === "vivo" ? materiasVivoPlus : materiasDay);
+    setMaterias(materiasDay);
+    setMateriasNow(materiasVivo);
+    setMateriasNext(materiasVivoPlus);
     localStorage.setItem("scheduleFind", findBy);
     setScheduleFind(findBy);
   };
@@ -188,14 +211,17 @@ const Schedule = () => {
           )}
 
           {/* -------------------------------------------------------- */}
+
           {scheduleFind === "vivo" && (
             <>
-              {materias.map((materia) =>
+              {materiasNow.map((materia) =>
                 materia.horarios.map(
                   (horario) =>
                     String(horario.dia).toLowerCase() === day &&
-                    Number(horario.horaInicio.replace(":", "")) >=
-                      Number(hourMinutes.replace(":", "")) && (
+                    Number(hourMinutes.replace(":", "")) >=
+                      Number(horario.horaInicio.replace(":", "")) &&
+                    Number(hourMinutes.replace(":", "")) <=
+                      Number(horario.horaFin.replace(":", "")) && (
                       <li
                         key={materia.id}
                         className="flex  justify-between flex-col border-2 border-primary-orange-app rounded-lg p-4 animate-fade-in-fast"
@@ -265,6 +291,77 @@ const Schedule = () => {
 
           {scheduleFind === "vivo" && (
             <>
+              {materiasNext.map((materia) =>
+                materia.horarios.map(
+                  (horario) =>
+                    String(horario.dia).toLowerCase() === day &&
+                    Number(hourMinutesNextClass.replace(":", "")) >=
+                      Number(horario.horaInicio.replace(":", "")) &&
+                    Number(hourMinutesNextClass.replace(":", "")) <=
+                      Number(horario.horaFin.replace(":", "")) && (
+                      <li
+                        key={materia.id}
+                        className="flex  justify-between flex-col border-2 border-primary-orange-app rounded-lg p-4 animate-fade-in-fast"
+                        style={{ borderColor: materia.color }}
+                      >
+                        <div
+                          className="rounded-tl-full rounded-br-full p-2 mb-5"
+                          style={{
+                            backgroundColor: materia.color,
+                          }}
+                        >
+                          <div className="flex items-center gap-2 justify-center max-w-[80%]  text-xs text-pretty h-8 max-h-8 overflow-y-scroll text-center">
+                            {materia.imagen ? (
+                              <img
+                                src={materia.imagen}
+                                alt={materia.nombre}
+                                className="w-5 h-5 rounded-full border animate-fade-in-fast"
+                              />
+                            ) : (
+                              <div
+                                className="w-5 h-5 border rounded-full animate-fade-in"
+                                style={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  backgroundImage:
+                                    "url(https://picsum.photos/100)",
+                                  backgroundSize: "cover",
+                                }}
+                              ></div>
+                            )}
+                            <span
+                              className="font-bold uppercase w-[70%] truncate"
+                              style={{ textShadow: "1px 1px 4px skyblue" }}
+                            >
+                              {materia.nombre}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="flex flex-col gap-2 px-2 w-[100%]">
+                          <span className="flex items-center  gap-2 justify-center">
+                            <span className="text-primary-orange-app text-balance ">
+                              {horario.aula}
+                            </span>{" "}
+                            <span className="flex gap-2 justify-center items-center">
+                              ...
+                              <FaPersonRunning />
+                            </span>
+                          </span>
+
+                          <span className="flex items-center gap-2 font-bold capitalize text-center text-pretty text-xs w-full bg-black/10 p-1 rounded-xl">
+                            <span>{materia.docente}</span>
+
+                            <span className="text-secondary-blue-app  border-l-2 border-secondary-blue-app pl-2 ml-2 font-light w-1/2">
+                              {horario.horaInicio + " - " + horario.horaFin}
+                            </span>
+                          </span>
+                        </div>
+                      </li>
+                    )
+                )
+              )}
+
               {materiasNext.map((materia) =>
                 materia.horarios.map(
                   (horario) =>

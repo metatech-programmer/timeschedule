@@ -52,14 +52,27 @@ function ScheduleManager() {
   ];
 
   useEffect(() => {
-    if (
-      principiante === "true" || principiante === null 
-    ) {
+    if (principiante === "true" || principiante === null) {
       localStorage.clear();
       navigate("/");
     }
     cargarMaterias();
   }, []);
+
+  
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      if (actualizar) {
+        manejarActualizarMateria(idMateria);
+        e.preventDefault();
+        e.returnValue = "";
+      }
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [actualizar]);
 
   const cargarMaterias = async () => {
     const data = await leerMaterias();
@@ -216,7 +229,7 @@ function ScheduleManager() {
 
   return (
     <>
-      <Menu />
+      <Menu status={actualizar} />
       <InstallApp />
       <div className="min-h-screen bg-gradient-to-t from-secondary-blue-app to-background-app  pt-8 flex flex-col items-center md:hidden ">
         <h1

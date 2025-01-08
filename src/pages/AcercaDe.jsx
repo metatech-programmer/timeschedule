@@ -51,7 +51,10 @@ const AcercaDe = () => {
           optimizar la organización de horarios. Ideal para estudiantes,
           profesionales y cualquier persona que busque gestionar su tiempo de
           manera eficiente.
+          
         </p>
+        {String(deferredPrompt)}
+
         {!window.matchMedia("(display-mode: standalone)").matches &&
         deferredPrompt !== null ? (
           <button
@@ -63,8 +66,9 @@ const AcercaDe = () => {
             <FaDownload size={20} />
           </button> 
         ) : null}
-        {deferredPrompt === null && !window.matchMedia("(display-mode: standalone)").matches && (
+        { !window.matchMedia("(display-mode: standalone)").matches && deferredPrompt === null && (
           <>
+
             <p className="text-pretty text-gray-900/50 text-sm bg-yellow-300 rounded-lg p-4 text-center">
               Ya tienes Timeschedule instalado en tu dispositivo. Disfruta de
               cada funcionalidad que te ofrece y mejora tu productividad.

@@ -80,7 +80,7 @@ const Schedule = () => {
 
   return (
     <>
-    <InstallApp />
+      <InstallApp />
       <Menu />
       <div className="flex gap-2 p-5 w-full justify-end  md:hidden">
         <button
@@ -161,19 +161,21 @@ const Schedule = () => {
                             </span>
                           </div>
                         </div>
-                        <div className="flex flex-col gap-2 px-2">
-                          <span className="flex items-center gap-2">
-                            <span className="text-primary-orange-app">
+                        <div className="flex flex-col gap-2 px-2 w-[100%]">
+                          <span className="flex items-center  gap-2 justify-center">
+                            <span className="text-primary-orange-app text-balance ">
                               {horario.aula}
                             </span>{" "}
-                            ...
-                            <FaPersonRunning />
+                            <span className="flex gap-2 justify-center items-center">
+                              ...
+                              <FaPersonRunning />
+                            </span>
                           </span>
 
-                          <span className="flex items-center gap-2 font-bold capitalize">
-                            {materia.docente}
+                          <span className="flex items-center gap-2 font-bold capitalize text-center text-pretty text-xs w-full bg-black/10 p-1 rounded-xl">
+                            <span>{materia.docente}</span>
 
-                            <span className="text-secondary-blue-app  border-l-2 border-secondary-blue-app pl-2 ml-2 font-light">
+                            <span className="text-secondary-blue-app  border-l-2 border-secondary-blue-app pl-2 ml-2 font-light w-1/2">
                               {horario.horaInicio + " - " + horario.horaFin}
                             </span>
                           </span>
@@ -233,19 +235,21 @@ const Schedule = () => {
                             </span>
                           </div>
                         </div>
-                        <div className="flex flex-col gap-2 px-2">
-                          <span className="flex items-center gap-2">
-                            <span className="text-primary-orange-app">
+                        <div className="flex flex-col gap-2 px-2 w-[100%]">
+                          <span className="flex items-center  gap-2 justify-center">
+                            <span className="text-primary-orange-app text-balance ">
                               {horario.aula}
                             </span>{" "}
-                            ...
-                            <FaPersonRunning />
+                            <span className="flex gap-2 justify-center items-center">
+                              ...
+                              <FaPersonRunning />
+                            </span>
                           </span>
 
-                          <span className="flex items-center gap-2 font-bold capitalize">
-                            {materia.docente}
+                          <span className="flex items-center gap-2 font-bold capitalize text-center text-pretty text-xs w-full bg-black/10 p-1 rounded-xl">
+                            <span>{materia.docente}</span>
 
-                            <span className="text-secondary-blue-app  border-l-2 border-secondary-blue-app pl-2 ml-2 font-light">
+                            <span className="text-secondary-blue-app  border-l-2 border-secondary-blue-app pl-2 ml-2 font-light w-1/2">
                               {horario.horaInicio + " - " + horario.horaFin}
                             </span>
                           </span>
@@ -306,19 +310,21 @@ const Schedule = () => {
                             </span>
                           </div>
                         </div>
-                        <div className="flex flex-col gap-2 px-2">
-                          <span className="flex items-center gap-2">
-                            <span className="text-primary-orange-app">
+                        <div className="flex flex-col gap-2 px-2 w-[100%]">
+                          <span className="flex items-center  gap-2 justify-center">
+                            <span className="text-primary-orange-app text-balance ">
                               {horario.aula}
                             </span>{" "}
-                            ...
-                            <FaPersonRunning />
+                            <span className="flex gap-2 justify-center items-center">
+                              ...
+                              <FaPersonRunning />
+                            </span>
                           </span>
 
-                          <span className="flex items-center gap-2 font-bold capitalize">
-                            {materia.docente}
+                          <span className="flex items-center gap-2 font-bold capitalize text-center text-pretty text-xs w-full bg-black/10 p-1 rounded-xl">
+                            <span>{materia.docente}</span>
 
-                            <span className="text-secondary-blue-app  border-l-2 border-secondary-blue-app pl-2 ml-2 font-light">
+                            <span className="text-secondary-blue-app  border-l-2 border-secondary-blue-app pl-2 ml-2 font-light w-1/2">
                               {horario.horaInicio + " - " + horario.horaFin}
                             </span>
                           </span>

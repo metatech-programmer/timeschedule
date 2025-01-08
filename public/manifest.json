@@ -4,8 +4,8 @@
   "description": "Planificador de horarios",
   "start_url": ".",
   "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#000000",
+  "background_color": "#2A3A49",
+  "theme_color": "#2A3A49",
   "orientation": "portrait-primary",
   "icons": [
     {

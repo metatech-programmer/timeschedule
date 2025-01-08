@@ -13,8 +13,8 @@ export default defineConfig({
         description: 'Planificador de horarios',
         start_url: '/',
         display: 'standalone',
-        background_color: '#ffffff',
-        theme_color: '#0078d7',
+        background_color: '#2A3A49',
+        theme_color: '#2A3A49',
         icons: [
           {
             src: '/icon.webp',
@@ -26,8 +26,32 @@ export default defineConfig({
             sizes: '512x512',
             type: 'image/webp'
           }
-        ]
+        ],
+        lang: 'es',
+        categories: ['productivity', 'utilities', 'tools'],
+        screenshots: [
+          {
+            src: '/screenshot1.jpg',
+            sizes: '640x480',
+            type: 'image/webp'
+          }
+        ],
+        orientation: 'portrait-primary',
+        related_applications: [],
+        prefer_related_applications: false,
+        scope: '/',
+        dir: 'ltr',
+        related_applications: [
+          {
+            platform: 'web',
+            url: 'https://timeschedulee.vercel.app',
+            id: 'https://timeschedulee.vercel.app'
+          }
+        ],
+
+
       },
+
       workbox: {
         globPatterns: ['**/*.{js,css,html,png,svg,webp,gif}'], // Archivos que serán cacheados
         maximumFileSizeToCacheInBytes: 30 * 1024 * 1024, // 30 MB

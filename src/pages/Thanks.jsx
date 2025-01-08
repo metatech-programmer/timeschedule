@@ -1,12 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import phrases from "../utils/phrases";
+import InstallApp from "./InstallApp";
 
 const Thanks = () => {
   const phrase = phrases[Math.floor(Math.random() * phrases.length)];
 
   return (
-    <div className="bg-background-app text-quaternary-gray-app p-5 rounded-lg  h-dvh flex flex-col items-center justify-center text-center relative">
+    <>
+    <InstallApp />
+    <div className="bg-background-app text-quaternary-gray-app p-5 rounded-lg  h-dvh flex flex-col items-center justify-center text-center relative  md:hidden">
       <div
         className="absolute top-0 left-0 w-full h-full"
         style={{
@@ -40,6 +43,8 @@ const Thanks = () => {
         Volver al inicio
       </Link>
     </div>
+    </>
+
   );
 };
 

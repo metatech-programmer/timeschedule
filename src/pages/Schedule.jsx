@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { leerMateriaDiaHora, leerMateriaHorarioDia } from "../../public/db";
 import Menu from "./Menu";
 import { FaPersonRunning } from "react-icons/fa6";
+import InstallApp from "./InstallApp";
 
 const Schedule = () => {
   const [day, setDay] = useState(
@@ -79,8 +80,9 @@ const Schedule = () => {
 
   return (
     <>
+    <InstallApp />
       <Menu />
-      <div className="flex gap-2 p-5 w-full justify-end o">
+      <div className="flex gap-2 p-5 w-full justify-end  md:hidden">
         <button
           className={
             " text-white p-3 rounded-full h-5 text-xs text-center flex items-center font-bold active:scale-95 transition-all active:bg-secondary-blue-app" +
@@ -107,7 +109,7 @@ const Schedule = () => {
         </button>
       </div>
 
-      <div className="flex flex-col gap-4 text-quaternary-gray-app animate-fade-in-fast overflow-y-scroll">
+      <div className="flex flex-col gap-4 text-quaternary-gray-app animate-fade-in-fast overflow-y-scroll  md:hidden">
         <h1 className="text-lg  bg-secondary-blue-app font-bold uppercase text-center w-full py-2  border-y-2 border-primary-orange-app/50">
           Horario del {day} <hr className="opacity-50" />{" "}
           <span className="text-sm text-background-app">{amPm}</span>{" "}

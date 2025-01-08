@@ -1,9 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import InstallApp from "./InstallApp";
 
 const Wrong = () => {
   return (
-     <div className="bg-red-950 text-quaternary-gray-app p-5 rounded-lg  h-dvh flex flex-col items-center justify-center text-center relative">
+    <>
+    <InstallApp />
+     <div className="bg-red-950 text-quaternary-gray-app p-5 rounded-lg  h-dvh flex flex-col items-center justify-center text-center relative md:hidden">
           <div
             className="absolute top-0 left-0 w-full h-full"
             style={{
@@ -36,6 +39,8 @@ const Wrong = () => {
             Volver al inicio
           </Link>
         </div>
+    </>
+
   );
 };
 

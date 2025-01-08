@@ -2,32 +2,34 @@ import { useEffect, useState } from "react";
 import { FaDownload } from "react-icons/fa";
 
 const BtnIntallApp = () => {
-   const [deferredPrompt, setDeferredPrompt] = useState(null);
- 
-   useEffect(() => {
-     const handleAppInstalled = () => {
-       setDeferredPrompt(null);
-     };
- 
-     window.addEventListener("appinstalled", handleAppInstalled);
- 
-     return () => {
-       window.removeEventListener("appinstalled", handleAppInstalled);
-     };
-   }, []);
+  const [installed, setInstalled] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState(
+    installed ? null : undefined
+  );
+
+  useEffect(() => {
+    const installed = String(localStorage.getItem("InstallApp"));
+    setInstalled(installed === "true" ? true : false);
+    const handleAppInstalled = () => {
+      setDeferredPrompt(null);
+    };
+
+    window.addEventListener("appinstalled", handleAppInstalled);
+
+    return () => {
+      window.removeEventListener("appinstalled", handleAppInstalled);
+    };
+  }, []);
 
   const handleInstallClick = () => {
-    if (deferredPrompt) {
-      deferredPrompt.prompt();
-      deferredPrompt.userChoice.then((choiceResult) => {
-        if (choiceResult.outcome === "accepted") {
-          console.log("El usuario ha aceptado la instalación");
-        } else {
-          console.log("El usuario ha rechazado la instalación");
-        }
-        setDeferredPrompt(null);
-      });
-    }
+    deferredPrompt.prompt(); // Mostramos el prompt de instalacion
+    deferredPrompt.userChoice.then((choiceResult) => {
+      if (choiceResult.outcome === "accepted") {
+        localStorage.setItem("InstallApp", true);
+      } else {
+        localStorage.setItem("InstallApp", false);
+      }
+    });
   };
 
   return (

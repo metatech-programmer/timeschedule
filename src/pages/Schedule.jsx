@@ -109,7 +109,7 @@ const Schedule = () => {
 
       <div className="flex flex-col gap-4 text-quaternary-gray-app animate-fade-in-fast overflow-y-scroll">
         <h1 className="text-lg  bg-secondary-blue-app font-bold uppercase text-center w-full py-2  border-y-2 border-primary-orange-app/50">
-          Horarios del {day} <hr className="opacity-50" />{" "}
+          Horario del {day} <hr className="opacity-50" />{" "}
           <span className="text-sm text-background-app">{amPm}</span>{" "}
         </h1>
         <ul className="flex flex-col gap-6 overflow-y-scroll px-6 pb-24">

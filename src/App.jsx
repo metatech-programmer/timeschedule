@@ -13,6 +13,8 @@ function App() {
           <Route path="/manager" element={<ScheduleManager />} />
           <Route path="/schedule" element={<Schedule />} />
           <Route path="/about" element={<AcercaDe />} />
+          <Route path="/thanks" element={<AcercaDe />} />
+          <Route path="/wrong" element={<AcercaDe />} />
         </Routes>
       </Router>
     </div>

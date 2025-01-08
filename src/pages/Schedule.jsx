@@ -128,12 +128,12 @@ const Schedule = () => {
                         style={{ borderColor: materia.color }}
                       >
                         <div
-                          className="rounded-tl-full rounded-br-full p-2 mb-5"
+                          className="rounded-tl-full rounded-br-full p-2 mb-5 w-full flex items-center justify-center"
                           style={{
                             backgroundColor: materia.color,
                           }}
                         >
-                          <div className="flex items-center gap-2 justify-center w-[90%] text-sm text-center">
+                          <div className="flex items-center gap-2 justify-center max-w-[80%]  text-xs text-pretty h-8 max-h-8 overflow-y-scroll text-center">
                             {materia.imagen ? (
                               <img
                                 src={materia.imagen}
@@ -154,14 +154,14 @@ const Schedule = () => {
                               ></div>
                             )}
                             <span
-                              className="font-bold uppercase"
+                              className="font-bold uppercase w-[70%] truncate"
                               style={{ textShadow: "1px 1px 4px skyblue" }}
                             >
                               {materia.nombre}
                             </span>
                           </div>
                         </div>
-                        <div className="flex flex-col gap-2 px-2">
+                        <div className="flex flex-col gap-2 px-2 ">
                           <span className="flex items-center gap-2">
                             <span className="text-primary-orange-app">
                               {horario.aula}
@@ -205,7 +205,7 @@ const Schedule = () => {
                             backgroundColor: materia.color,
                           }}
                         >
-                          <div className="flex items-center gap-2 justify-center w-[90%] text-sm text-center">
+                          <div className="flex items-center gap-2 justify-center max-w-[80%]  text-xs text-pretty h-8 max-h-8 overflow-y-scroll text-center">
                             {materia.imagen ? (
                               <img
                                 src={materia.imagen}
@@ -226,7 +226,7 @@ const Schedule = () => {
                               ></div>
                             )}
                             <span
-                              className="font-bold uppercase"
+                              className="font-bold uppercase w-[70%] truncate"
                               style={{ textShadow: "1px 1px 4px skyblue" }}
                             >
                               {materia.nombre}
@@ -278,7 +278,7 @@ const Schedule = () => {
                             backgroundColor: materia.color,
                           }}
                         >
-                          <div className="flex items-center gap-2 justify-center w-[90%] text-sm text-center">
+                          <div className="flex items-center gap-2 justify-center max-w-[80%]  text-xs text-pretty h-8 max-h-8 overflow-y-scroll text-center">
                             {materia.imagen ? (
                               <img
                                 src={materia.imagen}
@@ -299,7 +299,7 @@ const Schedule = () => {
                               ></div>
                             )}
                             <span
-                              className="font-bold uppercase"
+                              className="font-bold uppercase w-[70%] truncate"
                               style={{ textShadow: "1px 1px 4px skyblue" }}
                             >
                               {materia.nombre}

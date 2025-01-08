@@ -9,11 +9,11 @@ const AcercaDe = () => {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
 
   useEffect(() => {
+    setDeferredPrompt("not-null");
     const handleBeforeInstallPrompt = (e) => {
       e.preventDefault();
       setDeferredPrompt(e);
     };
-    handleBeforeInstallPrompt();
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
     return () => {
       window.removeEventListener(

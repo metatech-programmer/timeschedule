@@ -133,7 +133,7 @@ const Schedule = () => {
                             backgroundColor: materia.color,
                           }}
                         >
-                          <div className="flex items-center gap-2 justify-center w-[90%] text-xl text-center">
+                          <div className="flex items-center gap-2 justify-center w-[90%] text-sm text-center">
                             {materia.imagen ? (
                               <img
                                 src={materia.imagen}
@@ -205,7 +205,7 @@ const Schedule = () => {
                             backgroundColor: materia.color,
                           }}
                         >
-                          <div className="flex items-center gap-2 justify-center w-[90%] text-xl text-center">
+                          <div className="flex items-center gap-2 justify-center w-[90%] text-sm text-center">
                             {materia.imagen ? (
                               <img
                                 src={materia.imagen}
@@ -278,7 +278,7 @@ const Schedule = () => {
                             backgroundColor: materia.color,
                           }}
                         >
-                          <div className="flex items-center gap-2 justify-center w-[90%] text-xl text-center">
+                          <div className="flex items-center gap-2 justify-center w-[90%] text-sm text-center">
                             {materia.imagen ? (
                               <img
                                 src={materia.imagen}

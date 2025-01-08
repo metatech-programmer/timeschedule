@@ -6,20 +6,23 @@ import { FaDownload } from "react-icons/fa6";
 import { FaArrowRight } from "react-icons/fa";
 
 const AcercaDe = () => {
-  const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const deferredPromptLocal = localStorage.getItem("deferredPrompt") || !null;
+  const [deferredPrompt, setDeferredPrompt] = useState(deferredPromptLocal);
 
   useEffect(() => {
-    
-
-
     const handleBeforeInstallPrompt = (e) => {
       e.preventDefault();
       setDeferredPrompt(e);
     };
-    
-    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
- 
 
+    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+
+    return () => {
+      window.removeEventListener(
+        "beforeinstallprompt",
+        handleBeforeInstallPrompt
+      );
+    };
   }, []);
 
   const handleInstallClick = () => {
@@ -31,6 +34,7 @@ const AcercaDe = () => {
         } else {
           console.log("El usuario ha rechazado la instalación");
         }
+        localStorage.setItem("deferredPrompt", null);
         setDeferredPrompt(null);
       });
     }

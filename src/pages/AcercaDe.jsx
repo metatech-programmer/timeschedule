@@ -63,7 +63,7 @@ const AcercaDe = () => {
             <FaDownload size={20} />
           </button> 
         ) : null}
-        {deferredPrompt === null && window.matchMedia("(display-mode: standalone)").matches && (
+        {deferredPrompt === null && !window.matchMedia("(display-mode: standalone)").matches && (
           <>
             <p className="text-pretty text-gray-900/50 text-sm bg-yellow-300 rounded-lg p-4 text-center">
               Ya tienes Timeschedule instalado en tu dispositivo. Disfruta de

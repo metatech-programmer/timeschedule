@@ -46,7 +46,7 @@ const Schedule = () => {
       setMaterias(scheduleFind === "vivo" ? materiasVivo : materiasDay);
     };
     fetchMaterias();
-  }, []);
+  }, amPm);
 
   const handleClick = async (findBy) => {
     const materiasDay = await leerMateriaHorarioDia(day);

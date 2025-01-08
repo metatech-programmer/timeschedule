@@ -51,7 +51,6 @@ const AcercaDe = () => {
           profesionales y cualquier persona que busque gestionar su tiempo de
           manera eficiente.
         </p>
-        {String(deferredPrompt)}
 
         {!window.matchMedia("(display-mode: standalone)").matches &&
         deferredPrompt !== null ? (

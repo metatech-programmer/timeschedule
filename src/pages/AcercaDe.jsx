@@ -1,24 +1,61 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 import Menu from "./Menu";
 import InstallApp from "./InstallApp";
 import { FaDownload } from "react-icons/fa6";
 
 const AcercaDe = () => {
-  const handleInstallClick = () => {
-    if (deferredPrompt) {
-      deferredPrompt.prompt(); // Mostramos el prompt de instalación
-      deferredPrompt.userChoice.then((choiceResult) => {
-        if (choiceResult.outcome === "accepted") {
-          console.log("El usuario ha aceptado la instalación");
-        } else {
-          console.log("El usuario ha rechazado la instalación");
-        }
-        setDeferredPrompt(null); // Limpiamos el evento
-        setShowInstallPrompt(false); // Ocultamos el botón de instalación
-      });
-    }
-  };
+ 
+   const [isMobile, setIsMobile] = useState(false);
+   const [deferredPrompt, setDeferredPrompt] = useState(null);
+   const [showInstallPrompt, setShowInstallPrompt] = useState(false);
+ 
+   useEffect(() => {
+     // Detectar si el dispositivo es móvil
+     const checkMobileDevice = () => {
+       if (
+         window.innerWidth <= 900 ||
+         /Mobi|Android/i.test(navigator.userAgent)
+       ) {
+         setIsMobile(true);
+       }
+     };
+     checkMobileDevice();
+ 
+     // Listener para detectar el evento de instalación
+     const handleBeforeInstallPrompt = (e) => {
+       e.preventDefault();
+       setDeferredPrompt(e); // Guardamos el evento para usarlo más tarde
+       setShowInstallPrompt(true); // Mostramos el botón de instalación
+     };
+ 
+     // Detectamos si el navegador soporta PWA
+     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+ 
+     // Limpiar evento al desmontar el componente
+     return () => {
+       window.removeEventListener(
+         "beforeinstallprompt",
+         handleBeforeInstallPrompt
+       );
+     };
+   }, []);
+ 
+   // Función para manejar la instalación de la PWA
+   const handleInstallClick = () => {
+     if (deferredPrompt) {
+       deferredPrompt.prompt(); // Mostramos el prompt de instalación
+       deferredPrompt.userChoice.then((choiceResult) => {
+         if (choiceResult.outcome === "accepted") {
+           console.log("El usuario ha aceptado la instalación");
+         } else {
+           console.log("El usuario ha rechazado la instalación");
+         }
+         setDeferredPrompt(null); // Limpiamos el evento
+         setShowInstallPrompt(false); // Ocultamos el botón de instalación
+       });
+     }
+   };
 
   return (
     <>
@@ -37,7 +74,7 @@ const AcercaDe = () => {
         </p>
         {!window.matchMedia("(display-mode: standalone)").matches && (
           <button
-            className="bg-primary-orange-app hover:bg-primary-orange-app/90 text-white font-bold py-2 px-4 rounded-lg shadow-md active:bg-secondary-blue-app active:text-white/80 active:scale-105 transition-transform transform flex items-center space-x-2 gap-2 justify-center"
+            className="bg-primary-orange-app hover:bg-primary-orange-app/90 text-white font-bold py-2 px-4 rounded-lg shadow-md active:bg- active:text-white/80 active:scale-105 transition-transform transform flex items-center space-x-2 gap-2 justify-center"
             title="Instalar Timeschedule"
             onClick={handleInstallClick}
           >

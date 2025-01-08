@@ -3,6 +3,8 @@ import Home from "./pages/Home";
 import Schedule from "./pages/Schedule";
 import AcercaDe from "./pages/AcercaDe";
 import ScheduleManager from "./pages/ScheduleManager";
+import Thanks from "./pages/Thanks";
+import Wrong from "./pages/Wrong";
 
 function App() {
   return (
@@ -13,8 +15,8 @@ function App() {
           <Route path="/manager" element={<ScheduleManager />} />
           <Route path="/schedule" element={<Schedule />} />
           <Route path="/about" element={<AcercaDe />} />
-          <Route path="/thanks" element={<AcercaDe />} />
-          <Route path="/wrong" element={<AcercaDe />} />
+          <Route path="/thanks" element={<Thanks />} />
+          <Route path="/wrong" element={<Wrong />} />
         </Routes>
       </Router>
     </div>

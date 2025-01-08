@@ -51,7 +51,7 @@ const AcercaDe = () => {
         </p>
 
         {!window.matchMedia("(display-mode: standalone)").matches &&
-        deferredPrompt !== null ? (
+        deferredPrompt === null ? (
           <button
             className="bg-primary-orange-app active:bg-primary-orange-app/90 text-white font-bold py-2 px-4 rounded-lg shadow-md active:bg- active:text-white/80 active:scale-105 transition-transform transform flex items-center space-x-2 gap-2 justify-center"
             title="Instalar Timeschedule"
@@ -62,7 +62,7 @@ const AcercaDe = () => {
           </button>
         ) : null}
         {!window.matchMedia("(display-mode: standalone)").matches &&
-          deferredPrompt === null && (
+          deferredPrompt !== null && (
             <>
               <p className="text-pretty text-gray-900/50 text-sm bg-yellow-300 rounded-lg p-4 text-center">
                 Ya tienes Timeschedule instalado en tu dispositivo. Disfruta de

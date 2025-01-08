@@ -161,7 +161,7 @@ const Schedule = () => {
                             </span>
                           </div>
                         </div>
-                        <div className="flex flex-col gap-2 px-2 ">
+                        <div className="flex flex-col gap-2 px-2">
                           <span className="flex items-center gap-2">
                             <span className="text-primary-orange-app">
                               {horario.aula}

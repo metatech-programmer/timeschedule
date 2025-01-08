@@ -7,7 +7,6 @@ import { FaArrowRight } from "react-icons/fa";
 
 const AcercaDe = () => {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
-  const [showInstallPrompt, setShowInstallPrompt] = useState(false);
 
   useEffect(() => {
     const handleBeforeInstallPrompt = (e) => {
@@ -55,7 +54,7 @@ const AcercaDe = () => {
         {!window.matchMedia("(display-mode: standalone)").matches &&
         deferredPrompt !== null ? (
           <button
-            className="bg-primary-orange-app hover:bg-primary-orange-app/90 text-white font-bold py-2 px-4 rounded-lg shadow-md active:bg- active:text-white/80 active:scale-105 transition-transform transform flex items-center space-x-2 gap-2 justify-center"
+            className="bg-primary-orange-app active:bg-primary-orange-app/90 text-white font-bold py-2 px-4 rounded-lg shadow-md active:bg- active:text-white/80 active:scale-105 transition-transform transform flex items-center space-x-2 gap-2 justify-center"
             title="Instalar Timeschedule"
             onClick={handleInstallClick}
           >
@@ -70,7 +69,7 @@ const AcercaDe = () => {
               cada funcionalidad que te ofrece y mejora tu productividad.
             </p>
             <a
-              className="bg-secondary-blue-app hover:bg-secondary-blue-app/90 text-white font-bold py-2 px-4 rounded-lg shadow-md active:bg- active:text-white/80 active:scale-105 transition-transform transform flex items-center space-x-2 gap-2 justify-center"
+              className="bg-secondary-blue-app active:bg-secondary-blue-app/90 text-white font-bold py-2 px-4 rounded-lg shadow-md active:bg- active:text-white/80 active:scale-105 transition-transform transform flex items-center space-x-2 gap-2 justify-center"
               href="https://timeschedulee.vercel.app/"
               target="_blank"
               rel="noopener noreferrer"

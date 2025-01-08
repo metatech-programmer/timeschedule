@@ -21,6 +21,8 @@ export default {
         "fade-out": "fade-out 2900ms linear",
         "scroll": "scroll 20s linear infinite", 
         "expand-btn": "expand-btn 1600ms linear infinite",
+        "expand-btn-2": "expand-btn-2 1600ms linear infinite",
+        "border-rainbow": "border-rainbow 1600ms linear infinite",
       },
       keyframes: {
         "spin-slow": {
@@ -49,6 +51,18 @@ export default {
           "0%": { transform: "scale(1)" },
           "50%": { transform: "scale(1.1)" },
           "100%": { transform: "scale(1)" },
+        },
+        "expand-btn-2": {
+          "0%": { transform: "scale(1)" },
+          "50%": { transform: "scale(1.02)" },
+          "100%": { transform: "scale(1)" },
+        },
+        "border-rainbow": {
+          "0%": { "border-color": "#F68839" },
+          "25%": { "border-color": "#30B3BB" },
+          "50%": { "border-color": "#82AD4C" },
+          "75%": { "border-color": "#F68839" },
+          "100%": { "border-color": "#30B3BB" },
         },
       },
     },

@@ -3,35 +3,18 @@ import Footer from "../components/Footer";
 import Menu from "./Menu";
 import InstallApp from "./InstallApp";
 import { FaDownload } from "react-icons/fa6";
+import { FaArrowRight } from "react-icons/fa";
 
 const AcercaDe = () => {
-  const [isMobile, setIsMobile] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [showInstallPrompt, setShowInstallPrompt] = useState(false);
 
   useEffect(() => {
-    // Detectar si el dispositivo es móvil
-    const checkMobileDevice = () => {
-      if (
-        window.innerWidth <= 900 ||
-        /Mobi|Android/i.test(navigator.userAgent)
-      ) {
-        setIsMobile(true);
-      }
-    };
-    checkMobileDevice();
-
-    // Listener para detectar el evento de instalación
     const handleBeforeInstallPrompt = (e) => {
       e.preventDefault();
-      setDeferredPrompt(e); // Guardamos el evento para usarlo más tarde
-      setShowInstallPrompt(true); // Mostramos el botón de instalación
+      setDeferredPrompt(e);
     };
-
-    // Detectamos si el navegador soporta PWA
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
-
-    // Limpiar evento al desmontar el componente
     return () => {
       window.removeEventListener(
         "beforeinstallprompt",
@@ -40,18 +23,16 @@ const AcercaDe = () => {
     };
   }, []);
 
-  // Función para manejar la instalación de la PWA
   const handleInstallClick = () => {
     if (deferredPrompt) {
-      deferredPrompt.prompt(); // Mostramos el prompt de instalación
+      deferredPrompt.prompt();
       deferredPrompt.userChoice.then((choiceResult) => {
         if (choiceResult.outcome === "accepted") {
           console.log("El usuario ha aceptado la instalación");
         } else {
           console.log("El usuario ha rechazado la instalación");
         }
-        setDeferredPrompt(null); // Limpiamos el evento
-        setShowInstallPrompt(false); // Ocultamos el botón de instalación
+        setDeferredPrompt(null);
       });
     }
   };
@@ -71,7 +52,8 @@ const AcercaDe = () => {
           profesionales y cualquier persona que busque gestionar su tiempo de
           manera eficiente.
         </p>
-        {!window.matchMedia("(display-mode: standalone)").matches ? (
+        {!window.matchMedia("(display-mode: standalone)").matches &&
+        deferredPrompt !== null ? (
           <button
             className="bg-primary-orange-app hover:bg-primary-orange-app/90 text-white font-bold py-2 px-4 rounded-lg shadow-md active:bg- active:text-white/80 active:scale-105 transition-transform transform flex items-center space-x-2 gap-2 justify-center"
             title="Instalar Timeschedule"
@@ -80,10 +62,23 @@ const AcercaDe = () => {
             Instalar Timeschedule
             <FaDownload size={20} />
           </button>
-        ) : (
-          <p className="text-pretty text-gray-700/50">
-            Ya tienes Timeschedule instalado en tu dispositivo.
-          </p>
+        ) : null}
+        {deferredPrompt === null && (
+          <>
+            <p className="text-pretty text-gray-900/50 text-sm bg-yellow-300 rounded-lg p-4 text-center">
+              Ya tienes Timeschedule instalado en tu dispositivo. Disfruta de
+              cada funcionalidad que te ofrece y mejora tu productividad.
+            </p>
+            <a
+              className="bg-secondary-blue-app hover:bg-secondary-blue-app/90 text-white font-bold py-2 px-4 rounded-lg shadow-md active:bg- active:text-white/80 active:scale-105 transition-transform transform flex items-center space-x-2 gap-2 justify-center"
+              href="Schedule:"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Abrir Timeschedule
+              <FaArrowRight size={20} />
+            </a>
+          </>
         )}
 
         <h2 className="text-2xl font-semibold text-secondary-blue-app">

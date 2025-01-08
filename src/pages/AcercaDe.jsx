@@ -71,7 +71,7 @@ const AcercaDe = () => {
           profesionales y cualquier persona que busque gestionar su tiempo de
           manera eficiente.
         </p>
-        {isMobile && showInstallProm ? (
+        {!window.matchMedia("(display-mode: standalone)").matches ? (
           <button
             className="bg-primary-orange-app hover:bg-primary-orange-app/90 text-white font-bold py-2 px-4 rounded-lg shadow-md active:bg- active:text-white/80 active:scale-105 transition-transform transform flex items-center space-x-2 gap-2 justify-center"
             title="Instalar Timeschedule"
@@ -85,8 +85,6 @@ const AcercaDe = () => {
             Ya tienes Timeschedule instalado en tu dispositivo.
           </p>
         )}
-
-        {}
 
         <h2 className="text-2xl font-semibold text-secondary-blue-app">
           Características Clave

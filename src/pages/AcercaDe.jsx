@@ -6,16 +6,19 @@ import { FaDownload } from "react-icons/fa6";
 import { FaArrowRight } from "react-icons/fa";
 
 const AcercaDe = () => {
-  const deferredPromptLocal = localStorage.getItem("deferredPrompt") || !null;
-  const [deferredPrompt, setDeferredPrompt] = useState(deferredPromptLocal);
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
 
   useEffect(() => {
+    
+
+
     const handleBeforeInstallPrompt = (e) => {
       e.preventDefault();
       setDeferredPrompt(e);
     };
-
+    
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+ 
 
     return () => {
       window.removeEventListener(
@@ -26,7 +29,7 @@ const AcercaDe = () => {
   }, []);
 
   const handleInstallClick = () => {
-    if (deferredPromptLocal !== null) {
+    if (deferredPrompt) {
       deferredPrompt.prompt();
       deferredPrompt.userChoice.then((choiceResult) => {
         if (choiceResult.outcome === "accepted") {
@@ -34,7 +37,6 @@ const AcercaDe = () => {
         } else {
           console.log("El usuario ha rechazado la instalación");
         }
-        localStorage.setItem("deferredPrompt", null);
         setDeferredPrompt(null);
       });
     }
@@ -57,7 +59,7 @@ const AcercaDe = () => {
         </p>
 
         {!window.matchMedia("(display-mode: standalone)").matches &&
-        deferredPrompt !== "null" ? (
+        deferredPrompt !== null ? (
           <button
             className="bg-primary-orange-app active:bg-primary-orange-app/90 text-white font-bold py-2 px-4 rounded-lg shadow-md active:bg- active:text-white/80 active:scale-105 transition-transform transform flex items-center space-x-2 gap-2 justify-center"
             title="Instalar Timeschedule"
@@ -68,7 +70,7 @@ const AcercaDe = () => {
           </button>
         ) : null}
         {!window.matchMedia("(display-mode: standalone)").matches &&
-          deferredPrompt === "null" && (
+          deferredPrompt === null && (
             <>
               <p className="text-pretty text-gray-900/50 text-sm bg-yellow-300 rounded-lg p-4 text-center">
                 Ya tienes Timeschedule instalado en tu dispositivo. Disfruta de

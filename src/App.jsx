@@ -8,6 +8,9 @@ import Wrong from "./pages/Wrong";
 import BtnIntallApp from "./components/BtnInstallApp";
 
 function App() {
+
+  
+
   return (
     <div className="w-dvw h-dvh bg-background-app overflow-y-scroll ">
       <BtnIntallApp />

@@ -9,6 +9,7 @@ const BtnIntallApp = () => {
       e.preventDefault();
       setDeferredPrompt(e);
     };
+    handleBeforeInstallPrompt;
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
     return () => {
       window.removeEventListener(

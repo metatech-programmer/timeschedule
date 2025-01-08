@@ -6,7 +6,7 @@ import ScheduleManager from "./pages/ScheduleManager";
 
 function App() {
   return (
-    <div className="w-dvw h-dvh bg-background-app ">
+    <div className="w-dvw h-dvh bg-background-app overflow-y-scroll ">
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />

@@ -38,6 +38,7 @@ export const leerMaterias = async () => {
     request.onsuccess = () => resolve(request.result);
   });
 };
+
 export const leerMateriaHorarioDia = async (dia) => {
   const db = await openDB();
   const transaction = db.transaction('materias', 'readonly');
@@ -49,7 +50,13 @@ export const leerMateriaHorarioDia = async (dia) => {
       const materiasDia = materias.filter((materia) =>
         materia.horarios.some((horario) => horario.dia.toLowerCase() === dia.toLowerCase())
       );
-      resolve(materiasDia);
+      const materiasOrdenadas = materiasDia.sort((b, a) => {
+        const horarioA = a.horarios.find(horario => horario.dia.toLowerCase() === dia.toLowerCase());
+        const horarioB = b.horarios.find(horario => horario.dia.toLowerCase() === dia.toLowerCase());
+        return horarioB.horaInicio.localeCompare(horarioA.horaInicio);
+      });
+
+      resolve(materiasOrdenadas);
     };
     request.onerror = () => reject(request.error);
   });

@@ -186,7 +186,7 @@ const Schedule = () => {
       <InstallApp />
       <Menu />
       {/* -------------------------------------------------------- */}
-      <div className="flex gap-2 p-5 w-full justify-end  md:hidden z-50"  id="top">
+      <div className="flex gap-2 p-5 w-full justify-end  md:hidden z-50">
         <button
           className={
             " text-white p-3 rounded-full h-5 text-xs text-center flex items-center font-bold active:scale-95 transition-all active:bg-secondary-blue-app" +
@@ -237,7 +237,7 @@ const Schedule = () => {
 
           {scheduleFind === "full" && (
             <>
-              <DayClass materias={materiasAll} dia={"lunes"} />
+              <DayClass materias={materiasAll} dia={"lunes"} id="top" />
               <DayClass materias={materiasAll} dia={"martes"} />
               <DayClass materias={materiasAll} dia={"miercoles"} />
               <DayClass materias={materiasAll} dia={"jueves"} />

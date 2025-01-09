@@ -250,6 +250,7 @@ const Schedule = () => {
           {/* -------------------------------------------------------- */}
           {scheduleFind === "dia" && (
             <>
+            <div  id="top" />
               {materias.map((materia) =>
                 materia.horarios.map(
                   (horario) =>
@@ -323,6 +324,7 @@ const Schedule = () => {
 
           {scheduleFind === "vivo" && (
             <>
+              <div  id="top" />
               {materiasNow.map((materia) =>
                 materia.horarios.map(
                   (horario) =>

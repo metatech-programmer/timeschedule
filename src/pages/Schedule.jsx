@@ -8,6 +8,8 @@ import Menu from "./Menu";
 import { FaPersonRunning } from "react-icons/fa6";
 import InstallApp from "./InstallApp";
 import { FaPlay } from "react-icons/fa";
+import { stringify } from "postcss";
+import DayClass from "../components/DayClass";
 
 const Schedule = () => {
   const [day, setDay] = useState(
@@ -47,6 +49,42 @@ const Schedule = () => {
   const [scheduleFind, setScheduleFind] = useState(
     localStorage.getItem("scheduleFind") || "vivo"
   );
+
+  const formatearDia = (dia) => {
+    return dia
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+  };
+
+  const agruparPorDia = (materias) => {
+    const dias = {};
+
+    materias.forEach((materia) => {
+      materia.horarios.forEach((horario) => {
+        const diaFormateado = formatearDia(horario.dia);
+        if (!dias[diaFormateado]) {
+          dias[diaFormateado] = [];
+        }
+        dias[diaFormateado].push({
+          nombre: materia.nombre,
+          docente: materia.docente,
+          color: materia.color,
+          imagen: materia.imagen,
+          aula: horario.aula,
+          horaInicio: horario.horaInicio,
+          horaFin: horario.horaFin,
+          id: materia.id,
+        });
+      });
+    });
+
+    for (const dia in dias) {
+      dias[dia].sort((a, b) => a.horaInicio.localeCompare(b.horaInicio));
+    }
+
+    return dias;
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -98,18 +136,14 @@ const Schedule = () => {
             hourMinutesNextClass
           );
           setMateriasNext(materiasVivoPlus);
-          setMaterias(materiasVivo);
+          setMateriasNow(materiasVivo);
         }
         break;
       case "full":
         {
           const materiasWeek = await leerMaterias();
-          const materiasWeekOrdered = materiasWeek.sort((a, b) => {
-            const dateA = new Date(a.horarios[0].dia + " " + a.horarios[0].horaInicio);
-            const dateB = new Date(b.horarios[0].dia + " " + b.horarios[0].horaInicio);
-            return dateA - dateB;
-          });
-          setMateriasAll(materiasWeekOrdered);
+          const materiasAllWeek = agruparPorDia(materiasWeek);
+          setMateriasAll(materiasAllWeek);
         }
         break;
     }
@@ -119,10 +153,24 @@ const Schedule = () => {
   };
 
   return (
-    <>
+    <div
+      className="flex flex-col h-screen bg-gradient-to-b from-background-app to-secondary-blue-app relative
+    "
+    >
+      <div
+        className="absolute top-0 left-0 w-full h-full"
+        style={{
+          backgroundImage: "url(motion2.gif)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          opacity: "0.1",
+          zIndex: "1",
+        }}
+      ></div>
       <InstallApp />
       <Menu />
-      <div className="flex gap-2 p-5 w-full justify-end  md:hidden">
+      <div className="flex gap-2 p-5 w-full justify-end  md:hidden z-50" id="top">
         <button
           className={
             " text-white p-3 rounded-full h-5 text-xs text-center flex items-center font-bold active:scale-95 transition-all active:bg-secondary-blue-app" +
@@ -161,78 +209,23 @@ const Schedule = () => {
         </button>
       </div>
 
-      <div className="flex flex-col gap-4 text-quaternary-gray-app animate-fade-in-fast overflow-y-scroll  md:hidden">
+      <div className="flex flex-col gap-4 text-quaternary-gray-app animate-fade-in-fast overflow-y-scroll  md:hidden z-50 ">
         <h1 className="text-lg  bg-secondary-blue-app font-bold uppercase text-center w-full py-2  border-y-2 border-primary-orange-app/50">
           Horario del {day} <hr className="opacity-50" />{" "}
           <span className="text-sm text-background-app">{amPm}</span>{" "}
         </h1>
-        <ul className="flex flex-col gap-6 overflow-y-scroll px-6 pb-24">
+        <ul className="flex flex-col gap-6 overflow-y-scroll px-6 pb-24" >
           {/* -------------------------------------------------------- */}
 
           {scheduleFind === "full" && (
             <>
-              {materiasAll.map((materia) =>
-                materia.horarios.map((horario) => (
-                  <li
-                    key={materia.id}
-                    className="flex  justify-between flex-col border-2 border-primary-orange-app rounded-lg p-4 animate-fade-in-fast"
-                    style={{ borderColor: materia.color }}
-                  >
-                    <div
-                      className="rounded-tl-full rounded-br-full p-2 mb-5 w-full flex items-center justify-center"
-                      style={{
-                        backgroundColor: materia.color,
-                      }}
-                    >
-                      <div className="flex items-center gap-2 justify-center max-w-[80%]  text-xs text-pretty h-8 max-h-8 overflow-y-scroll text-center">
-                        {materia.imagen ? (
-                          <img
-                            src={materia.imagen}
-                            alt={materia.nombre}
-                            className="w-5 h-5 rounded-full border animate-fade-in-fast"
-                          />
-                        ) : (
-                          <div
-                            className="w-5 h-5 border rounded-full animate-fade-in"
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              backgroundImage: "url(https://picsum.photos/100)",
-                              backgroundSize: "cover",
-                            }}
-                          ></div>
-                        )}
-                        <span
-                          className="font-bold uppercase w-[70%] truncate"
-                          style={{ textShadow: "1px 1px 4px skyblue" }}
-                        >
-                          {materia.nombre}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="flex flex-col gap-2 px-2 w-[100%]">
-                      <span className="flex items-center  gap-2 justify-center">
-                        <span className="text-primary-orange-app text-balance ">
-                          {horario.aula}
-                        </span>{" "}
-                        <span className="flex gap-2 justify-center items-center">
-                          ...
-                          <FaPersonRunning />
-                        </span>
-                      </span>
-
-                      <span className="flex items-center gap-2 font-bold capitalize text-center text-pretty text-xs w-full bg-black/10 p-1 rounded-xl">
-                        <span>{materia.docente}</span>
-
-                        <span className="text-secondary-blue-app  border-l-2 border-secondary-blue-app pl-2 ml-2 font-light w-1/2">
-                          {horario.dia } <br /> { horario.horaInicio + " - " + horario.horaFin}
-                        </span>
-                      </span>
-                    </div>
-                  </li>
-                ))
-              )}
+              <DayClass materias={materiasAll} dia={"lunes"} id="top" />
+              <DayClass materias={materiasAll} dia={"martes"} />
+              <DayClass materias={materiasAll} dia={"miercoles"} />
+              <DayClass materias={materiasAll} dia={"jueves"} />
+              <DayClass materias={materiasAll} dia={"viernes"} />
+              <DayClass materias={materiasAll} dia={"sabado"} />
+              <DayClass materias={materiasAll} dia={"domingo"} />
             </>
           )}
 
@@ -247,6 +240,7 @@ const Schedule = () => {
                         key={materia.id}
                         className="flex  justify-between flex-col border-2 border-primary-orange-app rounded-lg p-4 animate-fade-in-fast"
                         style={{ borderColor: materia.color }}
+                        
                       >
                         <div
                           className="rounded-tl-full rounded-br-full p-2 mb-5 w-full flex items-center justify-center"
@@ -637,7 +631,7 @@ const Schedule = () => {
             )}
         </ul>
       </div>
-    </>
+    </div>
   );
 };
 

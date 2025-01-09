@@ -1,17 +1,21 @@
+* {
+  scroll-behavior: smooth;
+}
+
 body {
-    view-transition-name: page;
+  view-transition-name: page;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-    .view-transition-group-page {
-        transition: opacity 0.4s ease;
-    }
+  .view-transition-group-page {
+    transition: opacity 0.4s ease;
+  }
 
-    .view-transition-entering-page {
-        opacity: 0;
-    }
+  .view-transition-entering-page {
+    opacity: 0;
+  }
 
-    .view-transition-leaving-page {
-        opacity: 0;
-    }
+  .view-transition-leaving-page {
+    opacity: 0;
+  }
 }

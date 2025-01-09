@@ -59,7 +59,6 @@ function ScheduleManager() {
     cargarMaterias();
   }, []);
 
-  
   useEffect(() => {
     const handleBeforeUnload = (e) => {
       if (actualizar) {
@@ -230,9 +229,12 @@ function ScheduleManager() {
 
   return (
     <>
-      <Menu status={actualizar} />
+      <Menu  status={actualizar} />
       <InstallApp />
-      <div className="min-h-screen bg-gradient-to-t from-secondary-blue-app to-background-app  pt-8 flex flex-col items-center md:hidden ">
+      <div
+        className="min-h-screen bg-gradient-to-t from-secondary-blue-app to-background-app  pt-8 flex flex-col items-center md:hidden "
+        id="top"
+      >
         <h1
           className="text-4xl font-bold text-primary-orange-app mb-8 text-center uppercase"
           style={{

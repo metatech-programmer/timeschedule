@@ -6,13 +6,16 @@ import ScheduleManager from "./pages/ScheduleManager";
 import Thanks from "./pages/Thanks";
 import Wrong from "./pages/Wrong";
 import BtnIntallApp from "./components/BtnInstallApp";
+import "./App.css";
 
 function App() {
 
   
 
   return (
-    <div className="w-dvw h-dvh bg-background-app overflow-y-scroll ">
+    <div className="w-dvw h-dvh bg-background-app overflow-y-scroll relative " >
+      
+      
       <BtnIntallApp />
       <Router>
         <Routes>

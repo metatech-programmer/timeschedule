@@ -537,23 +537,25 @@ function ScheduleManager() {
                         {nuevaMateria.horarios.map((h, index) => (
                           <li
                             key={index}
-                            className="flex justify-between items-center p-4 bg-white border-2 border-indigo-300 rounded-lg overflow-clip active:bg-indigo-400/10 actuve:scale-95  transition-all"
-                            onClick={() => manejarEditarHorario(index)}
+                            className="flex justify-between items-center  bg-white border-2 border-indigo-300 rounded-lg overflow-clip active:bg-indigo-400/10 actuve:scale-95  transition-all w-full"
                           >
-                            <span className="border-r-2 border-indigo-300 font-semibold pr-4 mr-2">
-                              {index + 1}
-                            </span>
-                            <span className="flex-1 text-balance">
-                              {h.dia} -{" "}
-                              {String(h.aula).toUpperCase().split(" ").at(0)}
-                              <div className="text-sm text-gray-500">
-                                {h.horaInicio} - {h.horaFin}
-                              </div>
-                            </span>
-
+                            <div className="flex items-center flex-1 gap-2  overflow-hidden  max-w-[75%] p-4" onClick={() => manejarEditarHorario(index)}>
+                              <span className="border-r-2 border-indigo-300 font-semibold pr-4 mr-2">
+                                {index + 1}
+                              </span>
+                              <span className="overflow-hidden text-balance w-full ">
+                                <span className="truncate text-clip">
+                                  {" "}
+                                  {h.dia} - {String(h.aula).toUpperCase()}
+                                </span>
+                                <div className="text-sm text-gray-500">
+                                  {h.horaInicio} - {h.horaFin}
+                                </div>
+                              </span>
+                            </div>
                             <button
                               onClick={() => manejarEliminarHorario(index)}
-                              className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
+                              className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition w-12 flex items-center justify-center mr-3  "
                             >
                               <FaTrash className="w-4 h-4 active:scale-105" />
                             </button>

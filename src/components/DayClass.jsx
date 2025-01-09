@@ -5,23 +5,26 @@ const DayClass = ({ materias = {}, dia = "lunes", id }) => {
   const materiasDia = materias[dia] || [];
   return (
     <div id={id}>
-      <h2 className="text-2xl font-extrabold  uppercase text-primary-orange-app text-pretty animate-fade-in-fast bg-gradient-to-b from-black/60 to-transparent  rounded-tl-lg rounded-tr-lg p-2 mt-2  text-center" style={{ textShadow: "1px 1px 1px skyblue", letterSpacing: "6px" }}>
+      <h2
+        className="text-2xl font-extrabold  uppercase text-primary-orange-app text-pretty animate-fade-in-fast bg-gradient-to-b from-black/60 to-transparent  rounded-tl-lg rounded-tr-lg p-2 mt-2  text-center"
+        style={{ textShadow: "1px 1px 1px skyblue", letterSpacing: "6px" }}
+      >
         {dia}
       </h2>
 
       {materiasDia.map((materia) => (
         <li
           key={materia.id}
-          className="flex  justify-between flex-col border-2 border-primary-orange-app rounded-lg p-4 animate-fade-in-fast"
+          className="flex  justify-between items-center border-2 border-primary-orange-app rounded-lg p-2 animate-fade-in-fast mb-3"
           style={{ borderColor: materia.color }}
         >
           <div
-            className="rounded-tl-full rounded-br-full p-2 mb-5 w-full flex items-center justify-center"
+            className="rounded-lg  h-full w-full flex flex-col items-center justify-center py-3 "
             style={{
               backgroundColor: materia.color,
             }}
           >
-            <div className="flex items-center gap-2 justify-center max-w-[80%]  text-xs text-pretty h-8 max-h-8 overflow-y-scroll text-center">
+            <div className="flex items-center gap-2 justify-center max-w-[75%] w-full  text-xs text-pretty overflow-y-scroll text-center flex-col h-full">
               {materia.imagen ? (
                 <img
                   src={materia.imagen}
@@ -41,7 +44,7 @@ const DayClass = ({ materias = {}, dia = "lunes", id }) => {
                 ></div>
               )}
               <span
-                className="font-bold uppercase w-[70%] truncate"
+                className="font-bold uppercase w-[100%]  truncate"
                 style={{ textShadow: "1px 1px 4px skyblue" }}
               >
                 {materia.nombre}
@@ -53,16 +56,12 @@ const DayClass = ({ materias = {}, dia = "lunes", id }) => {
               <span className="text-primary-orange-app text-balance ">
                 {materia.aula}
               </span>{" "}
-              <span className="flex gap-2 justify-center items-center">
-                ...
-                <FaPersonRunning />
-              </span>
+             
             </span>
 
             <span className="flex items-center gap-2 font-bold capitalize text-center text-pretty text-xs w-full bg-black/10 p-1 rounded-xl">
-              <span>{materia.docente}</span>
 
-              <span className="text-secondary-blue-app  border-l-2 border-secondary-blue-app pl-2 ml-2 font-light w-1/2">
+              <span className="text-secondary-blue-app text-center w-full pl-2 ml-2 font-light ">
                 {materia.horaInicio + " - " + materia.horaFin}
               </span>
             </span>
@@ -77,7 +76,10 @@ const DayClass = ({ materias = {}, dia = "lunes", id }) => {
           className="flex flex-col items-center justify-center gap-2 animate-fade-in-fast"
           style={{ height: "6rem" }}
         >
-          <FaXmark className="text-2xl animate-fade-in-fast" style={{ filter: "drop-shadow(1px 1px 3px skyblue)" }} />
+          <FaXmark
+            className="text-2xl animate-fade-in-fast"
+            style={{ filter: "drop-shadow(1px 1px 3px skyblue)" }}
+          />
           <p className="text-sm text-balance animate-fade-in-fast text-quaternary-gray-app/50 ">
             No hay materias en este día
           </p>

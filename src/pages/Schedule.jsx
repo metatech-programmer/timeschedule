@@ -131,10 +131,7 @@ const Schedule = () => {
       case "vivo":
         {
           const materiasVivo = await leerMateriaDiaHora(day, hourMinutes);
-          const materiasVivoPlus = await leerMateriaDiaHora(
-            day,
-            hourMinutesNextClass
-          );
+          const materiasVivoPlus = await leerMateriaDiaHora(day, hourMinutesNextClass);
           setMateriasNext(materiasVivoPlus);
           setMateriasNow(materiasVivo);
         }
@@ -170,6 +167,7 @@ const Schedule = () => {
       ></div>
       <InstallApp />
       <Menu />
+      {/* -------------------------------------------------------- */}
       <div className="flex gap-2 p-5 w-full justify-end  md:hidden z-50">
         <button
           className={
@@ -209,12 +207,14 @@ const Schedule = () => {
         </button>
       </div>
 
+      {/*  */}
+
       <div className="flex flex-col gap-4 text-quaternary-gray-app animate-fade-in-fast overflow-y-scroll  md:hidden z-50 ">
         <h1 className="text-lg  bg-secondary-blue-app font-bold uppercase text-center w-full py-2  border-y-2 border-primary-orange-app/50">
           Horario del {day} <hr className="opacity-50" />{" "}
           <span className="text-sm text-background-app">{amPm}</span>{" "}
         </h1>
-        <ul className="flex flex-col gap-6 overflow-y-scroll px-6 pb-24" >
+        <ul className="flex flex-col gap-6 overflow-y-scroll px-6 pb-24">
           {/* -------------------------------------------------------- */}
 
           {scheduleFind === "full" && (
@@ -240,7 +240,6 @@ const Schedule = () => {
                         key={materia.id}
                         className="flex  justify-between flex-col border-2 border-primary-orange-app rounded-lg p-4 animate-fade-in-fast"
                         style={{ borderColor: materia.color }}
-                        
                       >
                         <div
                           className="rounded-tl-full rounded-br-full p-2 mb-5 w-full flex items-center justify-center"

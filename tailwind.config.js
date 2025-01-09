@@ -71,7 +71,7 @@ export default {
           "0%": { "background-image": "linear-gradient(150deg, #f97316, #ffd700, #f97316)", "background-size": "200% 100%" },
           "50%": { "background-image": "linear-gradient(150deg, #f97316, #ffd700, #f97316)", "background-size": "100% 200%" },
           "100%": { "background-image": "linear-gradient(150deg, #f97316, #ffd700, #f97316)", "background-size": "200% 100%" },
-          
+
         }
       },
     },

@@ -237,13 +237,22 @@ const Schedule = () => {
           {scheduleFind === "full" ? (
             <div class="w-full inline-flex flex-nowrap overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-200px),transparent_100%)]">
               <ul className="flex items-center justify-center [&_li]:mx-8 [&_span]:max-w-none  text-xs text-background-app  animate-scroll">
-                <li className="w-max m-1 border px-1 rounded-full bg-white/50 text-sky-500" style={{fontFamily: "system-ui"}}>
+                <li
+                  className="w-max m-1 border px-1 rounded-full bg-white/50 text-sky-500"
+                  style={{ fontFamily: "system-ui" }}
+                >
                   <span>{amPm}</span>
                 </li>
-                <li className="w-max m-1 border px-1 rounded-full bg-white/50 text-sky-500" style={{fontFamily: "system-ui"}}>
+                <li
+                  className="w-max m-1 border px-1 rounded-full bg-white/50 text-sky-500"
+                  style={{ fontFamily: "system-ui" }}
+                >
                   <span>{day}</span>
                 </li>
-                <li className="w-max m-1 border px-1 rounded-full bg-white/50 text-sky-500" style={{fontFamily: "system-ui"}}>
+                <li
+                  className="w-max m-1 border px-1 rounded-full bg-white/50 text-sky-500"
+                  style={{ fontFamily: "system-ui" }}
+                >
                   <span>{hourMinutes}</span>
                 </li>
               </ul>{" "}
@@ -251,13 +260,22 @@ const Schedule = () => {
                 aria-hidden="true"
                 className="flex items-center justify-center md:justify-start [&_li]:mx-8 [&_span]:max-w-none  text-xs text-background-app animate-scroll"
               >
-                <li className="w-max m-1 border px-1 rounded-full bg-white/50 text-sky-500" style={{fontFamily: "system-ui"}}>
+                <li
+                  className="w-max m-1 border px-1 rounded-full bg-white/50 text-sky-500"
+                  style={{ fontFamily: "system-ui" }}
+                >
                   <span>Timeschedule</span>
                 </li>
-                <li className="w-max m-1 border px-1 rounded-full bg-white/50 text-sky-500" style={{fontFamily: "system-ui"}}>
+                <li
+                  className="w-max m-1 border px-1 rounded-full bg-white/50 text-sky-500"
+                  style={{ fontFamily: "system-ui" }}
+                >
                   <span>{day}</span>
                 </li>
-                <li className="w-max m-1 border px-1 rounded-full bg-white/50 text-sky-500" style={{fontFamily: "system-ui"}}>
+                <li
+                  className="w-max m-1 border px-1 rounded-full bg-white/50 text-sky-500"
+                  style={{ fontFamily: "system-ui" }}
+                >
                   <span>{hourMinutes}</span>
                 </li>
               </ul>{" "}
@@ -444,7 +462,7 @@ const Schedule = () => {
           )}
 
           {/* -------------------------------------------------------- */}
-          {scheduleFind === "vivo" && materiasNow.length > 0 && (
+          {scheduleFind === "vivo" && materiasNow.length >= 0 && (
             <li>
               <div className="flex items-center justify-center  flex-col animate-fade-in-fast">
                 <span className="text-primary-orange-app text-balance font-bold uppercase">
@@ -472,7 +490,8 @@ const Schedule = () => {
                       Number(hourMinutes.replace(":", "")) && (
                       <li
                         key={materia.id}
-                        className="flex  justify-between flex-col border-2 border-primary-orange-app rounded-lg p-4 animate-fade-in-fast"
+                        className="flex  justify-between flex-col border-2 border-primary-orange-app rounded-lg p-4 animate-pulse [mask-image:_linear-gradient(to_bottom,blue_0,transparent_90%)]"
+                        
                         style={{ borderColor: materia.color }}
                       >
                         <div
@@ -505,7 +524,7 @@ const Schedule = () => {
                               className="font-bold uppercase w-[70%] truncate"
                               style={{ textShadow: "1px 1px 4px skyblue" }}
                             >
-                              {materia.nombre}
+                             ya viene - {materia.nombre} 
                             </span>
                           </div>
                         </div>

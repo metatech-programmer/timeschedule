@@ -227,6 +227,7 @@ function ScheduleManager() {
     navigate("/schedule");
   };
 
+
   return (
     <>
       <Menu status={actualizar} />

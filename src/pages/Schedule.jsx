@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { leerMateriaDiaHora, leerMateriaHorarioDia } from "../../public/db";
+import {
+  leerMateriaDiaHora,
+  leerMateriaHorarioDia,
+  leerMaterias,
+} from "../../public/db";
 import Menu from "./Menu";
 import { FaPersonRunning } from "react-icons/fa6";
 import InstallApp from "./InstallApp";
@@ -36,6 +40,7 @@ const Schedule = () => {
   );
 
   const [materias, setMaterias] = useState([]);
+  const [materiasAll, setMateriasAll] = useState([]);
   const [materiasNext, setMateriasNext] = useState([]);
   const [materiasNow, setMateriasNow] = useState([]);
 
@@ -73,31 +78,42 @@ const Schedule = () => {
   }, []);
 
   useEffect(() => {
-    const fetchMaterias = async () => {
-      const materiasDay = await leerMateriaHorarioDia(day);
-      const materiasVivo = await leerMateriaDiaHora(day, hourMinutes);
-      const materiasVivoPlus = await leerMateriaDiaHora(
-        day,
-        hourMinutesNextClass
-      );
-
-      setMaterias(materiasDay);
-      setMateriasNext(materiasVivoPlus);
-      setMateriasNow(materiasVivo);
-    };
-    fetchMaterias();
+    const findBy = localStorage.getItem("scheduleFind") || "vivo";
+    handleClick(findBy);
   }, amPm);
 
   const handleClick = async (findBy) => {
-    const materiasDay = await leerMateriaHorarioDia(day);
-    const materiasVivo = await leerMateriaDiaHora(day, hourMinutes);
-    const materiasVivoPlus = await leerMateriaDiaHora(
-      day,
-      hourMinutesNextClass
-    );
-    setMaterias(materiasDay);
-    setMateriasNow(materiasVivo);
-    setMateriasNext(materiasVivoPlus);
+    switch (findBy) {
+      case "dia":
+        {
+          const materiasDay = await leerMateriaHorarioDia(day);
+          setMaterias(materiasDay);
+        }
+        break;
+      case "vivo":
+        {
+          const materiasVivo = await leerMateriaDiaHora(day, hourMinutes);
+          const materiasVivoPlus = await leerMateriaDiaHora(
+            day,
+            hourMinutesNextClass
+          );
+          setMateriasNext(materiasVivoPlus);
+          setMaterias(materiasVivo);
+        }
+        break;
+      case "full":
+        {
+          const materiasWeek = await leerMaterias();
+          const materiasWeekOrdered = materiasWeek.sort((a, b) => {
+            const dateA = new Date(a.horarios[0].dia + " " + a.horarios[0].horaInicio);
+            const dateB = new Date(b.horarios[0].dia + " " + b.horarios[0].horaInicio);
+            return dateA - dateB;
+          });
+          setMateriasAll(materiasWeekOrdered);
+        }
+        break;
+    }
+
     localStorage.setItem("scheduleFind", findBy);
     setScheduleFind(findBy);
   };
@@ -107,6 +123,18 @@ const Schedule = () => {
       <InstallApp />
       <Menu />
       <div className="flex gap-2 p-5 w-full justify-end  md:hidden">
+        <button
+          className={
+            " text-white p-3 rounded-full h-5 text-xs text-center flex items-center font-bold active:scale-95 transition-all active:bg-secondary-blue-app" +
+            " " +
+            (scheduleFind === "full"
+              ? "bg-secondary-blue-app ring-2 ring-offset-2 ring-tertiary-green-app  ring-offset-transparent"
+              : "bg-primary-orange-app")
+          }
+          onClick={() => handleClick("full")}
+        >
+          <span>H. Full</span>
+        </button>
         <button
           className={
             " text-white p-3 rounded-full h-5 text-xs text-center flex items-center font-bold active:scale-95 transition-all active:bg-secondary-blue-app" +
@@ -139,6 +167,75 @@ const Schedule = () => {
           <span className="text-sm text-background-app">{amPm}</span>{" "}
         </h1>
         <ul className="flex flex-col gap-6 overflow-y-scroll px-6 pb-24">
+          {/* -------------------------------------------------------- */}
+
+          {scheduleFind === "full" && (
+            <>
+              {materiasAll.map((materia) =>
+                materia.horarios.map((horario) => (
+                  <li
+                    key={materia.id}
+                    className="flex  justify-between flex-col border-2 border-primary-orange-app rounded-lg p-4 animate-fade-in-fast"
+                    style={{ borderColor: materia.color }}
+                  >
+                    <div
+                      className="rounded-tl-full rounded-br-full p-2 mb-5 w-full flex items-center justify-center"
+                      style={{
+                        backgroundColor: materia.color,
+                      }}
+                    >
+                      <div className="flex items-center gap-2 justify-center max-w-[80%]  text-xs text-pretty h-8 max-h-8 overflow-y-scroll text-center">
+                        {materia.imagen ? (
+                          <img
+                            src={materia.imagen}
+                            alt={materia.nombre}
+                            className="w-5 h-5 rounded-full border animate-fade-in-fast"
+                          />
+                        ) : (
+                          <div
+                            className="w-5 h-5 border rounded-full animate-fade-in"
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              backgroundImage: "url(https://picsum.photos/100)",
+                              backgroundSize: "cover",
+                            }}
+                          ></div>
+                        )}
+                        <span
+                          className="font-bold uppercase w-[70%] truncate"
+                          style={{ textShadow: "1px 1px 4px skyblue" }}
+                        >
+                          {materia.nombre}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-2 px-2 w-[100%]">
+                      <span className="flex items-center  gap-2 justify-center">
+                        <span className="text-primary-orange-app text-balance ">
+                          {horario.aula}
+                        </span>{" "}
+                        <span className="flex gap-2 justify-center items-center">
+                          ...
+                          <FaPersonRunning />
+                        </span>
+                      </span>
+
+                      <span className="flex items-center gap-2 font-bold capitalize text-center text-pretty text-xs w-full bg-black/10 p-1 rounded-xl">
+                        <span>{materia.docente}</span>
+
+                        <span className="text-secondary-blue-app  border-l-2 border-secondary-blue-app pl-2 ml-2 font-light w-1/2">
+                          {horario.dia } <br /> { horario.horaInicio + " - " + horario.horaFin}
+                        </span>
+                      </span>
+                    </div>
+                  </li>
+                ))
+              )}
+            </>
+          )}
+
           {/* -------------------------------------------------------- */}
           {scheduleFind === "dia" && (
             <>
@@ -392,7 +489,7 @@ const Schedule = () => {
             scheduleFind === "vivo" && (
               <div className="flex flex-col items-center gap-2 mt-5 border-2 border-secondary-blue-app bg-black/50 rounded-lg p-4">
                 <span className="text-secondary-blue-app  text-pretty font-bold uppercase text-center text-sm flex flex-col">
-                ¡Puedes entrar donde quieras! 👇 aprovecha tu tiempo libre
+                  ¡Puedes entrar donde quieras! 👇 aprovecha tu tiempo libre
                   <span className="text-quaternary-gray-app text-balance font-bold text-[0.6rem] opacity-30">
                     (no olvides revisar por tus horarios de estudio)
                   </span>

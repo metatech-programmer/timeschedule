@@ -97,31 +97,27 @@ export const actualizarMateria = async (id, nuevaMateria) => {
   const db = await openDB();
   const transaction = db.transaction('materias', 'readwrite');
   const store = transaction.objectStore('materias');
+  
+  return new Promise((resolve, reject) => {
+    const request = store.get(id);
+    
+    request.onsuccess = () => {
+      const materia = request.result;
+      
+      if (!materia) {
+        reject(`No se encontró ninguna materia con el ID ${id}.`);
+        return;
+      }
+      
+      const materiaActualizada = { ...materia, ...nuevaMateria }; // Usa spread operator para combinar los datos
+      const updateRequest = store.put(materiaActualizada);
 
-  try {
-    const materia = await new Promise((resolve, reject) => {
-      const request = store.get(id);
-      request.onsuccess = () => resolve(request.result);
-      request.onerror = () => reject(request.error);
-    });
+      updateRequest.onsuccess = () => resolve('Materia actualizada');
+      updateRequest.onerror = () => reject(`Error al actualizar la materia con ID ${id}`);
+    };
 
-    if (materia) {
-      Object.assign(materia, nuevaMateria);
-      await new Promise((resolve, reject) => {
-        const updateRequest = store.put(materia);
-        updateRequest.onsuccess = () => resolve('Materia actualizada');
-        updateRequest.onerror = () => reject(updateRequest.error);
-      });
-    } else {
-      throw new Error(`No se encontró la materia con id: ${id}`);
-    }
-
-    transaction.commit?.(); // Commit para navegadores que lo soporten
-    return 'Materia actualizada';
-  } catch (error) {
-    console.error('Error actualizando materia:', error);
-    throw error;
-  }
+    request.onerror = () => reject(`Error al obtener la materia con ID ${id}`);
+  });
 };
 
 export const eliminarMateria = async (id) => {

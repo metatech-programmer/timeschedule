@@ -148,6 +148,19 @@ function ScheduleManager() {
   const manejarActualizarMateria = (id) => {
     setIdMateria(id);
 
+    const { nombre, aula, docente, color, imagen, horarios } = materias.find(
+      (materia) => materia.id === idMateria
+    );
+
+    setNuevaMateria({
+      nombre,
+      aula,
+      docente,
+      color,
+      imagen,
+      horarios,
+    });
+
     const materia = materias.find((materia) => materia.id === idMateria);
     if (materia) {
       actualizarMateria(idMateria, { ...materia, ...nuevaMateria }).then(() => {
@@ -163,11 +176,11 @@ function ScheduleManager() {
         });
         setImagenPreview(materia.imagen);
         if (pasos === 1) {
-          setPasos(2);
           setActualizar(false);
+          setPasos(2);
         } else {
-          setPasos(1);
           setActualizar(true);
+          setPasos(1);
         }
       });
     }
@@ -214,6 +227,28 @@ function ScheduleManager() {
     setPasos(paso);
   };
 
+  const manejarEditarHorario = (index) => {
+    const materia = nuevaMateria;
+
+    if (!materia) {
+      alert(`Materia con ID ${idMateria} no encontrada.`);
+      return;
+    }
+
+    const { horarios } = materia; // Extrae los horarios de la materia
+    if (Array.isArray(horarios) && index >= 0 && index < horarios.length) {
+      const horario = horarios[index];
+      if (horario) {
+        setHorario(horario); // Establece el horario si es válido
+      } else {
+        alert(`Horario no encontrado en el índice ${index}`);
+      }
+    } else {
+      alert(`Índice de horario ${index} fuera de rango.`);
+    }
+    manejarEliminarHorario(index);
+  };
+
   const handlerClickAnteriorSalon = () => {
     document.getElementById("aula").value = aulaInput;
   };
@@ -226,10 +261,9 @@ function ScheduleManager() {
     navigate("/schedule");
   };
 
-
   return (
     <>
-      <Menu  status={actualizar} />
+      <Menu status={actualizar} />
       <InstallApp />
       <div
         className="min-h-screen bg-gradient-to-t from-secondary-blue-app to-background-app  pt-8 flex flex-col items-center md:hidden "
@@ -503,7 +537,8 @@ function ScheduleManager() {
                         {nuevaMateria.horarios.map((h, index) => (
                           <li
                             key={index}
-                            className="flex justify-between items-center p-4 bg-white border-2 border-indigo-300 rounded-lg overflow-clip"
+                            className="flex justify-between items-center p-4 bg-white border-2 border-indigo-300 rounded-lg overflow-clip active:bg-indigo-400/10 actuve:scale-95  transition-all"
+                            onClick={() => manejarEditarHorario(index)}
                           >
                             <span className="border-r-2 border-indigo-300 font-semibold pr-4 mr-2">
                               {index + 1}
@@ -515,6 +550,7 @@ function ScheduleManager() {
                                 {h.horaInicio} - {h.horaFin}
                               </div>
                             </span>
+
                             <button
                               onClick={() => manejarEliminarHorario(index)}
                               className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"

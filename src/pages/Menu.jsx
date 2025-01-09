@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { FaHome, FaCalendarAlt, FaInfoCircle } from "react-icons/fa";
 import {  BiUpArrowAlt } from "react-icons/bi";
+import { use } from "react";
 
 const menuItems = [
   { path: "/manager", label: "Agendar", icon: <FaHome size={20} /> },
@@ -11,6 +12,13 @@ const menuItems = [
   },
   { path: "/about", label: "Información", icon: <FaInfoCircle size={20} /> },
 ];
+
+useEffect(() => {
+  window.addEventListener('beforeinstallprompt', (event) => {
+    localStorage.setItem("InstallApp", "false");
+    event.preventDefault(); // Evita que el navegador muestre automáticamente el banner de instalación
+  });
+}, []);
 
 const Menu = (props) => {
   const linkClasses =

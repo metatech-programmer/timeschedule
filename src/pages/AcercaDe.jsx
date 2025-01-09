@@ -17,6 +17,7 @@ const AcercaDe = () => {
     const handleBeforeInstallPrompt = (e) => {
       e.preventDefault(); // Evitar que se muestre automáticamente el prompt
       setDeferredPrompt(e); // Guardamos el evento para usarlo más tarde
+      localStorage.setItem("InstallApp", "false");
     };
 
     const handleAppInstalled = () => {
@@ -29,11 +30,11 @@ const AcercaDe = () => {
     window.addEventListener("appinstalled", handleAppInstalled);
 
     return () => {
+      window.removeEventListener("appinstalled", handleAppInstalled);
       window.removeEventListener(
         "beforeinstallprompt",
         handleBeforeInstallPrompt
       );
-      window.removeEventListener("appinstalled", handleAppInstalled);
     };
   }, []);
 

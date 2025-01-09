@@ -13,16 +13,6 @@ const menuItems = [
   { path: "/about", label: "Información", icon: <FaInfoCircle size={20} /> },
 ];
 
-useEffect(() => {
-  try {
-    window.addEventListener("beforeinstallprompt", (event) => {
-      localStorage.setItem("InstallApp", "false");
-      event.preventDefault(); // Evita que el navegador muestre automáticamente el banner de instalación
-    });
-  } catch (error) {
-    console.log(error);
-  }
-}, []);
 
 const Menu = (props) => {
   const linkClasses =

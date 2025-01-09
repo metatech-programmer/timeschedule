@@ -1,79 +1,61 @@
 import { useEffect, useState } from "react";
 import { FaDownload } from "react-icons/fa";
 
-const BtnIntallApp = () => {
-  const [installed, setInstalled] = useState(() => {
-    const installStatus = localStorage.getItem("InstallApp");
-    return installStatus === "true";
-  });
+const BtnInstallApp = () => {
+  const [installed, setInstalled] = useState(
+    () => localStorage.getItem("InstallApp") === "true"
+  );
   const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const isStandalone = window.matchMedia("(display-mode: standalone)").matches;
 
   useEffect(() => {
     const handleBeforeInstallPrompt = (e) => {
-      try {
-        setInstalled(false);
-        localStorage.setItem("InstallApp", "false");
-        e.preventDefault(); // Evitar que se muestre automáticamente el prompt
-        setDeferredPrompt(e); // Guardamos el evento para usarlo más tarde
-      } catch (error) {
-        console.log(error);
-      }
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setInstalled(false);
+      localStorage.setItem("InstallApp", "false");
     };
 
     const handleAppInstalled = () => {
-      try {
-        
-        setInstalled(true); // Actualizar estado a instalado
-        localStorage.setItem("InstallApp", "true");
-        setDeferredPrompt(null);
-      } catch (error) {
-        console.log(error);
-      }
+      setInstalled(true);
+      localStorage.setItem("InstallApp", "true");
+      setDeferredPrompt(null);
     };
 
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
     window.addEventListener("appinstalled", handleAppInstalled);
 
     return () => {
+      window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
       window.removeEventListener("appinstalled", handleAppInstalled);
-      window.removeEventListener(
-        "beforeinstallprompt",
-        handleBeforeInstallPrompt
-      );
     };
   }, []);
 
-  const handleInstallClick = () => {
+  const handleInstallClick = async () => {
     if (deferredPrompt) {
-      deferredPrompt.prompt(); // Mostramos el prompt de instalación
-      deferredPrompt.userChoice.then((choiceResult) => {
-        if (choiceResult.outcome === "accepted") {
-          setInstalled(true);
-          localStorage.setItem("InstallApp", "true");
-        } else {
-          localStorage.setItem("InstallApp", "false");
-        }
-        setDeferredPrompt(null);
-      });
+      deferredPrompt.prompt();
+      const choiceResult = await deferredPrompt.userChoice;
+      const wasAccepted = choiceResult.outcome === "accepted";
+      setInstalled(wasAccepted);
+      localStorage.setItem("InstallApp", wasAccepted ? "true" : "false");
+      setDeferredPrompt(null);
     }
   };
 
+  if (isStandalone || installed || !deferredPrompt) return null;
+
   return (
     <div className="w-dvw px-10 border flex items-center justify-center md:hidden">
-      {!window.matchMedia("(display-mode: standalone)").matches &&
-      !installed &&
-      deferredPrompt ? (
-        <button
-          className="bg-background-app hover:bg-background-app/90 text-white font-bold py-2 px-4 rounded-lg shadow-md  active:text-white/80 active:scale-90 transition-transform transform flex items-center border border-opacity-1o border-secondary-blue-app border-dashed gap-2 justify-center fixed bottom-20 z-50 w-[85%] text-xs opacity-80 active:opacity-100 animate-expand-btn-2 "
-          title="Instalar Timeschedule "
-          onClick={handleInstallClick}
-        >
-          <img src="/icon.webp" alt="logo" className="w-4 h-4 rounded-full" />
-          <span>Instala la Timeschedule en tu dispositivo</span>
-        </button>
-      ) : null}
+      <button
+        className="bg-background-app hover:bg-background-app/90 text-white font-bold py-2 px-4 rounded-lg shadow-md active:scale-90 transition-transform flex items-center gap-2 fixed bottom-20 z-50 w-[85%] text-xs opacity-80 animate-expand-btn-2"
+        title="Instalar Timeschedule"
+        onClick={handleInstallClick}
+      >
+        <img src="/icon.webp" alt="logo" className="w-4 h-4 rounded-full" />
+        <span>Instala la Timeschedule en tu dispositivo</span>
+      </button>
     </div>
   );
 };
 
-export default BtnIntallApp;
+export default BtnInstallApp;

@@ -47,11 +47,11 @@ const BtnInstallApp = () => {
   return (
     <div className="w-dvw px-10 border flex items-center justify-center md:hidden">
       <button
-        className="bg-background-app hover:bg-background-app/90 text-white font-bold py-2 px-4 rounded-lg shadow-md active:scale-90 transition-transform flex items-center gap-2 fixed bottom-20 z-50 w-[85%] text-xs opacity-80 animate-expand-btn-2"
+        className="bg-background-app hover:bg-background-app/90 text-white font-bold py-2 px-4 rounded-lg shadow-md active:scale-90 transition-transform flex items-center justify-center gap-2 fixed bottom-20 z-50 w-[85%] text-xs opacity-80 animate-expand-btn-2 border border-dashed border-secondary-blue-app/70 "
         title="Instalar Timeschedule"
         onClick={handleInstallClick}
       >
-        <img src="/icon.webp" alt="logo" className="w-4 h-4 rounded-full" />
+        <img src="/icon.webp" alt="logo" className="w-4 h-4 rounded-full " />
         <span>Instala la Timeschedule en tu dispositivo</span>
       </button>
     </div>

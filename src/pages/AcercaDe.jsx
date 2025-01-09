@@ -30,7 +30,10 @@ const AcercaDe = () => {
     window.addEventListener("appinstalled", handleAppInstalled);
 
     return () => {
-      window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+      window.removeEventListener(
+        "beforeinstallprompt",
+        handleBeforeInstallPrompt
+      );
       window.removeEventListener("appinstalled", handleAppInstalled);
     };
   }, []);
@@ -50,11 +53,18 @@ const AcercaDe = () => {
     <>
       <Menu />
       <InstallApp />
-      <div className="p-6 max-w-4xl mx-auto bg-white shadow-md space-y-4 animate-fade-in-fast md:hidden" id="top">
-        <h1 className="text-3xl font-bold text-primary-orange-app">Acerca de Timeschedule</h1>
+      <div
+        className="p-6 max-w-4xl mx-auto bg-white shadow-md space-y-4 animate-fade-in-fast md:hidden"
+        id="top"
+      >
+        <h1 className="text-3xl font-bold text-primary-orange-app">
+          Acerca de Timeschedule
+        </h1>
         <p className="text-pretty text-gray-700">
-          Timeschedule es una aplicación web gratuita e intuitiva, diseñada para optimizar la organización de horarios.
-          Ideal para estudiantes, profesionales y cualquier persona que busque gestionar su tiempo de manera eficiente.
+          Timeschedule es una aplicación web gratuita e intuitiva, diseñada para
+          optimizar la organización de horarios. Ideal para estudiantes,
+          profesionales y cualquier persona que busque gestionar su tiempo de
+          manera eficiente.
         </p>
 
         {!isStandalone && !installed && deferredPrompt && (
@@ -70,7 +80,8 @@ const AcercaDe = () => {
         {!isStandalone && installed && !deferredPrompt && (
           <>
             <p className="text-pretty text-gray-900/50 text-sm bg-yellow-300 rounded-lg p-4 text-center">
-              Ya tienes Timeschedule instalado en tu dispositivo. Disfruta de cada funcionalidad que te ofrece y mejora tu productividad.
+              Ya tienes Timeschedule instalado en tu dispositivo. Disfruta de
+              cada funcionalidad que te ofrece y mejora tu productividad.
             </p>
             <a
               className="bg-secondary-blue-app hover:bg-secondary-blue-app/90 text-white font-bold py-2 px-4 rounded-lg shadow-md active:scale-105 transition-transform flex items-center gap-2 justify-center"
@@ -83,21 +94,32 @@ const AcercaDe = () => {
           </>
         )}
 
-        <h2 className="text-2xl font-semibold text-secondary-blue-app">Características Clave</h2>
-        <ul className="list-disc list-inside space-y-2">
+        <h2 className="text-2xl font-semibold text-secondary-blue-app ">
+          Características Clave
+        </h2>
+        <ul className="list-disc px-3 space-y-2  list-outside ">
           <li>Interfaz intuitiva y fácil de navegar.</li>
-          <li>Recordatorios y notificaciones personalizables (próximamente).</li>
-          <li>Visualización de horarios en varios formatos (próximamente).</li>
+          <li>Personalización de horarios.</li>
+          <li>Visualización de horarios en varios formatos.</li>
+          <li>Funcionamiento sin conexión a internet.</li>
+          <li>
+            Recordatorios y notificaciones personalizables (próximamente).
+          </li>
         </ul>
 
-        <h2 className="text-2xl font-semibold text-tertiary-green-app">Nuestra Misión</h2>
+        <h2 className="text-2xl font-semibold text-tertiary-green-app">
+          Nuestra Misión
+        </h2>
         <p className="text-pretty text-gray-700">
-          Nuestra misión es proporcionar una herramienta que permita a las personas maximizar su productividad y aprovechar al máximo su tiempo.
+          Nuestra misión es proporcionar una herramienta que permita a las
+          personas maximizar su productividad y aprovechar al máximo su tiempo.
         </p>
         <p className="text-pretty text-gray-700 flex flex-col items-center">
-          Si deseas contribuir con una donación, puedes hacerlo a través de PayPal. <br />
-          <span className="font-semibold text-primary-orange-app bg-black rounded-xl mt-2 text-xs text-center p-4">
-            ESTE NO ES DE CARÁCTER OBLIGATORIO, PERO NOS AYUDARÁ A CONTINUAR NUESTRO TRABAJO. ¡GRACIAS!
+          Si deseas contribuir con una donación, puedes hacerlo a través de
+          PayPal. <br />
+          <span className="font-semibold text-primary-orange-app bg-zinc-900 rounded-xl mt-2 text-[0.5rem] text-center p-4 text-pretty">
+            ESTE NO ES DE CARÁCTER OBLIGATORIO, PERO NOS AYUDARÁ A CONTINUAR
+            NUESTRO TRABAJO. ¡GRACIAS!
           </span>
         </p>
         <div className="text-center flex items-center justify-center z-40">

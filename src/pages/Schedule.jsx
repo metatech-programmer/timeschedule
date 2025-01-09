@@ -462,22 +462,23 @@ const Schedule = () => {
           )}
 
           {/* -------------------------------------------------------- */}
-          {scheduleFind === "vivo" && materiasNow.length >= 0 && (
-            <li>
-              <div className="flex items-center justify-center  flex-col animate-fade-in-fast">
-                <span className="text-primary-orange-app text-balance font-bold uppercase">
-                  {materiasNext.length > 0
-                    ? "Próximas materias 👇"
-                    : "¡Pronto quedaras libre! 😎 \n"}
-                </span>
-                <span className="text-quaternary-gray-app text-balance font-bold text-xs opacity-30">
-                  {materiasNext.length > 0
-                    ? " "
-                    : "(revisa por si acaso tus horarios de estudio)"}
-                </span>
-              </div>
-            </li>
-          )}
+          {scheduleFind === "vivo" &&
+            (materiasNow.length > 0 || materiasNext.length > 0) && (
+              <li>
+                <div className="flex items-center justify-center  flex-col animate-fade-in-fast">
+                  <span className="text-primary-orange-app text-balance font-bold uppercase">
+                    {materiasNext.length > 0
+                      ? "Próximas materias 👇"
+                      : "¡Pronto quedaras libre! 😎 \n"}
+                  </span>
+                  <span className="text-quaternary-gray-app text-balance font-bold text-xs opacity-30">
+                    {materiasNext.length > 0
+                      ? " "
+                      : "(revisa por si acaso tus horarios de estudio)"}
+                  </span>
+                </div>
+              </li>
+            )}
           {/* -------------------------------------------------------- */}
 
           {scheduleFind === "vivo" && (
@@ -491,7 +492,6 @@ const Schedule = () => {
                       <li
                         key={materia.id}
                         className="flex  justify-between flex-col border-2 border-primary-orange-app rounded-lg p-4 animate-pulse [mask-image:_linear-gradient(to_bottom,blue_0,transparent_90%)]"
-                        
                         style={{ borderColor: materia.color }}
                       >
                         <div
@@ -524,7 +524,7 @@ const Schedule = () => {
                               className="font-bold uppercase w-[70%] truncate"
                               style={{ textShadow: "1px 1px 4px skyblue" }}
                             >
-                             ya viene - {materia.nombre} 
+                              ya viene - {materia.nombre}
                             </span>
                           </div>
                         </div>

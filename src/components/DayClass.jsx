@@ -15,11 +15,10 @@ const DayClass = ({ materias = {}, dia = "lunes", id }) => {
       {materiasDia.map((materia) => (
         <li
           key={materia.id}
-          className="flex  justify-between items-center border-2 border-primary-orange-app rounded-lg p-2 animate-fade-in-fast mb-3"
+          className="flex  justify-between items-center border-2 border-primary-orange-app rounded-lg p-2 animate-fade-in-fast mb-3 w-full"
           style={{ borderColor: materia.color }}
         >
-          <div
-            className="rounded-lg  h-full w-full flex flex-col items-center justify-center py-3 "
+          <div className="rounded-lg  h-full w-1/2 flex flex-col items-center justify-center py-3 "
             style={{
               backgroundColor: materia.color,
             }}
@@ -51,7 +50,8 @@ const DayClass = ({ materias = {}, dia = "lunes", id }) => {
               </span>
             </div>
           </div>
-          <div className="flex flex-col gap-2 px-2 w-[100%]">
+
+          <div className="flex flex-col gap-2 px-2 w-1/2">
             <span className="flex items-center  gap-2 justify-center">
               <span className="text-primary-orange-app text-balance ">
                 {materia.aula}

@@ -132,7 +132,25 @@ const Schedule = () => {
         {
           const materiasVivo = await leerMateriaDiaHora(day, hourMinutes);
           const materiasVivoPlus = await leerMateriaDiaHora(day, hourMinutesNextClass);
-          setMateriasNext(materiasVivoPlus);
+          if (
+            materiasVivo.length === materiasVivoPlus.length &&
+            materiasVivo.every((materia, index) => {
+              return (
+                materia.id === materiasVivoPlus[index].id &&
+                materia.nombre === materiasVivoPlus[index].nombre &&
+                materia.docente === materiasVivoPlus[index].docente &&
+                materia.color === materiasVivoPlus[index].color &&
+                materia.imagen === materiasVivoPlus[index].imagen &&
+                materia.aula === materiasVivoPlus[index].aula &&
+                materia.horaInicio === materiasVivoPlus[index].horaInicio &&
+                materia.horaFin === materiasVivoPlus[index].horaFin
+              );
+            })
+          ) {
+            setMateriasNext([]);
+          } else {
+            setMateriasNext(materiasVivoPlus);
+          }
           setMateriasNow(materiasVivo);
         }
         break;
@@ -386,7 +404,7 @@ const Schedule = () => {
           {/* -------------------------------------------------------- */}
           {scheduleFind === "vivo" && materiasNow.length > 0 && (
             <li>
-              <div className="flex items-center justify-center  flex-col">
+              <div className="flex items-center justify-center  flex-col animate-fade-in-fast">
                 <span className="text-primary-orange-app text-balance font-bold uppercase">
                   {materiasNext.length > 0
                     ? "Próximas materias 👇"

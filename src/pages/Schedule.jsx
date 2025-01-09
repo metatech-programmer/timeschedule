@@ -300,7 +300,7 @@ const Schedule = () => {
                 <span className="text-primary-orange-app text-balance font-bold uppercase">
                   {materiasNext.length > 0
                     ? "Próximas materias 👇"
-                    : "Pronto quedaras libre! 😎 \n"}
+                    : "¡Pronto quedaras libre! 😎 \n"}
                 </span>
                 <span className="text-quaternary-gray-app text-balance font-bold text-xs opacity-30">
                   {materiasNext.length > 0
@@ -392,7 +392,7 @@ const Schedule = () => {
             scheduleFind === "vivo" && (
               <div className="flex flex-col items-center gap-2 mt-5 border-2 border-secondary-blue-app bg-black/50 rounded-lg p-4">
                 <span className="text-secondary-blue-app  text-pretty font-bold uppercase text-center text-sm flex flex-col">
-                  Puedes entrar donde quieras! 👇 aprovecha tu tiempo libre
+                ¡Puedes entrar donde quieras! 👇 aprovecha tu tiempo libre
                   <span className="text-quaternary-gray-app text-balance font-bold text-[0.6rem] opacity-30">
                     (no olvides revisar por tus horarios de estudio)
                   </span>

@@ -7,7 +7,13 @@ import {
 } from "../../public/db";
 import InstallApp from "./InstallApp";
 import Menu from "./Menu";
-import { FaArrowRight, FaPen, FaTrash } from "react-icons/fa";
+import {
+  FaArrowRight,
+  FaCalendarAlt,
+  FaPen,
+  FaRegEdit,
+  FaTrash,
+} from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { FaRotateLeft } from "react-icons/fa6";
 
@@ -276,7 +282,9 @@ function ScheduleManager() {
             fontFamily: "cursive",
           }}
         >
-          Sigue los pasos
+          {localStorage.getItem("withSchedule") === "true"
+            ? "TIMESCHEDULE"
+            : "SIGUE LOS PASOS"}
         </h1>
 
         <div className="flex justify-evenly w-full items-center">
@@ -335,7 +343,7 @@ function ScheduleManager() {
             {/* Formulario de nueva materia */}
             <div className="bg-background-app text-quaternary-gray-app p-8 rounded-lg shadow-xl w-full max-w-3xl mb-8 overflow-y-auto h-screen pb-20">
               <h2 className="text-lg font-extrabold  text-center text-secondary-blue-app decoration-wavy  uppercase underline-offset-8 underline mb-6">
-                Agrega tus materias
+                {idMateria > 0 ? "Editar materia" : "Agregar nueva materia"}
               </h2>
               <div className="mb-4">
                 <label className="block text-lg font-medium text-quaternary-gray-app">
@@ -539,7 +547,10 @@ function ScheduleManager() {
                             key={index}
                             className="flex justify-between items-center  bg-white border-2 border-indigo-300 rounded-lg overflow-clip active:bg-indigo-400/10 actuve:scale-95  transition-all w-full"
                           >
-                            <div className="flex items-center flex-1 gap-2  overflow-hidden  max-w-[75%] p-4" onClick={() => manejarEditarHorario(index)}>
+                            <div
+                              className="flex items-center flex-1 gap-2  overflow-hidden  max-w-[75%] p-4"
+                              onClick={() => manejarEditarHorario(index)}
+                              >
                               <span className="border-r-2 border-indigo-300 font-semibold pr-4 mr-2">
                                 {index + 1}
                               </span>
@@ -556,7 +567,7 @@ function ScheduleManager() {
                             <button
                               onClick={() => manejarEliminarHorario(index)}
                               className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition w-12 flex items-center justify-center mr-3  "
-                            >
+                              >
                               <FaTrash className="w-4 h-4 active:scale-105" />
                             </button>
                           </li>
@@ -569,6 +580,11 @@ function ScheduleManager() {
                     )}
                   </div>
                 </div>
+                    {nuevaMateria.horarios.length > 0 && (
+                      <span className="text-xs text-quaternary-gray-app/50">
+                        (edita tus horarios dando click en ellos)
+                      </span>
+                    )}
               </div>
               {!actualizar && (
                 <button
@@ -592,8 +608,15 @@ function ScheduleManager() {
 
         {pasos === 2 && (
           <div className="flex flex-col gap-4 w-full">
-            <h2 className="text-lg font-semibold text-center text-quaternary-gray-app uppercase bg-secondary-blue-app py-2  my-4 w-full">
-              Materias Agregadas
+            <h2 className="text-lg font-semibold text-center text-quaternary-gray-app uppercase bg-secondary-blue-app py-2  my-4 w-full flex items-center justify-center gap-4">
+              {localStorage.getItem("withSchedule")
+                ? "Edita tus materias"
+                : "Materias registradas"}
+              {localStorage.getItem("withSchedule") ? (
+                <FaRegEdit />
+              ) : (
+                <FaCalendarAlt />
+              )}
             </h2>
             {/* Listado de materias */}
             {!materias.length ? (

@@ -10,15 +10,25 @@ const BtnIntallApp = () => {
 
   useEffect(() => {
     const handleBeforeInstallPrompt = (e) => {
-      e.preventDefault(); // Evitar que se muestre automáticamente el prompt
-      setDeferredPrompt(e); // Guardamos el evento para usarlo más tarde
-      localStorage.setItem("InstallApp", "false");
+      try {
+        setInstalled(false);
+        localStorage.setItem("InstallApp", "false");
+        e.preventDefault(); // Evitar que se muestre automáticamente el prompt
+        setDeferredPrompt(e); // Guardamos el evento para usarlo más tarde
+      } catch (error) {
+        console.log(error);
+      }
     };
 
     const handleAppInstalled = () => {
-      setInstalled(true); // Actualizar estado a instalado
-      localStorage.setItem("InstallApp", "true");
-      setDeferredPrompt(null);
+      try {
+        
+        setInstalled(true); // Actualizar estado a instalado
+        localStorage.setItem("InstallApp", "true");
+        setDeferredPrompt(null);
+      } catch (error) {
+        console.log(error);
+      }
     };
 
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);

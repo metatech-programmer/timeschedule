@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { FaHome, FaCalendarAlt, FaInfoCircle } from "react-icons/fa";
-import {  BiUpArrowAlt } from "react-icons/bi";
+import { BiUpArrowAlt } from "react-icons/bi";
 import { use } from "react";
 
 const menuItems = [
@@ -14,10 +14,14 @@ const menuItems = [
 ];
 
 useEffect(() => {
-  window.addEventListener('beforeinstallprompt', (event) => {
-    localStorage.setItem("InstallApp", "false");
-    event.preventDefault(); // Evita que el navegador muestre automáticamente el banner de instalación
-  });
+  try {
+    window.addEventListener("beforeinstallprompt", (event) => {
+      localStorage.setItem("InstallApp", "false");
+      event.preventDefault(); // Evita que el navegador muestre automáticamente el banner de instalación
+    });
+  } catch (error) {
+    console.log(error);
+  }
 }, []);
 
 const Menu = (props) => {
@@ -52,10 +56,11 @@ const Menu = (props) => {
       )}
 
       <a
-        className="flex flex-col items-center p-2 rounded-lg shadow-sm transition-transform transform active:scale-105  active:bg-primary-orange-app active:text-white bg-quaternary-gray-app text-gray-700 " style={{scrollBehavior: "smooth"}}
+        className="flex flex-col items-center p-2 rounded-lg shadow-sm transition-transform transform active:scale-105  active:bg-primary-orange-app active:text-white bg-quaternary-gray-app text-gray-700 "
+        style={{ scrollBehavior: "smooth" }}
         href="#top"
       >
-       <BiUpArrowAlt size={20} className="active:scale-110" />
+        <BiUpArrowAlt size={20} className="active:scale-110" />
       </a>
     </div>
   );

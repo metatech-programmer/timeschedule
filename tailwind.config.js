@@ -20,7 +20,7 @@ export default {
         "fade-in": "fade-in 1600ms linear",
         "fade-in-fast": "fade-in 700ms linear",
         "fade-out": "fade-out 2900ms linear",
-        "scroll": "scroll 20s linear infinite",
+        "scroll": "scroll 10s linear infinite",
         "expand-btn": "expand-btn 1600ms linear infinite",
         "expand-btn-2": "expand-btn-2 1600ms linear infinite",
         "border-rainbow": "border-rainbow 1600ms linear infinite",
@@ -47,7 +47,8 @@ export default {
         },
         "scroll": {
           "0%": { transform: "translateX(0)" },
-          "50%": { transform: "translateX(calc(-50%))" },
+          "100%": { transform: "translateX(-100%)" },
+
         },
         "expand-btn": {
           "0%": { transform: "scale(1)" },

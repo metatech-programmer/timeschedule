@@ -232,7 +232,7 @@ const Schedule = () => {
 
       <div className="flex flex-col gap-4 text-quaternary-gray-app animate-fade-in-fast overflow-y-scroll  md:hidden z-50 ">
         <h1 className="text-lg  bg-secondary-blue-app font-bold uppercase text-center w-full py-2  border-y-2 border-primary-orange-app/50">
-          Horario {scheduleFind === "full" ? "Semanal" : "del" + { day }}{" "}
+          Horario {scheduleFind === "full" ? "Semanal" : "del" + " " + day}
           <hr className="opacity-50" />{" "}
           <span className="text-sm text-background-app">{amPm}</span>{" "}
         </h1>

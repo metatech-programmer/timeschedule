@@ -4,13 +4,12 @@ const Notificaciones = () => {
   const [permiso, setPermiso] = useState("");
   useEffect(() => {
     // Verificar si el navegador soporta notificaciones
-    if ("Notification" in window) {
+    if (Notification.permission !== "granted") {
       Notification.requestPermission().then((permission) => {
         setPermiso(permission.toLocaleLowerCase());
-        console.log("Permiso de notificación:", permission);
       });
     } else {
-      setPermiso("no-soportado");
+      setPermiso("granted");
     }
   }, []);
   return (

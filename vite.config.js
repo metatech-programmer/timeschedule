@@ -53,7 +53,7 @@ export default defineConfig({
       },
 
       workbox: {
-        globPatterns: ['**/*.{js,css,html,png,svg,webp,gif}'], // Archivos que serán cacheados
+        globPatterns: ['**/*.{js,css,html,png,svg,webp,gif,jpg}'], // Archivos que serán cacheados
         maximumFileSizeToCacheInBytes: 30 * 1024 * 1024, // 30 MB
         runtimeCaching: [
           {

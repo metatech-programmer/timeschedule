@@ -12,7 +12,7 @@ import DayClass from "../components/DayClass";
 
 const Schedule = () => {
   const [day, setDay] = useState(
-    new Date().toLocaleDateString("es-ES", { weekday: "long" })
+    new Date().toLocaleDateString("es-CO", { weekday: "long" })
   );
 
   const [hourMinutes, setHourMinutes] = useState(

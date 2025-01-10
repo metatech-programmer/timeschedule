@@ -1,10 +1,30 @@
+import { leerMateriaDiaHora } from "../db";
+
+/* Data Sync */
+const dia = new Date().toLocaleDateString("es-CO", { weekday: "long" });
+const horaStr = new Date().getHours() + ":" + (new Date().getMinutes() < 10 ? "0" + new Date().getMinutes() : new Date().getMinutes());
+
+
 self.addEventListener("sync", (event) => {
-    if (event.tag === "enviar-notificacion") {
+    if (event.tag === "checkDataSync") {
         event.waitUntil(
-            mostrarNotificacion('Sincronización', 'La sincronización se ha completado correctamente.')
+            leerMateriaDiaHora(dia, horaStr)
+                .then(() => {
+                    (data) => {
+                        if (data) {
+                            self.registration.showNotification("Timeschedule", {
+                                body: "Gracias por usar Timeschedule!",
+                                icon: "https://cdn.pixabay.com/photo/2020/12/20/04/06/man-5846064_1280.jpg",
+                            });
+                        }
+                    }
+                })
         );
     }
 });
+
+
+/* Push Notifications */
 
 self.addEventListener("push", (event) => {
     const options = {
@@ -23,8 +43,9 @@ self.addEventListener("push", (event) => {
 
 self.addEventListener("notificationclick", (event) => {
     event.notification.close();
-});
 
+    event.waitUntil(self.clients.openWindow("https://timeschedule.vercel.app"));
+});
 
 function mostrarNotificacion(titulo, mensaje) {
     self.registration.showNotification(titulo, {

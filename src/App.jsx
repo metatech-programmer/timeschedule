@@ -7,17 +7,30 @@ import Thanks from "./pages/Thanks";
 import Wrong from "./pages/Wrong";
 import BtnIntallApp from "./components/BtnInstallApp";
 import "./App.css";
-import Notificaciones from "./components/Notificaciones";
+import { useEffect } from "react";
 
 function App() {
+  useEffect(() => {
+    requestNotificationPermission();
+  }, []);
+
+  navigator.serviceWorker.ready.then((registration) => {
+    registration.sync.register("checkDataSync").then(() => {
+      console.log("Sync registration successful");
+    }).catch((error) => {
+      console.error("Sync registration failed:", error);
+    })
+    })
+
+  /* -------------------------------------------------------------- */
   const mostrarNotificacion = (titulo, mensaje) => {
     if (Notification.permission === "granted") {
-     navigator.serviceWorker.ready.then((registration) => {
+      navigator.serviceWorker.ready.then((registration) => {
         registration.showNotification(titulo, {
           body: mensaje,
           icon: "https://cdn.pixabay.com/photo/2020/12/20/04/06/man-5846064_1280.jpg",
         });
-     })
+      });
     }
   };
 
@@ -25,15 +38,38 @@ function App() {
     mostrarNotificacion("Timeschedule", "Gracias por usar Timeschedule!");
   };
 
+  /* -------------------------------------------------------------- */
+
+  function requestNotificationPermission() {
+    if ("Notification" in window) {
+      Notification.requestPermission().then((permission) => {
+        if (permission === "granted") {
+          console.log("Permiso de notificaciones concedido");
+          registerServiceWorker();
+        } else {
+          console.log("Permiso de notificaciones denegado");
+        }
+      });
+    } else {
+      console.log("El navegador no soporta notificaciones");
+    }
+  }
+
+  function registerServiceWorker() {
+    if ("serviceWorker" in navigator && "SyncManager" in window) {
+      navigator.serviceWorker
+        .register("./sw.js")
+        .then((registration) => {
+          console.log("Service Worker registrado:", registration);
+        })
+        .catch((error) => {
+          console.error("Error al registrar el Service Worker:", error);
+        });
+    }
+  }
+
   return (
     <div className="w-dvw h-dvh bg-background-app overflow-y-scroll relative ">
-      <button
-        onClick={handleNotificationClick}
-        className="fixed top-4  left-4 bg-primary-orange-app text-white py-2 px-4 rounded-full z-[9999] active:bg-primary-orange-app/80 transition duration-300 ease-in-out"
-      >
-        Notificar
-      </button>
-      <Notificaciones />
       <BtnIntallApp />
       <Router>
         <Routes>

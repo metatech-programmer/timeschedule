@@ -337,8 +337,10 @@ const Schedule = () => {
                                   display: "flex",
                                   alignItems: "center",
                                   justifyContent: "center",
-                                  backgroundImage:
-                                    `url(${"https://picsum.photos/"+Math.floor(Math.random() * 10000)})`,
+                                  backgroundImage: `url(${
+                                    "https://picsum.photos/" +
+                                    (Math.floor(Math.random() * 10) + 1) * 100
+                                  })`,
                                   backgroundSize: "cover",
                                 }}
                               ></div>
@@ -420,8 +422,10 @@ const Schedule = () => {
                                   display: "flex",
                                   alignItems: "center",
                                   justifyContent: "center",
-                                  backgroundImage:
-                                    `url(${"https://picsum.photos/"+Math.floor(Math.random() * 10000)})`,
+                                  backgroundImage: `url(${
+                                    "https://picsum.photos/" +
+                                    (Math.floor(Math.random() * 10) + 1) * 100
+                                  })`,
                                   backgroundSize: "cover",
                                 }}
                               ></div>
@@ -513,8 +517,10 @@ const Schedule = () => {
                                   display: "flex",
                                   alignItems: "center",
                                   justifyContent: "center",
-                                  backgroundImage:
-                                    `url(${"https://picsum.photos/"+Math.floor(Math.random() * 10000)})`,
+                                  backgroundImage: `url(${
+                                    "https://picsum.photos/" +
+                                    (Math.floor(Math.random() * 10) + 1) * 100
+                                  })`,
                                   backgroundSize: "cover",
                                 }}
                               ></div>

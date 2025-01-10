@@ -18,7 +18,8 @@ const DayClass = ({ materias = {}, dia = "lunes", id }) => {
           className="flex  justify-between items-center border-2 border-primary-orange-app rounded-lg p-2 animate-fade-in-fast mb-3 w-full"
           style={{ borderColor: materia.color }}
         >
-          <div className="rounded-lg  h-full w-1/2 flex flex-col items-center justify-center py-3 "
+          <div
+            className="rounded-lg  h-full w-1/2 flex flex-col items-center justify-center py-3 "
             style={{
               backgroundColor: materia.color,
             }}
@@ -37,7 +38,10 @@ const DayClass = ({ materias = {}, dia = "lunes", id }) => {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    backgroundImage: "url(https://picsum.photos/100)",
+                    backgroundImage: `url(${
+                      "https://picsum.photos/" +
+                      (Math.floor(Math.random() * 10) + 1) * 100
+                    })`,
                     backgroundSize: "cover",
                   }}
                 ></div>
@@ -56,11 +60,9 @@ const DayClass = ({ materias = {}, dia = "lunes", id }) => {
               <span className="text-primary-orange-app text-balance ">
                 {materia.aula}
               </span>{" "}
-             
             </span>
 
             <span className="flex items-center gap-2 font-bold capitalize text-center text-pretty text-xs w-full bg-black/10 p-1 rounded-xl">
-
               <span className="text-secondary-blue-app text-center w-full pl-2 ml-2 font-light ">
                 {materia.horaInicio + " - " + materia.horaFin}
               </span>

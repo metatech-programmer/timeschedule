@@ -7,17 +7,22 @@ const getDiaHora = () => {
     return { dia, horaStr };
 };
 
+
 self.addEventListener("sync", (event) => {
     if (event.tag === "proximasMaterias") {
         event.waitUntil(
             (async () => {
                 const { dia, horaStr } = getDiaHora();
-                const data = await leerMateriaDiaHora(dia, horaStr);
-                if (data) {
-                    self.registration.showNotification("Timeschedule", {
-                        body: "Revisa tú horario en vivo, hay un nuevo item!",
-                        icon: "https://avatar.iran.liara.run/public",
-                    });
+                try {
+                    const data = await leerMateriaDiaHora(dia, horaStr);
+                    if (data) {
+                        self.registration.showNotification("Timeschedule", {
+                            body: "Revisa tu horario en vivo, ¡hay un nuevo item!",
+                            icon: "https://avatar.iran.liara.run/public",
+                        });
+                    }
+                } catch (error) {
+                    console.error("Error al sincronizar materias:", error);
                 }
             })()
         );

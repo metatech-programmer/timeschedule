@@ -14,6 +14,7 @@ function App() {
     requestNotificationPermission();
   }, []);
 
+
   navigator.serviceWorker.ready.then((registration) => {
     registration.sync.register("proximasMaterias").then(() => {
       console.log("Sync registration successful");

@@ -11,18 +11,18 @@ export default defineConfig({
         name: 'Timeschedule',
         short_name: 'Schedule',
         description: 'Planificador de horarios',
-        start_url: '/',
+        start_url: './',
         display: 'standalone',
         background_color: '#2A3A49',
         theme_color: '#2A3A49',
         icons: [
           {
-            src: '/icon.webp',
+            src: './icon.webp',
             sizes: '192x192',
             type: 'image/webp'
           },
           {
-            src: '/icon.webp',
+            src: './icon.webp',
             sizes: '512x512',
             type: 'image/webp'
           }
@@ -31,7 +31,7 @@ export default defineConfig({
         categories: ['productivity', 'utilities', 'tools'],
         screenshots: [
           {
-            src: '/screenshot1.jpg',
+            src: './screenshot1.jpg',
             sizes: '640x480',
             type: 'image/webp'
           }
@@ -39,7 +39,7 @@ export default defineConfig({
         orientation: 'portrait-primary',
         related_applications: [],
         prefer_related_applications: false,
-        scope: '/',
+        scope: './',
         dir: 'ltr',
         related_applications: [
           {

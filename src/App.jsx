@@ -29,7 +29,6 @@ function App() {
         registration.showNotification(titulo, {
           body: mensaje,
           tag: "proximasMaterias",
-
           icon: "https://avatar.iran.liara.run/public",
         });
       });

@@ -1,26 +1,37 @@
 import { leerMateriaDiaHora } from "../db";
 
 /* Data Sync */
-const dia = new Date().toLocaleDateString("es-CO", { weekday: "long" });
-const horaStr = (new Date().getHours() + 1) + ":" + (new Date().getMinutes() < 10 ? "0" + new Date().getMinutes() : new Date().getMinutes());
-
+const getDiaHora = () => {
+    const dia = new Date().toLocaleDateString("es-CO", { weekday: "long" });
+    const horaStr = (new Date().getHours() + 1) + ":" + (new Date().getMinutes() < 10 ? "0" + new Date().getMinutes() : new Date().getMinutes());
+    return { dia, horaStr };
+};
 
 self.addEventListener("sync", (event) => {
     if (event.tag === "proximasMaterias") {
         event.waitUntil(
-            leerMateriaDiaHora(dia, horaStr)
-                .then(() => {
-                    (data) => {
-                        if (data) {
-                            self.registration.showNotification("Timeschedule", {
-                                body: "Revisa tú horario en vivo, hay un nuevo item!",
-                                icon: "https://avatar.iran.liara.run/public",
-                            });
-                        }
-                    }
-                })
+            (async () => {
+                const { dia, horaStr } = getDiaHora();
+                const data = await leerMateriaDiaHora(dia, horaStr);
+                if (data) {
+                    self.registration.showNotification("Timeschedule", {
+                        body: "Revisa tú horario en vivo, hay un nuevo item!",
+                        icon: "https://avatar.iran.liara.run/public",
+                    });
+                }
+            })()
         );
     }
+});
+
+self.addEventListener("install", (event) => {
+    event.waitUntil(self.skipWaiting().then(() => {
+        return self.registration.sync.register("proximasMaterias");
+    }));
+});
+
+self.addEventListener("activate", (event) => {
+    event.waitUntil(self.clients.claim());
 });
 
 
@@ -29,13 +40,13 @@ self.addEventListener("sync", (event) => {
 self.addEventListener("push", (event) => {
     const options = {
         body: event.data.text(),
-        icon: "https://cdn.pixabay.com/photo/2020/12/20/04/06/man-5846064_1280.jpg",
+        icon: "./icon.webp",
         vibrate: [100, 50, 100],
         data: {
             dateOfArrival: Date.now(),
             primaryKey: 1,
         },
-        badge: "https://cdn.pixabay.com/photo/2020/12/20/04/06/man-5846064_1280.jpg",
+        badge: "https://avatar.iran.liara.run/public",
     };
 
     event.waitUntil(self.registration.showNotification("Timeschedule", options));

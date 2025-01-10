@@ -338,7 +338,7 @@ const Schedule = () => {
                                   alignItems: "center",
                                   justifyContent: "center",
                                   backgroundImage:
-                                    "url(https://picsum.photos/100)",
+                                    `url(${"https://picsum.photos/"+Math.floor(Math.random() * 10000)})`,
                                   backgroundSize: "cover",
                                 }}
                               ></div>
@@ -421,7 +421,7 @@ const Schedule = () => {
                                   alignItems: "center",
                                   justifyContent: "center",
                                   backgroundImage:
-                                    "url(https://picsum.photos/100)",
+                                    `url(${"https://picsum.photos/"+Math.floor(Math.random() * 10000)})`,
                                   backgroundSize: "cover",
                                 }}
                               ></div>
@@ -514,7 +514,7 @@ const Schedule = () => {
                                   alignItems: "center",
                                   justifyContent: "center",
                                   backgroundImage:
-                                    "url(https://picsum.photos/100)",
+                                    `url(${"https://picsum.photos/"+Math.floor(Math.random() * 10000)})`,
                                   backgroundSize: "cover",
                                 }}
                               ></div>

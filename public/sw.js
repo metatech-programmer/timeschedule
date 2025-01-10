@@ -2,19 +2,19 @@ import { leerMateriaDiaHora } from "../db";
 
 /* Data Sync */
 const dia = new Date().toLocaleDateString("es-CO", { weekday: "long" });
-const horaStr = new Date().getHours() + ":" + (new Date().getMinutes() < 10 ? "0" + new Date().getMinutes() : new Date().getMinutes());
+const horaStr = (new Date().getHours() + 1) + ":" + (new Date().getMinutes() < 10 ? "0" + new Date().getMinutes() : new Date().getMinutes());
 
 
 self.addEventListener("sync", (event) => {
-    if (event.tag === "checkDataSync") {
+    if (event.tag === "proximasMaterias") {
         event.waitUntil(
             leerMateriaDiaHora(dia, horaStr)
                 .then(() => {
                     (data) => {
                         if (data) {
                             self.registration.showNotification("Timeschedule", {
-                                body: "Gracias por usar Timeschedule!",
-                                icon: "https://cdn.pixabay.com/photo/2020/12/20/04/06/man-5846064_1280.jpg",
+                                body: "Revisa tú horario en vivo, hay un nuevo item!",
+                                icon: "https://avatar.iran.liara.run/public",
                             });
                         }
                     }

@@ -15,7 +15,7 @@ function App() {
   }, []);
 
   navigator.serviceWorker.ready.then((registration) => {
-    registration.sync.register("checkDataSync").then(() => {
+    registration.sync.register("proximasMaterias").then(() => {
       console.log("Sync registration successful");
     }).catch((error) => {
       console.error("Sync registration failed:", error);
@@ -28,7 +28,9 @@ function App() {
       navigator.serviceWorker.ready.then((registration) => {
         registration.showNotification(titulo, {
           body: mensaje,
-          icon: "https://cdn.pixabay.com/photo/2020/12/20/04/06/man-5846064_1280.jpg",
+          tag: "proximasMaterias",
+
+          icon: "https://avatar.iran.liara.run/public",
         });
       });
     }

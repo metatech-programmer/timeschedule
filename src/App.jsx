@@ -12,11 +12,12 @@ import Notificaciones from "./components/Notificaciones";
 function App() {
   const mostrarNotificacion = (titulo, mensaje) => {
     if (Notification.permission === "granted") {
-      alert("Notificaciones permitidas");
-      new Notification(titulo, {
-        body: mensaje,
-        icon: "https://cdn.pixabay.com/photo/2020/12/20/04/06/man-5846064_1280.jpg",
-      });
+     navigator.serviceWorker.ready.then((registration) => {
+        registration.showNotification(titulo, {
+          body: mensaje,
+          icon: "https://cdn.pixabay.com/photo/2020/12/20/04/06/man-5846064_1280.jpg",
+        });
+     })
     }
   };
 

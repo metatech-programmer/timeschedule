@@ -4,12 +4,13 @@ import App from './App.jsx'
 import './index.css'
 
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.ready.then((registration) => {
-      console.log('Service Worker listo con Vite PWA:', registration);
-    });
-  });
+  navigator.serviceWorker.register('/sw.js').then((registration)  => {
+    console.log('Service Worker registrado:', registration);  
+  }).catch((error) => {
+    console.error('Error al registrar el Service Worker:', error);
+  })
 }
+
 
 createRoot(document.getElementById('root')).render(
   

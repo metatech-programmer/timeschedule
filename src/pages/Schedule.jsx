@@ -3,12 +3,11 @@ import {
   leerMateriaDiaHora,
   leerMateriaHorarioDia,
   leerMaterias,
-} from "../../public/db";
+} from "../../db";
 import Menu from "./Menu";
 import { FaPersonRunning } from "react-icons/fa6";
 import InstallApp from "./InstallApp";
 import { FaPlay } from "react-icons/fa";
-import { stringify } from "postcss";
 import DayClass from "../components/DayClass";
 
 const Schedule = () => {

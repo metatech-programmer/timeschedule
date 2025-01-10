@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { FaHome, FaCalendarAlt, FaInfoCircle } from "react-icons/fa";
 import { BiUpArrowAlt } from "react-icons/bi";
-import { use } from "react";
 
 const menuItems = [
   { path: "/manager", label: "Agendar", icon: <FaHome size={20} /> },

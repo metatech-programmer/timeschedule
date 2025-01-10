@@ -4,7 +4,7 @@ import {
   leerMaterias,
   actualizarMateria,
   eliminarMateria,
-} from "../../public/db";
+} from "../../db";
 import InstallApp from "./InstallApp";
 import Menu from "./Menu";
 import {

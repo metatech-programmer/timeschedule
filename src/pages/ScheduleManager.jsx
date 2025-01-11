@@ -17,7 +17,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { FaRotateLeft } from "react-icons/fa6";
 import { HexColorPicker } from "react-colorful";
-import {  BiSolidColorFill } from "react-icons/bi";
+import { BiSolidColorFill } from "react-icons/bi";
 import { PiPlusBold } from "react-icons/pi";
 
 function ScheduleManager() {
@@ -283,6 +283,17 @@ function ScheduleManager() {
     localStorage.setItem("ScheduleFirst", true);
     navigate("/schedule");
   };
+  const getComplementaryColor = (hexColor) => {
+    const r = parseInt(hexColor.slice(1, 3), 16);
+    const g = parseInt(hexColor.slice(3, 5), 16);
+    const b = parseInt(hexColor.slice(5, 7), 16);
+    const complementaryR = 255 - r;
+    const complementaryG = 255 - g;
+    const complementaryB = 255 - b;
+    return `#${complementaryR.toString(16).padStart(2, "0")}${complementaryG
+      .toString(16)
+      .padStart(2, "0")}${complementaryB.toString(16).padStart(2, "0")}`;
+  };
 
   return (
     <>
@@ -407,14 +418,24 @@ function ScheduleManager() {
                       color === "MORECOLORS" ? (
                         <>
                           <button
-                            type="button"   
+                            type="button"
                             ref={buttonRef}
-                            className="w-10 h-10 rounded-lg flex items-center justify-center focus:outline-none transition-all duration-300 outline-offset-4 r bg-zinc-200  text-primary-orange-app border border-primary-orange-app border-dashed hover:border-secondary-blue-app"
-                            style={{ backgroundColor: nuevaMateria.color }}
+                            style={{
+                              backgroundColor: nuevaMateria.color,
+                              color: getComplementaryColor(nuevaMateria.color),
+                              borderColor: getComplementaryColor(
+                                nuevaMateria.color
+                              ),
+                            }}
+                            className="w-10 h-10 rounded-lg flex items-center justify-center focus:outline-none transition-all duration-300 outline-offset-4 border  border-dashed hover:border-secondary-blue-app"
                             onClick={() => setShowColorPicker(!showColorPicker)}
                           >
                             <b className="text-2xl">
-                              {showColorPicker ? <BiSolidColorFill className="animate-rotate-45 " /> : <PiPlusBold />}
+                              {showColorPicker ? (
+                                <BiSolidColorFill className="animate-rotate-45 " />
+                              ) : (
+                                <PiPlusBold />
+                              )}
                             </b>
                           </button>
                           {showColorPicker && (
@@ -423,16 +444,23 @@ function ScheduleManager() {
                                 className="fixed top-0 left-0 w-full h-full z-[80] bg-black/50  "
                                 onClick={() => setShowColorPicker(false)}
                               />
-                              <div ref={pickerRef} className=" w-7 h-12 mt-1.5 bg-background-app translate-x-60 rounded-sm rotate-[50deg] z-[89]"></div>
+                              <div
+                                ref={pickerRef}
+                                className=" w-7 h-12 mt-1.5 bg-background-app translate-x-60 rounded-sm rotate-[50deg] z-[89]"
+                              ></div>
 
-                              <div ref={pickerRef} className="fixed  bg-background-app rounded-xl mt-6 p-2  z-[90] border border-t-0 border-secondary-blue-app">
-                                <div className="text-center truncate w-48 text-xs pb-2 text-quaternary-gray-app/50">Selecciona el color de la materia</div>
+                              <div
+                                ref={pickerRef}
+                                className="fixed  bg-background-app rounded-xl mt-6 p-2  z-[90] border border-t-0 border-secondary-blue-app"
+                              >
+                                <div className="text-center truncate w-48 text-xs pb-2 text-quaternary-gray-app/50">
+                                  Selecciona el color de la materia
+                                </div>
                                 <HexColorPicker
                                   className="absolute"
                                   color={nuevaMateria.color}
                                   onChange={(color) =>
-
-                                   manejarColorSeleccionado(color)
+                                    manejarColorSeleccionado(color)
                                   }
                                 />
                               </div>

@@ -37,6 +37,33 @@ function App() {
     };
   }, []);
 
+  useEffect(() => {
+    let alarmaID;
+    const intervalo = 60 * 60 * 1000; // 1 hora en milisegundos
+    
+    const programarAlarma = () => {
+      if (navigator.serviceWorker && navigator.serviceWorker.ready) {
+        navigator.serviceWorker.ready.then((registration) => {
+          if (!alarmaID) {
+            alarmaID = setInterval(() => {
+              registration.active.postMessage({ action: "activarAlarma" });
+              console.log("Alarma activada para verificar materias");
+            }, intervalo);
+          }
+        });
+      }
+    };
+  
+    programarAlarma();
+  
+    return () => {
+      if (alarmaID) {
+        clearInterval(alarmaID);
+      }
+    };
+  }, []);
+  
+
   /* -------------------------------------------------------------- */
   const mostrarNotificacion = (titulo, mensaje) => {
     if (Notification.permission === "granted") {
@@ -88,8 +115,15 @@ function App() {
         });
     }
   }
+/* -------------------------------------------------------------- */
+navigator.serviceWorker.addEventListener("message", (event) => {
+  if (event.data && event.data.action === "mostrarNotificacion") {
+    mostrarNotificacion(event.data.titulo, event.data.mensaje);
+  }
+});
 
-  return (
+
+return (
     <div className="w-dvw h-dvh bg-background-app overflow-y-scroll relative ">
       <BtnIntallApp />
       <Router>

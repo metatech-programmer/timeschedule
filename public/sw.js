@@ -90,22 +90,29 @@ self.addEventListener("alarms", (event) => {
         ejecutarSincronizacionDeMaterias();
     }
 });
-
-const ejecutarSincronizacionDeMaterias = async () => {
+self.addEventListener("message", (event) => {
+    if (event.data.action === "activarAlarma") {
+      ejecutarSincronizacionDeMaterias();
+    }
+  });
+  
+  const ejecutarSincronizacionDeMaterias = async () => {
     const { dia, horaStr } = getDiaHora();
     try {
-        const data = await leerMateriaDiaHora(dia, horaStr);
-        if (data) {
-            self.registration.showNotification("Timeschedule", {
-                body: "Revisa tu horario en vivo, ¡hay un nuevo item!",
-                icon: "https://avatar.iran.liara.run/public",
-                actions: [
-                    { action: "ver", title: "Ver detalles" },
-                    { action: "cerrar", title: "Cerrar" },
-                  ],
+      const data = await leerMateriaDiaHora(dia, horaStr);
+      if (data) {
+        self.clients.matchAll().then((clients) => {
+          clients.forEach((client) => {
+            client.postMessage({
+              action: "mostrarNotificacion",
+              titulo: "Timeschedule",
+              mensaje: "Revisa tu horario en vivo, ¡hay un nuevo item!",
             });
-        }
+          });
+        });
+      }
     } catch (error) {
-        console.error("Error al manejar la alarma de materias:", error);
+      console.error("Error al manejar la alarma de materias:", error);
     }
-};
+  };
+  

@@ -108,10 +108,10 @@ const AcercaDe = () => {
         </ul>
 
         <h2 className="text-2xl font-semibold text-tertiary-green-app">
-          Nuestra Misión
+           Misión de Timeschedule
         </h2>
         <p className="text-balance text-gray-700">
-          Nuestra misión es proporcionar una herramienta que permita a las
+          La misión que motiva a la creación de Timeschedule es proporcionar una herramienta que permita a las
           personas maximizar su productividad y aprovechar al máximo su tiempo.
         </p>
         <h2 className="text-2xl font-semibold text-background-app">
@@ -119,7 +119,7 @@ const AcercaDe = () => {
         </h2>
         <p className="text-balance text-gray-700/50 border-2 border-primary-orange-app rounded-lg p-4 text-center">
           Tienes alguna sugerencia o idea para mejorar Timeschedule, no dudes
-          en hacérnoslo saber escribiendo un correo a {" "}
+          en enviar un correo a {" "}
           <a
             href="mailto:metatech000@gmail.com?subject=Timeschedule%20-%20Sugerencia"
             className="text-primary-orange-app underline underline-offset-2 "
@@ -132,8 +132,8 @@ const AcercaDe = () => {
           Si deseas contribuir con una donación, puedes hacerlo a través de
           PayPal. <br />
           <span className="font-semibold text-primary-orange-app bg-zinc-900 rounded-xl mt-2 text-[0.5rem] text-center p-4 text-balance">
-            ESTE NO ES DE CARÁCTER OBLIGATORIO, PERO NOS AYUDARÁ A CONTINUAR
-            NUESTRO TRABAJO. ¡GRACIAS!
+            ESTE NO ES DE CARÁCTER OBLIGATORIO, PERO SEGURAMENTE AYUDARÁ A CONTINUAR
+            ESTE TIPO DE PROYECTOS. ¡GRACIAS!
           </span>
         </p>
         <div className="text-center flex items-center justify-center z-40">

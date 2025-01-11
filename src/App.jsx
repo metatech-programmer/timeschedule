@@ -11,17 +11,31 @@ import { useEffect } from "react";
 
 function App() {
   useEffect(() => {
-    requestNotificationPermission();
+    if (Notification.permission !== "granted") {
+      requestNotificationPermission();
+    }
   }, []);
 
-
-  navigator.serviceWorker.ready.then((registration) => {
-    registration.sync.register("proximasMaterias").then(() => {
-      console.log("Sync registration successful");
-    }).catch((error) => {
-      console.error("Sync registration failed:", error);
-    })
-    })
+  useEffect(() => {
+    let isMounted = true;
+    navigator.serviceWorker.ready.then((registration) => {
+      registration.sync.getTags().then((tags) => {
+        if (!tags.includes("proximasMaterias")) {
+          registration.sync
+            .register("proximasMaterias")
+            .then(() => {
+              console.log("Sync registration successful");
+            })
+            .catch((error) => {
+              console.error("Sync registration failed:", error);
+            });
+        }
+      });
+    });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   /* -------------------------------------------------------------- */
   const mostrarNotificacion = (titulo, mensaje) => {
@@ -31,6 +45,10 @@ function App() {
           body: mensaje,
           tag: "proximasMaterias",
           icon: "https://avatar.iran.liara.run/public",
+          actions: [
+            { action: "ver", title: "Ver detalles" },
+            { action: "cerrar", title: "Cerrar" },
+          ],
         });
       });
     }
@@ -42,20 +60,21 @@ function App() {
 
   /* -------------------------------------------------------------- */
 
-  function requestNotificationPermission() {
+  const requestNotificationPermission = () => {
     if ("Notification" in window) {
-      Notification.requestPermission().then((permission) => {
-        if (permission === "granted") {
-          console.log("Permiso de notificaciones concedido");
-          registerServiceWorker();
-        } else {
-          console.log("Permiso de notificaciones denegado");
-        }
-      });
+      Notification.requestPermission()
+        .then((permission) => {
+          if (permission !== "granted") {
+            console.warn("Notificaciones no permitidas por el usuario.");
+          }
+        })
+        .catch((error) => {
+          console.error("Error al solicitar permisos de notificación:", error);
+        });
     } else {
-      console.log("El navegador no soporta notificaciones");
+      console.warn("Las notificaciones no son compatibles con este navegador.");
     }
-  }
+  };
 
   function registerServiceWorker() {
     if ("serviceWorker" in navigator && "SyncManager" in window) {

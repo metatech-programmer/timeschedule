@@ -389,8 +389,8 @@ function ScheduleManager() {
         {pasos === 1 && (
           <div className="border-dashed border-indigo-100/50 my-3 w-full h-screen px-2 animate-fade-in-fast">
             {/* Formulario de nueva materia */}
-            <div className="bg-background-app text-quaternary-gray-app p-8 rounded-lg shadow-xl w-full max-w-3xl mb-8 overflow-y-auto h-screen pb-20">
              <div id="newSchedule" />
+            <div className="bg-background-app text-quaternary-gray-app p-8 rounded-lg shadow-xl w-full max-w-3xl mb-8 overflow-y-auto h-screen pb-20">
               <h2 className="text-lg font-extrabold  text-center text-secondary-blue-app decoration-wavy  uppercase underline-offset-8 underline mb-6">
                 {idMateria > 0 ? "Editar materia" : "Agregar nueva materia"}
               </h2>

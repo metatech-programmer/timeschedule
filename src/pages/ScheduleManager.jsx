@@ -434,7 +434,7 @@ function ScheduleManager() {
                               {showColorPicker ? (
                                 <BiSolidColorFill className="animate-rotate-45 " />
                               ) : (
-                                <PiPlusBold />
+                                <PiPlusBold className="text-xs"/>
                               )}
                             </b>
                           </button>

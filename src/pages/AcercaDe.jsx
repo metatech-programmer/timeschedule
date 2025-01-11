@@ -60,7 +60,7 @@ const AcercaDe = () => {
         <h1 className="text-3xl font-bold text-primary-orange-app">
           Acerca de Timeschedule
         </h1>
-        <p className="text-pretty text-gray-700">
+        <p className="text-balance text-gray-700">
           Timeschedule es una aplicación web gratuita e intuitiva, diseñada para
           optimizar la organización de horarios. Ideal para estudiantes,
           profesionales y cualquier persona que busque gestionar su tiempo de
@@ -79,7 +79,7 @@ const AcercaDe = () => {
 
         {!isStandalone && installed && !deferredPrompt && (
           <>
-            <p className="text-pretty text-gray-900/50 text-sm bg-yellow-300 rounded-lg p-4 text-center">
+            <p className="text-balance text-gray-900/50 text-sm bg-yellow-300 rounded-lg p-4 text-center">
               Ya tienes Timeschedule instalado en tu dispositivo. Disfruta de
               cada funcionalidad que te ofrece y mejora tu productividad.
             </p>
@@ -110,14 +110,28 @@ const AcercaDe = () => {
         <h2 className="text-2xl font-semibold text-tertiary-green-app">
           Nuestra Misión
         </h2>
-        <p className="text-pretty text-gray-700">
+        <p className="text-balance text-gray-700">
           Nuestra misión es proporcionar una herramienta que permita a las
           personas maximizar su productividad y aprovechar al máximo su tiempo.
         </p>
-        <p className="text-pretty text-gray-700 flex flex-col items-center">
+        <h2 className="text-2xl font-semibold text-background-app">
+          
+        </h2>
+        <p className="text-balance text-gray-700/50 border-2 border-primary-orange-app rounded-lg p-4 text-center">
+          Tienes alguna sugerencia o idea para mejorar Timeschedule, no dudes
+          en hacérnoslo saber escribiendo un correo a {" "}
+          <a
+            href="mailto:metatech000@gmail.com?subject=Timeschedule%20-%20Sugerencia"
+            className="text-primary-orange-app underline underline-offset-2 "
+          >
+            metatech000@gmail.com
+          </a>
+        </p>
+        <hr />
+        <p className="text-balance text-gray-700 flex flex-col items-center">
           Si deseas contribuir con una donación, puedes hacerlo a través de
           PayPal. <br />
-          <span className="font-semibold text-primary-orange-app bg-zinc-900 rounded-xl mt-2 text-[0.5rem] text-center p-4 text-pretty">
+          <span className="font-semibold text-primary-orange-app bg-zinc-900 rounded-xl mt-2 text-[0.5rem] text-center p-4 text-balance">
             ESTE NO ES DE CARÁCTER OBLIGATORIO, PERO NOS AYUDARÁ A CONTINUAR
             NUESTRO TRABAJO. ¡GRACIAS!
           </span>

@@ -25,6 +25,7 @@ export default {
         "expand-btn-2": "expand-btn-2 1600ms linear infinite",
         "border-rainbow": "border-rainbow 1600ms linear infinite",
         "bg-rainbow": "bg-rainbow 6s ease-in-out infinite",
+        "rotate-45": "rotate-45 3600ms ease-in-out infinite",
       },
       keyframes: {
         "spin-slow": {
@@ -72,7 +73,14 @@ export default {
           "50%": { "background-image": "linear-gradient(150deg, #f97316, #ffd700, #f97316)", "background-size": "100% 200%" },
           "100%": { "background-image": "linear-gradient(150deg, #f97316, #ffd700, #f97316)", "background-size": "200% 100%" },
 
-        }
+        },
+        "rotate-45": {
+          "0%": { transform: "rotate(-32deg)" },
+          "50%": { transform: "rotate(35deg)" },
+          "100%": { transform: "rotate(-32deg)" },
+
+
+        },
       },
     },
   },

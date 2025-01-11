@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   agregarMateria,
   leerMaterias,
@@ -16,11 +16,14 @@ import {
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { FaRotateLeft } from "react-icons/fa6";
+import { HexColorPicker } from "react-colorful";
+import {  BiSolidColorFill } from "react-icons/bi";
+import { PiPlusBold } from "react-icons/pi";
 
 function ScheduleManager() {
-  const withinSchedule = localStorage.getItem("withoutSchedule");
+  const buttonRef = useRef(null);
+  const pickerRef = useRef(null);
   const principiante = localStorage.getItem("principiante");
-  const withSchedule = localStorage.getItem("withSchedule");
   const navigate = useNavigate();
 
   const [aulaInput, setAulaInput] = useState("");
@@ -44,6 +47,8 @@ function ScheduleManager() {
 
   const [pasos, setPasos] = useState(1);
 
+  const [showColorPicker, setShowColorPicker] = useState(false);
+
   const coloresDisponibles = [
     "#A8D5BA", // Verde menta pastel
     "#92D4D9", // Azul cielo pastel
@@ -54,7 +59,7 @@ function ScheduleManager() {
     "#9AD0F5", // Azul celeste suave
     "#F2B48D", // Naranja coral pastel
     "#A4E4D4", // Verde agua pastel
-    "#F5A873", // Naranja cálido pastel
+    "MORECOLORS", // Naranja cálido pastel
   ];
 
   useEffect(() => {
@@ -78,6 +83,18 @@ function ScheduleManager() {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, [actualizar]);
+
+  useEffect(() => {
+    if (showColorPicker && buttonRef.current) {
+      const buttonRect = buttonRef.current.getBoundingClientRect();
+      const pickerElement = pickerRef.current;
+
+      // Posicionar el picker justo debajo del botón
+      pickerElement.style.position = "absolute";
+      pickerElement.style.left = `${buttonRect.left - 150}px`;
+      pickerElement.style.top = `${buttonRect.bottom + window.scrollY + 5}px`; // Ajuste con un margen de 5px
+    }
+  }, [showColorPicker]);
 
   const cargarMaterias = async () => {
     const data = await leerMaterias();
@@ -386,20 +403,57 @@ function ScheduleManager() {
                     Color de la materia
                   </label>
                   <div className="grid grid-cols-5 gap-2">
-                    {coloresDisponibles.map((color) => (
-                      <button
-                        key={color}
-                        onClick={() => manejarColorSeleccionado(color)}
-                        style={{
-                          backgroundColor: color,
-                          border:
-                            nuevaMateria.color === color
-                              ? "3px solid skyblue"
-                              : "1px solid #ccc",
-                        }}
-                        className={`w-10 h-10 rounded-lg cursor-pointer focus:outline-none transition-all duration-300 outline-offset-4 outline-sky-700`}
-                      ></button>
-                    ))}
+                    {coloresDisponibles.map((color) =>
+                      color === "MORECOLORS" ? (
+                        <>
+                          <button
+                            type="button"   
+                            ref={buttonRef}
+                            className="w-10 h-10 rounded-lg flex items-center justify-center focus:outline-none transition-all duration-300 outline-offset-4 r bg-zinc-200  text-primary-orange-app border border-primary-orange-app border-dashed hover:border-secondary-blue-app"
+                            style={{ backgroundColor: nuevaMateria.color }}
+                            onClick={() => setShowColorPicker(!showColorPicker)}
+                          >
+                            <b className="text-2xl">
+                              {showColorPicker ? <BiSolidColorFill className="animate-rotate-45 " /> : <PiPlusBold />}
+                            </b>
+                          </button>
+                          {showColorPicker && (
+                            <>
+                              <div
+                                className="fixed top-0 left-0 w-full h-full z-[80] bg-black/50  "
+                                onClick={() => setShowColorPicker(false)}
+                              />
+                              <div ref={pickerRef} className=" w-7 h-12 mt-1.5 bg-background-app translate-x-60 rounded-sm rotate-[50deg] z-[89]"></div>
+
+                              <div ref={pickerRef} className="fixed  bg-background-app rounded-xl mt-6 p-2  z-[90] border border-t-0 border-secondary-blue-app">
+                                <div className="text-center truncate w-48 text-xs pb-2 text-quaternary-gray-app/50">Selecciona el color de la materia</div>
+                                <HexColorPicker
+                                  className="absolute"
+                                  color={nuevaMateria.color}
+                                  onChange={(color) =>
+
+                                   manejarColorSeleccionado(color)
+                                  }
+                                />
+                              </div>
+                            </>
+                          )}
+                        </>
+                      ) : (
+                        <button
+                          key={color}
+                          onClick={() => manejarColorSeleccionado(color)}
+                          style={{
+                            backgroundColor: color,
+                            border:
+                              nuevaMateria.color === color
+                                ? "3px solid skyblue"
+                                : "1px solid #ccc",
+                          }}
+                          className={`w-10 h-10 rounded-lg cursor-pointer focus:outline-none transition-all duration-300 outline-offset-4 outline-sky-700`}
+                        ></button>
+                      )
+                    )}
                   </div>
                 </div>
 
@@ -550,7 +604,7 @@ function ScheduleManager() {
                             <div
                               className="flex items-center flex-1 gap-2  overflow-hidden  max-w-[75%] p-4"
                               onClick={() => manejarEditarHorario(index)}
-                              >
+                            >
                               <span className="border-r-2 border-indigo-300 font-semibold pr-4 mr-2">
                                 {index + 1}
                               </span>
@@ -567,7 +621,7 @@ function ScheduleManager() {
                             <button
                               onClick={() => manejarEliminarHorario(index)}
                               className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition w-12 flex items-center justify-center mr-3  "
-                              >
+                            >
                               <FaTrash className="w-4 h-4 active:scale-105" />
                             </button>
                           </li>
@@ -580,11 +634,11 @@ function ScheduleManager() {
                     )}
                   </div>
                 </div>
-                    {nuevaMateria.horarios.length > 0 && (
-                      <span className="text-xs text-quaternary-gray-app/50">
-                        (edita tus horarios dando click en ellos)
-                      </span>
-                    )}
+                {nuevaMateria.horarios.length > 0 && (
+                  <span className="text-xs text-quaternary-gray-app/50">
+                    (edita tus horarios dando click en ellos)
+                  </span>
+                )}
               </div>
               {!actualizar && (
                 <button

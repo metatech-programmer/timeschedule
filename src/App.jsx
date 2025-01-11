@@ -29,29 +29,26 @@ function App() {
   }, []);
 
   useEffect(() => {
-    let isMounted = true;
-    navigator.serviceWorker.ready.then((registration) => {
-      registration.sync.getTags().then((tags) => {
-        if (!tags.includes("proximasMaterias")) {
-          registration.sync
-            .register("proximasMaterias")
-            .then(() => {
-              console.log("Sync registration successful");
-            })
-            .catch((error) => {
-              console.error("Sync registration failed:", error);
-            });
-        }
+    if ("serviceWorker" in navigator && "SyncManager" in window) {
+      navigator.serviceWorker.ready.then((registration) => {
+        registration.sync.getTags().then((tags) => {
+          if (!tags.includes("proximasMaterias")) {
+            registration.sync
+              .register("proximasMaterias")
+              .then(() => {
+                console.log("Sync registration successful");
+              })
+              .catch((error) => {
+                console.error("Sync registration failed:", error);
+              });
+          }
+        });
       });
-    });
-    return () => {
-      isMounted = false;
-    };
+    }
   }, []);
 
   useEffect(() => {
     const { dia, horaStr } = getDiaHora();
-
     leerMateriaDiaHora(dia, horaStr).then((materiasDiaHora) => {
       if (materiasDiaHora.length > 0) {
         mostrarNotificacion(
@@ -59,7 +56,19 @@ function App() {
           "Revisa tu horario en vivo, ¡hay un nuevo item!"
         );
       }
-    })
+    });
+  }, []);
+
+  useEffect(() => {
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.ready.then((registration) => {
+        registration.active?.addEventListener("message", (event) => {
+          if (event.data && event.data.action === "mostrarNotificacion") {
+            mostrarNotificacion(event.data.titulo, event.data.mensaje);
+          }
+        });
+      });
+    }
   }, []);
 
   /* -------------------------------------------------------------- */
@@ -82,8 +91,6 @@ function App() {
       });
     }
   };
-  
-  /* -------------------------------------------------------------- */
 
   const requestNotificationPermission = () => {
     if ("Notification" in window) {
@@ -101,12 +108,6 @@ function App() {
     }
   };
 
-  /* -------------------------------------------------------------- */
-  navigator.serviceWorker.addEventListener("message", (event) => {
-    if (event.data && event.data.action === "mostrarNotificacion") {
-      mostrarNotificacion(event.data.titulo, event.data.mensaje);
-    }
-  });
 
   return (
     <div className="w-dvw h-dvh bg-background-app overflow-y-scroll relative ">

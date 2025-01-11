@@ -20,6 +20,17 @@ self.addEventListener("sync", (event) => {
                         self.registration.showNotification("Timeschedule", {
                             body: "Revisa tu horario en vivo, ¡hay un nuevo item!",
                             icon: "https://avatar.iran.liara.run/public",
+                            tag: "proximasMaterias",
+                            actions: [
+                                { action: "ver", title: "Ver detalles" },
+                                { action: "cerrar", title: "Cerrar" },
+                            ],
+                            data: {
+                                dateOfArrival: Date.now(),
+                                primaryKey: 1,
+                            },
+                            badge: "https://avatar.iran.liara.run/public"
+
                         });
                     }
                 } catch (error) {
@@ -39,8 +50,7 @@ self.addEventListener("install", (event) => {
 
 self.addEventListener("activate", (event) => {
     event.waitUntil(self.clients.claim());
-    crearAlarma("proximasMaterias", 3600000); // Una hora
-    crearAlarma("recordatorioClase", 1800000); // Media hora
+
 });
 
 
@@ -51,6 +61,13 @@ self.addEventListener("push", (event) => {
         body: event.data.text(),
         icon: "./icon.webp",
         vibrate: [100, 50, 100],
+        silent: false,
+        requireInteraction: true,
+        actions: [
+            { action: "ver", title: "Ver detalles" },
+            { action: "cerrar", title: "Cerrar" },
+
+        ],
         data: {
             dateOfArrival: Date.now(),
             primaryKey: 1,
@@ -66,53 +83,3 @@ self.addEventListener("notificationclick", (event) => {
 
     event.waitUntil(self.clients.openWindow("https://timeschedule.vercel.app"));
 });
-
-function mostrarNotificacion(titulo, mensaje) {
-    self.registration.showNotification(titulo, {
-        body: mensaje,
-        icon: "https://cdn.pixabay.com/photo/2020/12/20/04/06/man-5846064_1280.jpg",
-    });
-}
-
-/* alarms notificaciones */
-
-
-const crearAlarma = (tag, delay) => {
-    if ("setTimeout" in self) {
-        setTimeout(() => {
-            self.dispatchEvent(new CustomEvent("alarms", { detail: { tag } }));
-        }, delay);
-    }
-};
-
-self.addEventListener("alarms", (event) => {
-    if (event.detail.tag === "proximasMaterias") {
-        ejecutarSincronizacionDeMaterias();
-    }
-});
-self.addEventListener("message", (event) => {
-    if (event.data.action === "activarAlarma") {
-      ejecutarSincronizacionDeMaterias();
-    }
-  });
-  
-  const ejecutarSincronizacionDeMaterias = async () => {
-    const { dia, horaStr } = getDiaHora();
-    try {
-      const data = await leerMateriaDiaHora(dia, horaStr);
-      if (data) {
-        self.clients.matchAll().then((clients) => {
-          clients.forEach((client) => {
-            client.postMessage({
-              action: "mostrarNotificacion",
-              titulo: "Timeschedule",
-              mensaje: "Revisa tu horario en vivo, ¡hay un nuevo item!",
-            });
-          });
-        });
-      }
-    } catch (error) {
-      console.error("Error al manejar la alarma de materias:", error);
-    }
-  };
-  

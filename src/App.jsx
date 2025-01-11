@@ -8,8 +8,20 @@ import Wrong from "./pages/Wrong";
 import BtnIntallApp from "./components/BtnInstallApp";
 import "./App.css";
 import { useEffect } from "react";
+import { leerMateriaDiaHora } from "../db";
 
 function App() {
+  const getDiaHora = () => {
+    const now = new Date();
+    const dia = now.toLocaleDateString("es-CO", { weekday: "long" });
+    const horaStr = `${now.getHours() + 1}:${now
+      .getMinutes()
+      .toString()
+      .padStart(2, "0")}`;
+    return { dia, horaStr };
+  };
+
+  /* -------------------------------------------------------------- */
   useEffect(() => {
     if (Notification.permission !== "granted") {
       requestNotificationPermission();
@@ -38,31 +50,17 @@ function App() {
   }, []);
 
   useEffect(() => {
-    let alarmaID;
-    const intervalo = 60 * 60 * 1000; // 1 hora en milisegundos
-    
-    const programarAlarma = () => {
-      if (navigator.serviceWorker && navigator.serviceWorker.ready) {
-        navigator.serviceWorker.ready.then((registration) => {
-          if (!alarmaID) {
-            alarmaID = setInterval(() => {
-              registration.active.postMessage({ action: "activarAlarma" });
-              console.log("Alarma activada para verificar materias");
-            }, intervalo);
-          }
-        });
+    const { dia, horaStr } = getDiaHora();
+
+    leerMateriaDiaHora(dia, horaStr).then((materiasDiaHora) => {
+      if (materiasDiaHora.length > 0) {
+        mostrarNotificacion(
+          "Timeschedule",
+          "Revisa tu horario en vivo, ¡hay un nuevo item!"
+        );
       }
-    };
-  
-    programarAlarma();
-  
-    return () => {
-      if (alarmaID) {
-        clearInterval(alarmaID);
-      }
-    };
+    })
   }, []);
-  
 
   /* -------------------------------------------------------------- */
   const mostrarNotificacion = (titulo, mensaje) => {
@@ -71,7 +69,11 @@ function App() {
         registration.showNotification(titulo, {
           body: mensaje,
           tag: "proximasMaterias",
-          icon: "https://avatar.iran.liara.run/public",
+          badge: "https://avatar.iran.liara.run/public",
+          icon: "./icon.webp",
+          silent: false,
+          renotify: true,
+          vibrate: [100, 50, 100],
           actions: [
             { action: "ver", title: "Ver detalles" },
             { action: "cerrar", title: "Cerrar" },
@@ -80,11 +82,7 @@ function App() {
       });
     }
   };
-
-  const handleNotificationClick = () => {
-    mostrarNotificacion("Timeschedule", "Gracias por usar Timeschedule!");
-  };
-
+  
   /* -------------------------------------------------------------- */
 
   const requestNotificationPermission = () => {
@@ -103,27 +101,14 @@ function App() {
     }
   };
 
-  function registerServiceWorker() {
-    if ("serviceWorker" in navigator && "SyncManager" in window) {
-      navigator.serviceWorker
-        .register("./sw.js")
-        .then((registration) => {
-          console.log("Service Worker registrado:", registration);
-        })
-        .catch((error) => {
-          console.error("Error al registrar el Service Worker:", error);
-        });
+  /* -------------------------------------------------------------- */
+  navigator.serviceWorker.addEventListener("message", (event) => {
+    if (event.data && event.data.action === "mostrarNotificacion") {
+      mostrarNotificacion(event.data.titulo, event.data.mensaje);
     }
-  }
-/* -------------------------------------------------------------- */
-navigator.serviceWorker.addEventListener("message", (event) => {
-  if (event.data && event.data.action === "mostrarNotificacion") {
-    mostrarNotificacion(event.data.titulo, event.data.mensaje);
-  }
-});
+  });
 
-
-return (
+  return (
     <div className="w-dvw h-dvh bg-background-app overflow-y-scroll relative ">
       <BtnIntallApp />
       <Router>

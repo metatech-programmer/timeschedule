@@ -4,9 +4,9 @@ import { FaPersonRunning, FaX, FaXmark } from "react-icons/fa6";
 const DayClass = ({ materias = {}, dia = "lunes", id }) => {
   const materiasDia = materias[dia] || [];
   return (
-    <div id={id}>
+    <div id={id} className="flex flex-col items-center justify-center w-full">
       <h2
-        className="text-2xl font-extrabold  uppercase text-primary-orange-app text-pretty animate-fade-in-fast bg-gradient-to-b from-black/60 to-transparent  rounded-tl-lg rounded-tr-lg p-2 mt-2  text-center"
+        className="text-2xl font-extrabold  uppercase text-primary-orange-app text-pretty animate-fade-in-fast bg-gradient-to-b from-secondary-blue-app/60 to-transparent  rounded-tl-lg rounded-tr-lg p-2 mt-2  text-center w-full"
         style={{ textShadow: "1px 1px 1px skyblue", letterSpacing: "6px" }}
       >
         {dia}
@@ -15,11 +15,11 @@ const DayClass = ({ materias = {}, dia = "lunes", id }) => {
       {materiasDia.map((materia) => (
         <li
           key={materia.id}
-          className="flex  justify-between items-center border-2 border-primary-orange-app rounded-lg p-2 animate-fade-in-fast mb-3 w-full"
+          className="flex  justify-between items-center border-2 border-primary-orange-app rounded-lg p-2 animate-fade-in-fast mb-3 w-full h-max"
           style={{ borderColor: materia.color }}
         >
           <div
-            className="rounded-lg  h-full w-1/2 flex flex-col items-center justify-center py-3 "
+            className="rounded-lg  h-full w-1/2 flex flex-col items-center justify-center py-3"
             style={{
               backgroundColor: materia.color,
             }}
@@ -55,9 +55,9 @@ const DayClass = ({ materias = {}, dia = "lunes", id }) => {
             </div>
           </div>
 
-          <div className="flex flex-col gap-2 px-2 w-1/2">
+          <div className="flex flex-col gap-2 px-2 w-1/2 h-max">
             <span className="flex items-center  gap-2 justify-center">
-              <span className="text-primary-orange-app text-balance ">
+              <span className="text-primary-orange-app text-pretty text-center truncate ">
                 {materia.aula}
               </span>{" "}
             </span>
@@ -68,6 +68,7 @@ const DayClass = ({ materias = {}, dia = "lunes", id }) => {
               </span>
             </span>
           </div>
+          
         </li>
       ))}
 

@@ -8,7 +8,7 @@ const Footer = (props) => {
           Desarrollado por{" "}
           <a
             className="text-primary-orange-app active:text-primary-orange-app/50 hover:underline"
-            href="https://www.linkedin.com/in/santiago-alexander-aguilar-torres-74a729137"
+            href="https://santiagotorres-web-developer.netlify.app/"
             target="_blank"
             rel="noopener noreferrer"
           >

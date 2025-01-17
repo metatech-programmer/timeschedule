@@ -47,17 +47,6 @@ function App() {
     }
   }, []);
 
-  useEffect(() => {
-    const { dia, horaStr } = getDiaHora();
-    leerMateriaDiaHora(dia, horaStr).then((materiasDiaHora) => {
-      if (materiasDiaHora.length > 0) {
-        mostrarNotificacion(
-          "Timeschedule",
-          "Revisa tu horario en vivo, ¡hay un nuevo item!"
-        );
-      }
-    });
-  }, []);
 
   useEffect(() => {
     if ("serviceWorker" in navigator) {

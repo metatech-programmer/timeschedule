@@ -105,6 +105,9 @@ const AcercaDe = () => {
           <li>
             Recordatorios y notificaciones personalizables (próximamente).
           </li>
+          <li>
+            Widget de tu horario en vivo (próximamente).
+          </li>
         </ul>
 
         <h2 className="text-2xl font-semibold text-tertiary-green-app">

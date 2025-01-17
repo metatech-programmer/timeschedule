@@ -171,20 +171,6 @@ function ScheduleManager() {
 
   const manejarActualizarMateria = (id) => {
 
-    if (!nuevaMateria.nombre || !nuevaMateria.docente) {
-      alert("Por favor, completa todos los campos.");
-      return;
-    }
-
-    if (nuevaMateria.horarios.length === 0) {
-      alert("Por favor, agrega al menos un horario.");
-      return;
-    }
-
-    if (nuevaMateria.color === "#ffffff") {
-      alert("Por favor, selecciona un color.");
-      return;
-    }
 
 
     setIdMateria(id);
@@ -201,6 +187,21 @@ function ScheduleManager() {
       imagen,
       horarios,
     });
+
+    if (!nuevaMateria.nombre || !nuevaMateria.docente) {
+      alert("Por favor, completa todos los campos.");
+      return;
+    }
+
+    if (nuevaMateria.horarios.length === 0) {
+      alert("Por favor, agrega al menos un horario.");
+      return;
+    }
+
+    if (nuevaMateria.color === "#ffffff") {
+      alert("Por favor, selecciona un color.");
+      return;
+    }
 
     const materia = materias.find((materia) => materia.id === idMateria);
     if (materia) {

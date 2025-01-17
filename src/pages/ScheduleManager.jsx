@@ -170,9 +170,6 @@ function ScheduleManager() {
   };
 
   const manejarActualizarMateria = (id) => {
-
-
-
     setIdMateria(id);
 
     const { nombre, aula, docente, color, imagen, horarios } = materias.find(
@@ -187,21 +184,6 @@ function ScheduleManager() {
       imagen,
       horarios,
     });
-
-    if (!nuevaMateria.nombre || !nuevaMateria.docente) {
-      alert("Por favor, completa todos los campos.");
-      return;
-    }
-
-    if (nuevaMateria.horarios.length === 0) {
-      alert("Por favor, agrega al menos un horario.");
-      return;
-    }
-
-    if (nuevaMateria.color === "#ffffff") {
-      alert("Por favor, selecciona un color.");
-      return;
-    }
 
     const materia = materias.find((materia) => materia.id === idMateria);
     if (materia) {
@@ -225,9 +207,7 @@ function ScheduleManager() {
           setPasos(1);
         }
       });
-
     }
-
   };
 
   const manejarEliminarMateria = (id) => {
@@ -390,7 +370,7 @@ function ScheduleManager() {
         {pasos === 1 && (
           <div className="border-dashed border-indigo-100/50 my-3 w-full h-screen px-2 animate-fade-in-fast">
             {/* Formulario de nueva materia */}
-             <div id="newSchedule" />
+            <div id="newSchedule" />
             <div className="bg-background-app text-quaternary-gray-app p-8 rounded-lg shadow-xl w-full max-w-3xl mb-8 overflow-y-auto h-screen pb-20">
               <h2 className="text-lg font-extrabold  text-center text-secondary-blue-app decoration-wavy  uppercase underline-offset-8 underline mb-6">
                 {idMateria > 0 ? "Editar materia" : "Agregar nueva materia"}
@@ -456,7 +436,7 @@ function ScheduleManager() {
                               {showColorPicker ? (
                                 <BiSolidColorFill className="animate-rotate-45 " />
                               ) : (
-                                <PiPlusBold className="text-xs"/>
+                                <PiPlusBold className="text-xs" />
                               )}
                             </b>
                           </button>

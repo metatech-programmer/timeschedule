@@ -1,46 +1,37 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import InstallApp from "./InstallApp";
+import { SvgArrowRight } from "../components/Icons";
 
 const Wrong = () => {
   return (
     <>
-    <InstallApp />
-     <div className="bg-red-950 text-quaternary-gray-app p-5 rounded-lg  h-dvh flex flex-col items-center justify-center text-center relative md:hidden">
-          <div
-            className="absolute top-0 left-0 w-full h-full"
-            style={{
-              backgroundImage: "url(motion2.gif)",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
-              opacity: "0.05",
-              zIndex: "1",
-            }}
-          ></div>
-          <h1
-            className="text-2xl font-bold uppercase text-red-500 text-pretty"
-            style={{ textShadow: "2px 2px 4px " }}
-          >
-            Lo sentimos, hubo un error en la donación
-          </h1>
-          <img
-            src="https://cdn.pixabay.com/photo/2020/12/20/04/06/man-5846064_1280.jpg"
-            alt="thanks"
+      <InstallApp />
+      <div className="bg-background-app h-dvh flex flex-col items-center justify-center text-center px-6 relative md:hidden">
+        {/* Background glow */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-64 h-64 rounded-full bg-red-500/10 blur-3xl" />
+        </div>
 
-            className="m-4 rounded-xl w-52"
-          />
-          <p className="mt-4 text-lg text-balance">
-            Aunque no pudimos procesar la donación, te invitamos a disfrutar de Timeschedule.
+        <div className="glass-card rounded-3xl p-8 space-y-5 animate-slide-up max-w-sm w-full relative z-10 border border-red-500/20">
+          <div className="text-5xl animate-bounce-soft inline-block">😔</div>
+          <h1 className="text-xl font-bold text-red-400">Error en la donación</h1>
+          <p className="text-quaternary-gray-app/70 text-sm text-balance leading-relaxed">
+            No pudimos procesar la donación esta vez. No te preocupes,
+            puedes intentarlo de nuevo más tarde.
+          </p>
+          <p className="text-muted-app text-xs">
+            Mientras tanto, sigue usando Timeschedule sin interrupciones. 😊
           </p>
           <Link
             to="/schedule"
-            className="mt-8 block text-blue-500 border-2 border-blue-500 hover:bg-blue-500 hover:text-white p-3 rounded-full z-50">
-            Volver al inicio
+            className="btn-primary flex items-center justify-center gap-2"
+          >
+            Volver al horario <SvgArrowRight />
           </Link>
         </div>
+      </div>
     </>
-
   );
 };
 

@@ -1,57 +1,55 @@
-import { Link } from "react-router-dom";
-import { FaHome, FaCalendarAlt, FaInfoCircle } from "react-icons/fa";
-import { BiUpArrowAlt } from "react-icons/bi";
+import { Link, useLocation } from "react-router-dom";
+import { SvgPlus, SvgCalendar, SvgInfo, SvgArrowUp } from "../components/Icons";
 
 const menuItems = [
-  { path: "/manager", label: "Agendar", icon: <FaHome size={20} /> },
-  {
-    path: "/schedule",
-    label: "Horarios",
-    icon: <FaCalendarAlt size={20} />,
-  },
-  { path: "/about", label: "Información", icon: <FaInfoCircle size={20} /> },
+  { path: "/manager", label: "Gestionar", icon: <SvgPlus size={18} /> },
+  { path: "/schedule", label: "Horario", icon: <SvgCalendar size={18} /> },
+  { path: "/about", label: "Info", icon: <SvgInfo size={18} /> },
 ];
 
-
 const Menu = (props) => {
-  const linkClasses =
-    "flex flex-col items-center p-2 rounded-lg shadow-sm transition-transform transform active:scale-105 active:bg-primary-orange-app active:text-white ";
+  const location = useLocation();
 
   return (
-    <div
+    <nav
       className={
-        "fixed md:hidden bottom-2 left-1/2 transform -translate-x-1/2 w-[90%] max-w-md bg-gradient-to-r from-[#a8d5cd] to-[#b7d9f0] p-3 rounded-full shadow-xl shadow-secondary-blue-app/80 flex justify-around z-[60]" +
-        (props.status ? " hidden" : "")
+        "fixed md:hidden bottom-4 left-1/2 -translate-x-1/2 z-[60] " +
+        (props.status ? "hidden" : "")
       }
     >
-      {menuItems.map(({ path, label, icon }) =>
-        localStorage.getItem("ScheduleFirst") !== "true" &&
-        path === "/schedule" ? null : (
-          <Link
-            key={path}
-            to={path}
-            className={
-              linkClasses +
-              " " +
-              (window.location.pathname === path
-                ? "bg-primary-orange-app text-white"
-                : "bg-quaternary-gray-app text-gray-700")
-            }
-            title={label}
-          >
-            {icon}
-          </Link>
-        )
-      )}
-
-      <a
-        className="flex flex-col items-center p-2 rounded-lg shadow-sm transition-transform transform active:scale-105  active:bg-primary-orange-app active:text-white bg-quaternary-gray-app text-gray-700 "
-        style={{ scrollBehavior: "smooth" }}
-        href="#top"
+      <div className="glass-card flex items-center gap-1 px-3 py-2 rounded-2xl shadow-2xl"
+        style={{ boxShadow: "0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(48,179,187,0.2)" }}
       >
-        <BiUpArrowAlt size={20} className="active:scale-110" />
-      </a>
-    </div>
+        {menuItems.map(({ path, label, icon }) => {
+          if (localStorage.getItem("ScheduleFirst") !== "true" && path === "/schedule") return null;
+          const isActive = location.pathname === path;
+          return (
+            <Link
+              key={path}
+              to={path}
+              title={label}
+              className={
+                "flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 " +
+                (isActive
+                  ? "bg-primary-orange-app text-white shadow-lg glow-orange"
+                  : "text-muted-app hover:text-quaternary-gray-app hover:bg-white/5")
+              }
+            >
+              <span className={isActive ? "animate-wiggle inline-block" : "inline-block"}>{icon}</span>
+              {isActive && <span className="animate-fade-in-fast">{label}</span>}
+            </Link>
+          );
+        })}
+
+        <a
+          href="#top"
+          title="Ir arriba"
+          className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-semibold transition-all duration-200 text-muted-app hover:text-quaternary-gray-app hover:bg-white/5"
+        >
+          <SvgArrowUp size={18} />
+        </a>
+      </div>
+    </nav>
   );
 };
 

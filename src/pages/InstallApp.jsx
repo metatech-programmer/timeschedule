@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
+import { SvgMobile, SvgClipboard } from "../components/Icons";
 
 const InstallApp = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [showInstallPrompt, setShowInstallPrompt] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    // Detectar si el dispositivo es móvil
     const checkMobileDevice = () => {
       if (
         window.innerWidth <= 900 ||
@@ -17,17 +18,14 @@ const InstallApp = () => {
     };
     checkMobileDevice();
 
-    // Listener para detectar el evento de instalación
     const handleBeforeInstallPrompt = (e) => {
       e.preventDefault();
-      setDeferredPrompt(e); // Guardamos el evento para usarlo más tarde
-      setShowInstallPrompt(true); // Mostramos el botón de instalación
+      setDeferredPrompt(e);
+      setShowInstallPrompt(true);
     };
 
-    // Detectamos si el navegador soporta PWA
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
 
-    // Limpiar evento al desmontar el componente
     return () => {
       window.removeEventListener(
         "beforeinstallprompt",
@@ -36,76 +34,63 @@ const InstallApp = () => {
     };
   }, []);
 
-  // Función para manejar la instalación de la PWA
   const handleInstallClick = () => {
     if (deferredPrompt) {
-      deferredPrompt.prompt(); // Mostramos el prompt de instalación
-      deferredPrompt.userChoice.then((choiceResult) => {
-        if (choiceResult.outcome === "accepted") {
-          console.log("El usuario ha aceptado la instalación");
-        } else {
-          console.log("El usuario ha rechazado la instalación");
-        }
-        setDeferredPrompt(null); // Limpiamos el evento
-        setShowInstallPrompt(false); // Ocultamos el botón de instalación
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(() => {
+        setDeferredPrompt(null);
+        setShowInstallPrompt(false);
       });
     }
   };
 
+  const handleCopyUrl = () => {
+    navigator.clipboard.writeText("https://timeschedulee.vercel.app/");
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
-    <div className="hidden md:flex items-center justify-center h-screen w-screen bg-background-app text-white text-center p-6">
+    <div className="hidden md:flex items-center justify-center h-screen w-screen bg-background-app text-white relative overflow-hidden">
+      {/* Background orbs */}
       <div
-        className="absolute top-0 left-0 w-full h-full"
-        style={{
-          backgroundImage: "url(motion2.gif)",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          opacity: "0.05",
-          zIndex: "1",
-        }}
-      ></div>
-      <div className="bg-gray-900 rounded-lg shadow-lg p-8 max-w-lg z-50">
-        <h1 className="text-4xl font-extrabold mb-6 tracking-tight">
-          ¡Atención! Solo para dispositivos móviles
-        </h1>
-        <p className="text-xl mb-4 font-medium leading-relaxed">
-          Esta aplicación ha sido diseñada específicamente para una experiencia
-          óptima en dispositivos móviles.
-        </p>
-        <p className="text-lg mb-6">
-          Para disfrutar de todas las funcionalidades y el mejor rendimiento,
-          por favor abre la app en tu dispositivo móvil e
-          <span className="font-semibold text-yellow-300">
-            {" "}
-            instala la app desde Chrome
-          </span>
-          .
-        </p>
+        className="absolute top-1/4 left-1/4 w-80 h-80 rounded-full bg-primary-orange-app/10 blur-3xl animate-float pointer-events-none"
+      />
+      <div
+        className="absolute bottom-1/4 right-1/4 w-64 h-64 rounded-full bg-secondary-blue-app/10 blur-3xl animate-float pointer-events-none"
+        style={{ animationDelay: "1s" }}
+      />
+
+      <div className="glass-card rounded-3xl p-10 max-w-md w-full text-center space-y-6 relative z-10 animate-slide-up mx-6">
+        <div className="w-16 h-16 rounded-2xl bg-primary-orange-app/10 flex items-center justify-center mx-auto">
+          <SvgMobile className="text-primary-orange-app text-2xl" />
+        </div>
+
+        <div>
+          <h1 className="text-2xl font-bold text-gradient mb-2">Solo para móvil</h1>
+          <p className="text-quaternary-gray-app/70 text-sm leading-relaxed">
+            Timeschedule está diseñada para funcionar en tu smartphone.
+            Ábrela desde Chrome en tu dispositivo móvil e instálala como app.
+          </p>
+        </div>
+
         {isMobile && showInstallPrompt ? (
           <button
             onClick={handleInstallClick}
-            className="bg-green-500 text-gray-900 py-2 px-6 rounded-lg text-lg font-semibold shadow-md hover:bg-green-400 transition duration-300 ease-in-out"
+            className="btn-primary w-full"
           >
             Instalar App
           </button>
         ) : (
-          // Botón para abrir la app en móvil
-
           <button
-            className="bg-yellow-500 text-gray-900 py-2 px-6 rounded-lg text-lg font-semibold shadow-md hover:bg-yellow-400 transition duration-300 ease-in-out cursor-pointer z-50"
-            onClick={() => {
-              alert(
-                "Abre la app en tu móvil para disfrutar de todas las funcionalidades.\n(Url copiada en el portapapeles)"
-              );
-              navigator.clipboard.writeText(
-                "https://timeschedulee.vercel.app/"
-              );
-            }}
+            className="btn-secondary w-full flex items-center justify-center gap-2"
+            onClick={handleCopyUrl}
           >
-            Abrir en móvil
+            {copied ? "¡Copiado! ✓" : <><SvgClipboard /> Copiar URL para móvil</>}
           </button>
         )}
+
+        <p className="text-muted-app text-xs">timeschedulee.vercel.app</p>
       </div>
     </div>
   );

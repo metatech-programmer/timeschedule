@@ -7,18 +7,9 @@ import {
 } from "../../db";
 import InstallApp from "./InstallApp";
 import Menu from "./Menu";
-import {
-  FaArrowRight,
-  FaCalendarAlt,
-  FaPen,
-  FaRegEdit,
-  FaTrash,
-} from "react-icons/fa";
+import { SvgArrowRight, SvgTrash, SvgRotateLeft, SvgColorPicker, SvgPen } from "../components/Icons";
 import { useNavigate } from "react-router-dom";
-import { FaRotateLeft } from "react-icons/fa6";
 import { HexColorPicker } from "react-colorful";
-import { BiSolidColorFill } from "react-icons/bi";
-import { PiPlusBold } from "react-icons/pi";
 
 function ScheduleManager() {
   const buttonRef = useRef(null);
@@ -85,14 +76,8 @@ function ScheduleManager() {
   }, [actualizar]);
 
   useEffect(() => {
-    if (showColorPicker && buttonRef.current) {
-      const buttonRect = buttonRef.current.getBoundingClientRect();
-      const pickerElement = pickerRef.current;
-
-      // Posicionar el picker justo debajo del botón
-      pickerElement.style.position = "absolute";
-      pickerElement.style.left = `${buttonRect.left - 150}px`;
-      pickerElement.style.top = `${buttonRect.bottom + window.scrollY + 5}px`; // Ajuste con un margen de 5px
+    if (showColorPicker && buttonRef.current && pickerRef.current) {
+      // Keep picker centered — nothing to override
     }
   }, [showColorPicker]);
 
@@ -296,535 +281,222 @@ function ScheduleManager() {
       .padStart(2, "0")}${complementaryB.toString(16).padStart(2, "0")}`;
   };
 
+
   return (
     <>
       <Menu status={actualizar} />
       <InstallApp />
-      <div
-        className="min-h-screen bg-gradient-to-t from-secondary-blue-app to-background-app  pt-8 flex flex-col items-center md:hidden "
-        id="top"
-      >
-        <h1
-          className="text-4xl font-bold text-primary-orange-app mb-8 text-center uppercase"
-          style={{
-            textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
-            fontFamily: "cursive",
-          }}
-        >
-          {localStorage.getItem("withSchedule") === "true"
-            ? "TIMESCHEDULE"
-            : "SIGUE LOS PASOS"}
-        </h1>
-
-        <div className="flex justify-evenly w-full items-center">
-          <button
-            className={
-              "bg-primary-orange-app text-white font-bold py-2 px-4 rounded-full mb-4 active:scale-95 transition-all" +
-              (pasos === 1
-                ? " bg-secondary-blue-app ring-4 ring-offset-1 ring-primary-orange-app/50"
-                : "")
-            }
-            onClick={() => manejaPasos(1)}
-          >
-            1
-          </button>
-          <button
-            disabled={!actualizar ? false : true}
-            className={
-              "bg-primary-orange-app text-white font-bold py-2 px-4 rounded-full mb-4 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-600 " +
-              (pasos === 2
-                ? " bg-secondary-blue-app ring-4 ring-offset-1 ring-primary-orange-app/50"
-                : "")
-            }
-            onClick={() => manejaPasos(2)}
-          >
-            2
-          </button>
-
-          {localStorage.getItem("ScheduleFirst") === "true" && (
-            <button
-              disabled
-              className={
-                "bg-primary-orange-app text-white font-bold py-2 px-4 rounded-full mb-4 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-600"
-              }
-            >
-              3
-            </button>
-          )}
-          {localStorage.getItem("ScheduleFirst") !== "true" && (
-            <button
-              disabled={materias.length > 0 ? false : true}
-              className={
-                "bg-primary-orange-app text-white font-bold py-2 px-4 rounded-full mb-4 active:scale-95 transition-all  disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-600" +
-                (pasos === 3
-                  ? " bg-secondary-blue-app ring-4 ring-offset-1 ring-primary-orange-app/50"
-                  : "")
-              }
-              onClick={() => manejaPasos(3)}
-            >
-              3
-            </button>
-          )}
-        </div>
+      <div className="min-h-screen bg-background-app flex flex-col md:hidden" id="top">
+        <div className="fixed bottom-0 left-0 w-72 h-72 rounded-full pointer-events-none opacity-5"
+          style={{ background: "radial-gradient(circle, #F68839 0%, transparent 70%)" }}
+        />
+        <header className="sticky top-0 z-50 glass-card border-b border-white/5 px-5 pt-5 pb-4">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h1 className="text-xl font-bold text-gradient leading-tight">
+                {localStorage.getItem("withSchedule") === "true" ? "Mis Materias" : "Configura tu horario"}
+              </h1>
+              <p className="text-xs text-muted-app mt-0.5">
+                {pasos === 1 ? "Agrega o edita una materia" : pasos === 2 ? "Revisa tus materias" : "Todo listo!"}
+              </p>
+            </div>
+            <img src="/icon.webp" alt="logo" className="w-9 h-9 rounded-xl border border-primary-orange-app/40" />
+          </div>
+          <div className="flex items-center gap-2">
+            {[1, 2].concat(localStorage.getItem("ScheduleFirst") !== "true" ? [3] : []).map((step, i, arr) => (
+              <React.Fragment key={step}>
+                <button
+                  onClick={() => { if(step===1) manejaPasos(1); else if(step===2 && !actualizar) manejaPasos(2); else if(step===3 && materias.length>0) manejaPasos(3); }}
+                  disabled={(step===2 && actualizar) || (step===3 && materias.length===0)}
+                  className={"w-8 h-8 rounded-full text-sm font-bold transition-all flex items-center justify-center flex-shrink-0 " + (pasos===step ? "bg-primary-orange-app text-white shadow-md" : pasos>step ? "bg-tertiary-green-app text-background-app" : "bg-surface-2 text-muted-app opacity-60")}
+                >{pasos > step ? "✓" : step}</button>
+                {i < arr.length - 1 && <div className={"h-0.5 flex-1 rounded-full transition-all " + (pasos > step ? "bg-tertiary-green-app" : "bg-surface-2")} />}
+              </React.Fragment>
+            ))}
+          </div>
+        </header>
 
         {pasos === 1 && (
-          <div className="border-dashed border-indigo-100/50 my-3 w-full h-screen px-2 animate-fade-in-fast">
-            {/* Formulario de nueva materia */}
+          <div className="flex-1 overflow-y-auto px-4 pt-5 pb-28 animate-fade-in-fast">
             <div id="newSchedule" />
-            <div className="bg-background-app text-quaternary-gray-app p-8 rounded-lg shadow-xl w-full max-w-3xl mb-8 overflow-y-auto h-screen pb-20">
-              <h2 className="text-lg font-extrabold  text-center text-secondary-blue-app decoration-wavy  uppercase underline-offset-8 underline mb-6">
-                {idMateria > 0 ? "Editar materia" : "Agregar nueva materia"}
-              </h2>
-              <div className="mb-4">
-                <label className="block text-lg font-medium text-quaternary-gray-app">
-                  Nombre de la materia
-                </label>
-                <input
-                  required
-                  type="text"
-                  placeholder="Ej. Matemáticas"
-                  value={nuevaMateria.nombre}
-                  onChange={(e) =>
-                    setNuevaMateria({ ...nuevaMateria, nombre: e.target.value })
-                  }
-                  className="w-full p-3 border-2 border-indigo-400 text-background-app rounded-lg"
-                />
-              </div>
-
-              <div className="mb-4">
-                <label className="block text-lg font-medium text-quaternary-gray-app">
-                  Docente
-                </label>
-                <input
-                  required
-                  type="text"
-                  placeholder="Ej. Juan Pérez"
-                  value={nuevaMateria.docente}
-                  onChange={(e) =>
-                    setNuevaMateria({
-                      ...nuevaMateria,
-                      docente: e.target.value,
-                    })
-                  }
-                  className="w-full p-3 border-2 border-indigo-400 text-background-app rounded-lg"
-                />
-              </div>
-
-              <div className="flex flex-col gap-6 md:flex-row  md:justify-between space-x-4 mb-6">
-                <div className="flex-1">
-                  <label className="block text-lg font-medium text-quaternary-gray-app mb-2">
-                    Color de la materia
-                  </label>
-                  <div className="grid grid-cols-5 gap-2">
-                    {coloresDisponibles.map((color) =>
-                      color === "MORECOLORS" ? (
-                        <>
-                          <button
-                            type="button"
-                            ref={buttonRef}
-                            style={{
-                              backgroundColor: nuevaMateria.color,
-                              color: getComplementaryColor(nuevaMateria.color),
-                              borderColor: getComplementaryColor(
-                                nuevaMateria.color
-                              ),
-                            }}
-                            className="w-10 h-10 rounded-lg flex items-center justify-center focus:outline-none transition-all duration-300 outline-offset-4 border  border-dashed hover:border-secondary-blue-app"
-                            onClick={() => setShowColorPicker(!showColorPicker)}
-                          >
-                            <b className="text-2xl">
-                              {showColorPicker ? (
-                                <BiSolidColorFill className="animate-rotate-45 " />
-                              ) : (
-                                <PiPlusBold className="text-xs" />
-                              )}
-                            </b>
-                          </button>
-                          {showColorPicker && (
-                            <>
-                              <div
-                                className="fixed top-0 left-0 w-full h-full z-[80] bg-black/50  "
-                                onClick={() => setShowColorPicker(false)}
-                              />
-                              <div
-                                ref={pickerRef}
-                                className=" w-7 h-12 mt-1.5 bg-background-app translate-x-60 rounded-sm rotate-[50deg] z-[89]"
-                              ></div>
-
-                              <div
-                                ref={pickerRef}
-                                className="fixed  bg-background-app rounded-xl mt-6 p-2  z-[90] border border-t-0 border-secondary-blue-app"
-                              >
-                                <div className="text-center truncate w-48 text-xs pb-2 text-quaternary-gray-app/50">
-                                  Selecciona el color de la materia
-                                </div>
-                                <HexColorPicker
-                                  className="absolute"
-                                  color={nuevaMateria.color}
-                                  onChange={(color) =>
-                                    manejarColorSeleccionado(color)
-                                  }
-                                />
-                              </div>
-                            </>
-                          )}
-                        </>
-                      ) : (
-                        <button
-                          key={color}
-                          onClick={() => manejarColorSeleccionado(color)}
-                          style={{
-                            backgroundColor: color,
-                            border:
-                              nuevaMateria.color === color
-                                ? "3px solid skyblue"
-                                : "1px solid #ccc",
-                          }}
-                          className={`w-10 h-10 rounded-lg cursor-pointer focus:outline-none transition-all duration-300 outline-offset-4 outline-sky-700`}
-                        ></button>
-                      )
-                    )}
-                  </div>
-                </div>
-
-                <div className="flex-1">
-                  <label className="block text-lg font-medium text-quaternary-gray-app mb-2">
-                    Imagen de la materia{" "}
-                    <span className="text-sm text-quaternary-gray-app/50">
-                      (Opcional){" "}
-                    </span>
-                  </label>
-                  <div
-                    className="border-2 border-dashed border-indigo-400 text-background-app p-4 rounded-lg flex justify-center items-center cursor-pointer"
-                    onClick={manejarClickInput}
-                    onDrop={manejarDropImagen}
-                    onDragOver={manejarArrastrarSobre}
-                  >
-                    {imagenPreview ? (
-                      <img
-                        src={imagenPreview}
-                        alt="Vista previa"
-                        className="w-32 h-32 object-cover rounded-lg"
-                      />
-                    ) : (
-                      <p className="text-gray-500 text-center">
-                        Arrastra y suelta una imagen aquí, o haz clic para
-                        seleccionar
-                      </p>
-                    )}
-                  </div>
-                  <input
-                    required
-                    type="file"
-                    accept="image/*"
-                    ref={fileInputRef}
-                    onChange={(e) => manejarCargarImagen(e.target.files[0])}
-                    className="hidden"
-                  />
-                </div>
-              </div>
-
-              <div className="mb-6">
-                <label className="block text-lg font-medium text-quaternary-gray-app">
-                  Horario{" "}
-                  <span className="text-sm text-quaternary-gray-app/50">
-                    (Agrega tantos como desees){" "}
-                  </span>
-                </label>
-                <div className="flex flex-col md:flex-row gap-4">
-                  <div className="flex-1 flex-col md:w-1/3">
-                    <label className="w-full text-center">
-                      Selecciona el día
-                    </label>
-                    <select
-                      value={horario.dia || "Lunes"}
-                      onChange={(e) =>
-                        setHorario({ ...horario, dia: e.target.value })
-                      }
-                      className="w-full p-3 border-2 border-indigo-400 text-background-app rounded-lg"
-                    >
-                      {[
-                        "Lunes",
-                        "Martes",
-                        "Miércoles",
-                        "Jueves",
-                        "Viernes",
-                        "Sábado",
-                        "Domingo",
-                      ].map((dia) => (
-                        <option key={dia} value={dia}>
-                          {dia}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="">
-                    <label className="block  text-quaternary-gray-app">
-                      Aula de clase
-                    </label>
-                    <input
-                      required
-                      id="aula"
-                      type="text"
-                      placeholder="Ej. Aula 101"
-                      value={horario.aula}
-                      onChange={(e) =>
-                        setHorario({ ...horario, aula: e.target.value })
-                      }
-                      className="w-full p-3 border-2 border-indigo-400 text-background-app rounded-lg"
-                    />
-                    {aulaInput.length > 0 && (
-                      <div className="flex flex-row gap-4">
-                        <button
-                          onClick={handlerClickAnteriorSalon}
-                          className="text-sm text-quaternary-gray-app/50 flex flex-row gap-2 justify-end w-full items-center m-2 active:text-primary-orange-app/50"
-                        >
-                          Aula anterior
-                          <FaRotateLeft className="active:-rotate-180 transition-all" />
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex-1 flex flex-row gap-4">
-                    <div className="flex-1 flex-col md:w-1/3">
-                      <label className="w-full text-center">
-                        Hora de inicio
-                      </label>
-                      <input
-                        required
-                        type="time"
-                        value={horario.horaInicio}
-                        onChange={(e) =>
-                          setHorario({ ...horario, horaInicio: e.target.value })
-                        }
-                        className="w-full p-3 border-2 border-indigo-400 text-background-app rounded-lg"
-                      />
-                    </div>
-
-                    <div className="flex-1 flex-col md:w-1/3">
-                      <label className="w-full text-center">Hora de fin</label>
-                      <input
-                        required
-                        type="time"
-                        value={horario.horaFin}
-                        onChange={(e) =>
-                          setHorario({ ...horario, horaFin: e.target.value })
-                        }
-                        className="w-full p-3 border-2 border-indigo-400 text-background-app rounded-lg"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <button
-                  onClick={agregarHorario}
-                  className="mt-4 w-full bg-indigo-500 text-white py-3 rounded-lg"
-                >
-                  Agregar Horario
-                </button>
-                <div className=" w-full ">
-                  {/* Listado de horarios agregados */}
-                  <div className=" bg-slate-100 rounded-lg mt-4 max-h-44 overflow-y-auto text-background-app">
-                    {nuevaMateria.horarios.length > 0 ? (
-                      <ul className="space-y-4">
-                        {nuevaMateria.horarios.map((h, index) => (
-                          <li
-                            key={index}
-                            className="flex justify-between items-center  bg-white border-2 border-indigo-300 rounded-lg overflow-clip active:bg-indigo-400/10 actuve:scale-95  transition-all w-full"
-                          >
-                            <div
-                              className="flex items-center flex-1 gap-2  overflow-hidden  max-w-[75%] p-4"
-                              onClick={() => manejarEditarHorario(index)}
-                            >
-                              <span className="border-r-2 border-indigo-300 font-semibold pr-4 mr-2">
-                                {index + 1}
-                              </span>
-                              <span className="overflow-hidden text-balance w-full ">
-                                <span className="truncate text-clip">
-                                  {" "}
-                                  {h.dia} - {String(h.aula).toUpperCase()}
-                                </span>
-                                <div className="text-sm text-gray-500">
-                                  {h.horaInicio} - {h.horaFin}
-                                </div>
-                              </span>
-                            </div>
-                            <button
-                              onClick={() => manejarEliminarHorario(index)}
-                              className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition w-12 flex items-center justify-center mr-3  "
-                            >
-                              <FaTrash className="w-4 h-4 active:scale-105" />
-                            </button>
-                          </li>
-                        ))}
-                      </ul>
-                    ) : (
-                      <p className="text-center text-gray-500 p-2">
-                        No hay horarios agregados aún.
-                      </p>
-                    )}
-                  </div>
-                </div>
-                {nuevaMateria.horarios.length > 0 && (
-                  <span className="text-xs text-quaternary-gray-app/50">
-                    (edita tus horarios dando click en ellos)
-                  </span>
-                )}
-              </div>
-              {!actualizar && (
-                <button
-                  onClick={manejarAgregarMateria}
-                  className="w-full bg-green-500 text-white py-3 rounded-lg"
-                >
-                  Guardar Materia
-                </button>
-              )}
-              {actualizar && (
-                <button
-                  onClick={manejarActualizarMateria}
-                  className="w-full bg-blue-500 text-white py-3 rounded-lg"
-                >
-                  Actualizar Materia
-                </button>
-              )}
-            </div>
-          </div>
-        )}
-
-        {pasos === 2 && (
-          <div className="flex flex-col gap-4 w-full">
-            <h2 className="text-lg font-semibold text-center text-quaternary-gray-app uppercase bg-secondary-blue-app py-2  my-4 w-full flex items-center justify-center gap-4">
-              {localStorage.getItem("withSchedule")
-                ? "Edita tus materias"
-                : "Materias registradas"}
-              {localStorage.getItem("withSchedule") ? (
-                <FaRegEdit />
-              ) : (
-                <FaCalendarAlt />
-              )}
+            <h2 className="text-sm font-bold uppercase tracking-widest text-secondary-blue-app mb-4">
+              {idMateria > 0 ? "✏️ Editando materia" : "➕ Nueva materia"}
             </h2>
-            {/* Listado de materias */}
-            {!materias.length ? (
-              <p className="text-center text-gray-500 mb-4">
-                No se han agregado materias aún.
-              </p>
-            ) : (
-              <div className="flex flex-col gap-6 w-dvw max-w-max  overflow-x-auto  animate-fade-in-fast">
-                <div className="flex space-x-12 p-2 overflow-auto  w-max  snap-x snap-mandatory relative">
-                  {materias.map((materia, index) => (
-                    <div
-                      key={materia.id}
-                      style={{ backgroundColor: materia.color }}
-                      className="p-4 rounded-lg shadow-lg font-bold h-80 max-h-80 w-72  flex-none overflow-y-auto snap-center z-50  "
-                    >
-                      <div
-                        className={
-                          "flex  items-center justify-between text-quaternary-gray-app w-full bg-zinc-900 border-2 border-y-secondary-blue-app overflow-clip rounded-t-lg p-2 h-44" +
-                          " " +
-                          (materia.imagen ? "flex-col" : "")
-                        }
-                        style={{ textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)" }}
-                      >
-                        {materia.imagen && (
-                          <div className=" w-16 h-16 max-h-16 bg-cover bg-center rounded-full border border-gray-600 shadow-inner shadow-slate-800/60 m-2 overflow-auto">
-                            <img
-                              src={materia.imagen}
-                              alt={materia.nombre}
-                              className="w-full h-full object-cover object-center"
-                            />
+            <div className="mb-4">
+              <label className="text-xs font-semibold text-muted-app uppercase tracking-wider block mb-1.5">Nombre *</label>
+              <input className="input-futuristic" type="text" placeholder="Ej. Calculo Diferencial" value={nuevaMateria.nombre}
+                onChange={(e) => setNuevaMateria({ ...nuevaMateria, nombre: e.target.value })} />
+            </div>
+            <div className="mb-5">
+              <label className="text-xs font-semibold text-muted-app uppercase tracking-wider block mb-1.5">Docente *</label>
+              <input className="input-futuristic" type="text" placeholder="Ej. Dr. Juan Perez" value={nuevaMateria.docente}
+                onChange={(e) => setNuevaMateria({ ...nuevaMateria, docente: e.target.value })} />
+            </div>
+            <div className="flex gap-4 mb-5">
+              <div className="flex-1">
+                <label className="text-xs font-semibold text-muted-app uppercase tracking-wider block mb-1.5">Color</label>
+                <div className="flex flex-wrap gap-2">
+                  {coloresDisponibles.map((color) => color === "MORECOLORS" ? (
+                    <React.Fragment key="more">
+                      <button type="button" ref={buttonRef} onClick={() => setShowColorPicker(!showColorPicker)}
+                        className="w-8 h-8 rounded-lg border-2 border-dashed border-white/20 flex items-center justify-center text-muted-app hover:border-secondary-blue-app transition-all"
+                        style={{ backgroundColor: nuevaMateria.color !== "#ffffff" ? nuevaMateria.color + "30" : "transparent" }}>
+                        <SvgColorPicker size={12} className={showColorPicker ? "animate-rotate-45" : ""} />
+                      </button>
+                      {showColorPicker && (
+                        <>
+                          <div className="fixed inset-0 z-[80] bg-black/60" onClick={() => setShowColorPicker(false)} />
+                          <div ref={pickerRef} className="fixed z-[90] glass-card rounded-2xl p-4" style={{ top: "50%", left: "50%", transform: "translate(-50%,-50%)" }}>
+                            <p className="text-xs text-muted-app text-center mb-3">Elige un color personalizado</p>
+                            <HexColorPicker color={nuevaMateria.color} onChange={manejarColorSeleccionado} />
+                            <button onClick={() => setShowColorPicker(false)} className="btn-secondary w-full mt-3 text-sm py-2">Listo</button>
                           </div>
-                        )}
-
-                        <h3
-                          className={
-                            "text-sm uppercase font-bold text-center text-balance " +
-                            (materia.imagen
-                              ? " max-h-12 w-52 h-12 overflow-y-scroll"
-                              : "w-full ")
-                          }
-                        >
-                          {materia.nombre}
-                        </h3>
-                      </div>
-                      <div className="flex justify-between p-2 bg-secondary-blue-app/50 rounded-b-xl">
-                        {materia.docente && (
-                          <p className="text-sm text-center text-background-app capitalize ">
-                            Docente:{" "}
-                            {String(materia.docente).split(" ").at(0) +
-                              " " +
-                              (String(materia.docente).split(" ").at(1) ?? "")}
-                          </p>
-                        )}
-                        {materia.aula && (
-                          <p className="text-sm text-center text-background-app ">
-                            Aula: {materia.aula}
-                          </p>
-                        )}
-                      </div>
-                      <ul>
-                        {materia.horarios.map((h, i) => (
-                          <li key={i}>
-                            <div
-                              className="flex justify-around border-b border-gray-400 py-2 text-background-app items-center"
-                              style={{
-                                textShadow: "1px 1px 1px #fff",
-                              }}
-                            >
-                              <span className="font-bold">
-                                {h.dia}
-                                <div className="text-xs text-gray-500 max-w-28">
-                                  {h.aula}
-                                </div>
-                              </span>
-                              <span className="font-bold">
-                                {h.horaInicio} - {h.horaFin}
-                              </span>
-                            </div>
-                          </li>
-                        ))}
-                      </ul>
-                      <div className="flex justify-between mt-4 items-center">
-                        <button
-                          className="bg-tertiary-green-app text-yellow-50 p-2 mx-2 rounded-lg active:shadow-lg shadow-slate-900/60"
-                          onClick={() => manejarActualizarMateria(materia.id)}
-                        >
-                          <FaPen className="w-4 h-4 active:scale-105" />
-                        </button>
-                        <button
-                          className="bg-primary-orange-app text-yellow-50 p-2 mx-2 rounded-lg active:shadow-lg shadow-slate-900/60"
-                          onClick={() => manejarEliminarMateria(materia.id)}
-                        >
-                          <FaTrash className="w-4 h-4 active:scale-105" />
-                        </button>
-                      </div>
-                    </div>
+                        </>
+                      )}
+                    </React.Fragment>
+                  ) : (
+                    <button key={color} onClick={() => manejarColorSeleccionado(color)}
+                      className="w-8 h-8 rounded-lg transition-all duration-200 flex-shrink-0"
+                      style={{ backgroundColor: color, border: nuevaMateria.color===color ? "3px solid #30B3BB" : "2px solid transparent", boxShadow: nuevaMateria.color===color ? "0 0 8px rgba(48,179,187,0.5)" : "none" }} />
                   ))}
                 </div>
               </div>
+              <div className="flex-1">
+                <label className="text-xs font-semibold text-muted-app uppercase tracking-wider block mb-1.5">Imagen <span className="normal-case opacity-50">(opc.)</span></label>
+                <div className="glass border border-dashed border-white/20 rounded-xl p-3 flex items-center justify-center cursor-pointer hover:border-secondary-blue-app/50 transition-all min-h-[72px]"
+                  onClick={manejarClickInput} onDrop={manejarDropImagen} onDragOver={manejarArrastrarSobre}>
+                  {imagenPreview ? <img src={imagenPreview} alt="preview" className="w-14 h-14 object-cover rounded-lg" /> : <p className="text-xs text-muted-app/60 text-center">📂 Subir foto</p>}
+                </div>
+                <input type="file" accept="image/*" ref={fileInputRef} onChange={(e) => manejarCargarImagen(e.target.files[0])} className="hidden" />
+              </div>
+            </div>
+            <div className="glass-card rounded-2xl p-4 mb-4">
+              <h3 className="text-xs font-bold uppercase tracking-widest text-secondary-blue-app mb-3">📅 Horarios</h3>
+              <div className="grid grid-cols-2 gap-3 mb-3">
+                <div>
+                  <label className="text-xs text-muted-app block mb-1">Dia</label>
+                  <select value={horario.dia || "Lunes"} onChange={(e) => setHorario({ ...horario, dia: e.target.value })} className="input-futuristic text-sm py-2">
+                    {["Lunes","Martes","Miercoles","Jueves","Viernes","Sabado","Domingo"].map((d) => <option key={d} value={d}>{d}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label className="text-xs text-muted-app block mb-1">Aula</label>
+                  <div className="relative">
+                    <input id="aula" className="input-futuristic text-sm py-2" type="text" placeholder="Ej. 101-A" value={horario.aula}
+                      onChange={(e) => setHorario({ ...horario, aula: e.target.value })} />
+                    {aulaInput.length > 0 && (
+                      <button onClick={handlerClickAnteriorSalon} className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-app/50 hover:text-secondary-blue-app" title="Repetir aula anterior">
+                        <SvgRotateLeft size={12} />
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-3 mb-3">
+                <div>
+                  <label className="text-xs text-muted-app block mb-1">Hora inicio</label>
+                  <input type="time" value={horario.horaInicio} onChange={(e) => setHorario({ ...horario, horaInicio: e.target.value })} className="input-futuristic text-sm py-2" />
+                </div>
+                <div>
+                  <label className="text-xs text-muted-app block mb-1">Hora fin</label>
+                  <input type="time" value={horario.horaFin} onChange={(e) => setHorario({ ...horario, horaFin: e.target.value })} className="input-futuristic text-sm py-2" />
+                </div>
+              </div>
+              <button onClick={agregarHorario} className="btn-secondary w-full text-sm py-2.5 rounded-xl">+ Agregar horario</button>
+              {nuevaMateria.horarios.length > 0 && (
+                <div className="mt-3 flex flex-col gap-2 max-h-40 overflow-y-auto">
+                  {nuevaMateria.horarios.map((h, index) => (
+                    <div key={index} className="flex items-center gap-2 glass rounded-xl px-3 py-2">
+                      <span className="text-xs text-secondary-blue-app font-bold w-4">{index+1}</span>
+                      <div className="flex-1 text-xs text-quaternary-gray-app cursor-pointer" onClick={() => manejarEditarHorario(index)}>
+                        <span className="font-semibold">{h.dia}</span> · {h.aula} · {h.horaInicio}–{h.horaFin}
+                      </div>
+                      <button onClick={() => manejarEliminarHorario(index)} className="text-red-400/70 hover:text-red-400 transition-colors"><SvgTrash size={11} /></button>
+                    </div>
+                  ))}
+                  <p className="text-[10px] text-muted-app/40 text-center">Toca un horario para editarlo</p>
+                </div>
+              )}
+            </div>
+            {!actualizar ? (
+              <button onClick={manejarAgregarMateria} className="btn-primary w-full text-sm py-3.5 rounded-xl">💾 Guardar materia</button>
+            ) : (
+              <button onClick={manejarActualizarMateria} className="btn-secondary w-full text-sm py-3.5 rounded-xl">🔄 Actualizar materia</button>
             )}
           </div>
         )}
 
-        {pasos === 3 && (
-          <div className="w-full">
-            <h2 className="text-lg font-semibold text-center text-quaternary-gray-app uppercase bg-primary-orange-app py-2  my-4">
-              Información
+        {pasos === 2 && (
+          <div className="flex-1 overflow-y-auto px-4 pt-5 pb-28 animate-fade-in-fast">
+            <h2 className="text-sm font-bold uppercase tracking-widest text-secondary-blue-app mb-4">
+              {localStorage.getItem("withSchedule") ? "📚 Edita tus materias" : "📚 Materias registradas"}
             </h2>
-            <p className="text-center text-quaternary-gray-app/80 animate-fade-in-fast mb-4 p-4 text-balance text-2xl font-semibold ">
-              Tu horario se ha guardado con exito. Estas a punto de disfrutar de
-              una nueva experiencia en donde veras tu horario de forma dinamica
-              y en tiempo real.
-              <br />
-              <br />
-              <span className="text-secondary-blue-app text-xl">
-                Gracias por utilizar Timeschedule. Esperamos que lo disfrutes.
-              </span>
-            </p>
-            <button
-              className="w-max  bg-green-500 text-white p-3 m-auto rounded-lg flex items-center justify-center gap-4 animate-expand-btn active:animate-none"
-              onClick={handleClickSchedule}
-            >
-              Vamos a ver tu horario <FaArrowRight className="text-xl" />
+            {materias.length === 0 ? (
+              <div className="glass-card rounded-2xl p-8 text-center mt-6">
+                <p className="text-4xl mb-3">📭</p>
+                <p className="font-semibold text-quaternary-gray-app">Sin materias aun</p>
+                <p className="text-xs text-muted-app mt-1 mb-4">Ve al paso 1 para agregar tu primera materia</p>
+                <button onClick={() => manejaPasos(1)} className="btn-primary text-sm py-2.5 px-6 rounded-xl">Agregar materia</button>
+              </div>
+            ) : (
+              <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory">
+                {materias.map((materia) => (
+                  <div key={materia.id} className="glass-card rounded-2xl flex-none w-64 snap-center overflow-hidden"
+                    style={{ borderTopColor: materia.color, borderTopWidth: "3px" }}>
+                    <div className="p-4 bg-surface-1">
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="w-12 h-12 rounded-xl flex-shrink-0 flex items-center justify-center"
+                          style={{ backgroundColor: materia.color + "30", border: "2px solid " + materia.color + "50" }}>
+                          {materia.imagen
+                            ? <img src={materia.imagen} alt={materia.nombre} className="w-11 h-11 rounded-xl object-cover" />
+                            : <span style={{ color: materia.color }} className="text-xl font-bold">{materia.nombre.charAt(0).toUpperCase()}</span>}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="font-bold text-quaternary-gray-app text-sm truncate">{materia.nombre}</p>
+                          <p className="text-xs text-muted-app truncate">{materia.docente}</p>
+                        </div>
+                      </div>
+                      <div className="flex flex-col gap-1 max-h-28 overflow-y-auto">
+                        {materia.horarios.map((h, i) => (
+                          <div key={i} className="glass rounded-lg px-2 py-1.5 text-xs">
+                            <span className="text-secondary-blue-app font-semibold">{h.dia}</span>
+                            <span className="text-muted-app ml-2">{h.horaInicio}–{h.horaFin}</span>
+                            {h.aula && <span className="text-muted-app/60 ml-2">📍{h.aula}</span>}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="flex gap-2 p-3 bg-surface-2">
+                      <button onClick={() => manejarActualizarMateria(materia.id)}
+                        className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-semibold bg-secondary-blue-app/20 text-secondary-blue-app border border-secondary-blue-app/30 active:scale-95">
+                        <SvgPen size={10} /> Editar
+                      </button>
+                      <button onClick={() => manejarEliminarMateria(materia.id)}
+                        className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-semibold bg-red-500/10 text-red-400 border border-red-500/20 active:scale-95">
+                        <SvgTrash size={10} /> Eliminar
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+            <button onClick={() => manejaPasos(1)} className="w-full mt-4 glass border border-dashed border-secondary-blue-app/30 text-secondary-blue-app text-sm font-semibold py-3 rounded-2xl">
+              ➕ Agregar otra materia
             </button>
+          </div>
+        )}
+
+        {pasos === 3 && (
+          <div className="flex-1 flex flex-col items-center justify-center px-6 pb-28 animate-fade-in-fast">
+            <div className="glass-card rounded-3xl p-8 text-center max-w-sm w-full">
+              <div className="text-6xl mb-4 animate-float">🎉</div>
+              <h2 className="text-xl font-bold text-gradient mb-3">Horario listo!</h2>
+              <p className="text-sm text-muted-app leading-relaxed mb-2">Tu horario se guardo correctamente. Ahora podras ver tus clases en tiempo real.</p>
+              <p className="text-xs text-secondary-blue-app mb-6">Bienvenido a Timeschedule! 🚀</p>
+              <button onClick={handleClickSchedule} className="btn-primary w-full text-base py-4 rounded-2xl flex items-center justify-center gap-2">
+                Ver mi horario <SvgArrowRight />
+              </button>
+            </div>
           </div>
         )}
       </div>

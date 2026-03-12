@@ -2,49 +2,37 @@ import React from "react";
 import { Link } from "react-router-dom";
 import phrases from "../utils/phrases";
 import InstallApp from "./InstallApp";
+import { SvgArrowRight } from "../components/Icons";
 
 const Thanks = () => {
   const phrase = phrases[Math.floor(Math.random() * phrases.length)];
 
   return (
     <>
-    <InstallApp />
-    <div className="bg-background-app text-quaternary-gray-app p-5 rounded-lg  h-dvh flex flex-col items-center justify-center text-center relative  md:hidden">
-      <div
-        className="absolute top-0 left-0 w-full h-full"
-        style={{
-          backgroundImage: "url(motion2.gif)",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          opacity: "0.05",
-          zIndex: "1",
-        }}
-      ></div>
-      <h1
-        className="text-2xl font-bold uppercase text-primary-orange-app text-pretty"
-        style={{ textShadow: "2px 2px 4px " }}
-      >
-        {phrase}
-      </h1>
-      <img
-        src="https://picsum.photos/1720/1080"
-        alt="thanks"
-        className="m-4 rounded-xl"
-      />
-      <p className="mt-4 text-lg text-balance">
-        Gracias por atribuirnos esa grandiosa donación. Esperamos que disfrutes
-        de Timeschedule.
-      </p>
-      <Link
-        to="/schedule"
-        className="mt-8 block text-blue-500 border-2 border-blue-500 hover:bg-blue-500 hover:text-white p-3 rounded-full z-50"
-      >
-        Volver al inicio
-      </Link>
-    </div>
-    </>
+      <InstallApp />
+      <div className="bg-background-app h-dvh flex flex-col items-center justify-center text-center px-6 relative md:hidden">
+        {/* Background glows */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-64 h-64 rounded-full bg-primary-orange-app/10 blur-3xl" />
+          <div className="absolute bottom-1/4 left-1/2 -translate-x-1/2 w-48 h-48 rounded-full bg-secondary-blue-app/10 blur-3xl" />
+        </div>
 
+        <div className="glass-card rounded-3xl p-8 space-y-5 animate-slide-up max-w-sm w-full relative z-10">
+          <div className="text-5xl animate-wave-hand inline-block">🎉</div>
+          <h1 className="text-xl font-bold text-gradient">{phrase}</h1>
+          <p className="text-quaternary-gray-app/70 text-sm text-balance leading-relaxed">
+            Gracias por tu donación. Cada contribución ayuda a que Timeschedule
+            siga mejorando para todos los estudiantes.
+          </p>
+          <Link
+            to="/schedule"
+            className="btn-primary flex items-center justify-center gap-2"
+          >
+            Volver al horario <SvgArrowRight />
+          </Link>
+        </div>
+      </div>
+    </>
   );
 };
 

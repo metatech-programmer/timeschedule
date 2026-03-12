@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FaDownload } from "react-icons/fa";
+import { SvgDownload } from "./Icons";
 
 const BtnInstallApp = () => {
   const [installed, setInstalled] = useState(
@@ -45,14 +45,18 @@ const BtnInstallApp = () => {
   if (isStandalone || installed || !deferredPrompt) return null;
 
   return (
-    <div className="w-dvw px-10 border flex items-center justify-center md:hidden z-[70]" >
+    <div className="fixed bottom-20 left-0 right-0 flex justify-center z-[70] px-6 md:hidden">
       <button
-        className="bg-background-app hover:bg-background-app/90 text-white font-bold py-2 px-4 rounded-lg shadow-md active:scale-90 transition-transform flex items-center justify-center gap-2 fixed bottom-20 z-[70] w-[85%] text-xs opacity-80 animate-expand-btn-2 border border-dashed border-secondary-blue-app/70 "
+        className="glass-card flex items-center gap-3 py-3 px-5 rounded-2xl glow-teal border border-secondary-blue-app/40 active:scale-95 transition-all animate-slide-up max-w-xs w-full"
         title="Instalar Timeschedule"
         onClick={handleInstallClick}
       >
-        <img src="/icon.webp" alt="logo" className="w-4 h-4 rounded-full " />
-        <span>Instala la Timeschedule en tu dispositivo</span>
+        <img src="/icon.webp" alt="logo" className="w-7 h-7 rounded-full" />
+        <div className="flex-1 text-left">
+          <p className="text-xs font-semibold text-quaternary-gray-app">Instalar Timeschedule</p>
+          <p className="text-[0.6rem] text-muted-app">Acceso rápido desde tu pantalla</p>
+        </div>
+        <SvgDownload size={14} className="text-secondary-blue-app flex-shrink-0" />
       </button>
     </div>
   );
